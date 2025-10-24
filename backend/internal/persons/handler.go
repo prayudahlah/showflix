@@ -11,7 +11,7 @@ func NewHandler(service PersonService) *PersonHandler {
 }
 
 func (h *PersonHandler) GetByID(c *fiber.Ctx) error {
-	id := c.Params("person_id")
+	id := c.Params("id")
 
 	person, err := h.Service.GetByID(id)
 
