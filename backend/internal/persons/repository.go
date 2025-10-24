@@ -2,7 +2,6 @@ package persons
 
 import (
 	"database/sql"
-	"fmt"
 )
 
 type PersonRepo interface {
@@ -31,14 +30,14 @@ func (r *personRepo) GetByID(id string) (*Person, error) {
 		&p.PersonID,
 		&p.PrimaryName,
 		&p.BirthYear,
-		&p.DeathYear
+		&p.DeathYear,
 	)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &m, nil
+	return &p, nil
 }
 
 // func (r *personRepo) Create(person Person) error {

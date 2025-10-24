@@ -13,7 +13,7 @@ func NewService(repo PersonRepo) PersonService {
 	 return &personService {repo: repo}
 }
 
-func (s *personService) GetByID(id strinig) (*Person, error) {
+func (s *personService) GetByID(id string) (*Person, error) {
 	return s.repo.GetByID(id)
 }
 
