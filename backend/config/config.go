@@ -10,12 +10,12 @@ type Config struct {
 	DBName string
 }
 
-func Load() *Config {
+func LoadConfig() *Config {
 	return &Config {
-		DBHost: os.Getenv("DB_HOST")
-		DBPort: os.Getenv("DB_PORT")
-		DBUser: os.Getenv("DB_USER")
-		DBPass: os.Getenv("DB_PASS")
-		DBName: os.Getenv("DB_NAME")
+		DBHost: os.Getenv("DB_HOST"),
+		DBPort: os.Getenv("DB_PORT"),
+		DBUser: os.Getenv("DB_USER"),
+		DBPass: os.Getenv("DB_PASS"),
+		DBName: os.Getenv("DB_NAME"),
 	}
 }

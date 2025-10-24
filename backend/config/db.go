@@ -1,7 +1,6 @@
-package db
+package config
 
 import (
-	"github.com/prayudahlah/showflix/backend/config"
 	"database/sql"
 	"log"
 	"fmt"
@@ -10,7 +9,7 @@ import (
 )
 
 func InitDB() *sql.DB {
-	cfg := &config.Load()
+	cfg := LoadConfig()
 
 	connStr := fmt.Sprintf(
 		"sqlserver://%s:%s@%s:%s/instance?database=%s",
