@@ -1,0 +1,22 @@
+version: "3"
+
+dotenv:
+  - ".env"
+  - ".env.local-db"
+
+tasks:
+  dev:
+    desc: Jalankan frontend & backend bersamaan
+    deps: [frontend, backend]
+
+  backend:
+    dir: backend
+    cmds:
+      - go run cmd/main.go
+    silent: false
+
+  frontend:
+    dir: frontend
+    cmds:
+      - npm run dev
+    silent: false
