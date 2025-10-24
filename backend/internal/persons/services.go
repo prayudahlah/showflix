@@ -6,7 +6,7 @@ type PersonService interface {
 }
 
 type personService struct {
-	repo personRepo
+	repo PersonRepo
 }
 
 func NewService(repo PersonRepo) PersonService {
