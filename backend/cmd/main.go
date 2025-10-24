@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/prayudahlah/showflix/backend/config"
+	"github.com/prayudahlah/showflix/backend/internal/config"
 )
 
 func main()  {
