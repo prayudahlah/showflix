@@ -3,6 +3,7 @@ package routes
 import (
 	"database/sql"
 	"github.com/prayudahlah/showflix/backend/internal/persons"
+	"github.com/gofiber/fiber/v2"
 )
 
 func SetupRoutes(app *fiber.App, db *sql.DB) {
