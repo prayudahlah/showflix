@@ -18,11 +18,17 @@ func NewRepo(db *sql.DB) PersonRepo {
 }
 
 func (r *personRepo) GetByID(id string) (*Person, error) {
-	query := "SELECT p.PersonId, p.PrimaryName, p.BirthYear, p.DeathYear " +
-		"FROM PERSONS p " +
-		"WHERE p.PersonId = ?"
+	query := `
+		SELECT
+			p.PersonId,
+			p.PrimaryName,
+			p.BirthYear,
+			p.DeathYear 
+		FROM PERSONS p
+		WHERE p.PersonId = @personId
+	`
 
-	row := r.db.QueryRow(query, id)
+	row := r.db.QueryRow(query, sql.Named("personId", id))
 
 	var p Person
 
