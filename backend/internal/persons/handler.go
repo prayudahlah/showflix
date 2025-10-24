@@ -21,7 +21,9 @@ func (h *PersonHandler) GetByID(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Person not found"})
 	}
 
-	return c.JSON(person)
+	personDTO := ToDTO(person)
+
+	return c.JSON(personDTO)
 }
 
 // func (h *PersonHandler) Create(c *fiber.Ctx) error {

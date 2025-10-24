@@ -1,8 +1,12 @@
 package persons
 
+import (
+	"database/sql"
+)
+
 type Person struct {
-	PersonID string `json:"person_id"`
-	PrimaryName string `json:"primary_name"`
-	BirthYear int `json:"birth_year"`
-	DeathYear int `json:"death_year"`
+	PersonID     string         `db:"PersonId"`
+	PrimaryName  string         `db:"PrimaryName"`
+	BirthYear    sql.NullInt32  `db:"BirthYear"`
+	DeathYear    sql.NullInt32  `db:"DeathYear"`
 }
