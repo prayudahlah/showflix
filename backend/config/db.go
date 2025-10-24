@@ -1,7 +1,7 @@
 package db
 
 import (
-	"backend/config"
+	"github.com/prayudahlah/showflix/backend/config"
 	"database/sql"
 	"log"
 	"fmt"
