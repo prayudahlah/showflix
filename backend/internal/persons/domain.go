@@ -1,6 +1,6 @@
 package persons
 
-type Persons struct {
+type Person struct {
 	PersonID string `json:"person_id"`
 	PrimaryName string `json:"primary_name"`
 	BirthYear int `json:"birth_year"`
