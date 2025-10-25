@@ -7,10 +7,14 @@ import (
 )
 
 func SetupRoutes(app *fiber.App, db *sql.DB) {
-	personHandler := persons.NewHandler(persons.NewService(persons.NewRepo(db)))
+	// persons
+	personRepo := persons.NewRepo(db)
+	personService := persons.NewService(personRepo)
+	personHandler := persons.NewHandler(personService)
 
+	// api group
 	api := app.Group("/api")
 
-	// persons
+	// persons endpoint
 	api.Get("/persons/:id", personHandler.GetByID)
 }

@@ -15,7 +15,9 @@ func NewHandler(service PersonService) *PersonHandler {
 func (h *PersonHandler) GetByID(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	person, err := h.Service.GetByID(id)
+	ctx := c.Context()
+
+	person, err := h.Service.GetByID(ctx, id)
 
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Person not found"})

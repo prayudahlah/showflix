@@ -1,7 +1,12 @@
 package persons
 
+import (
+	"context"
+	"time"
+)
+
 type PersonService interface {
-	GetByID(id string) (*Person, error)
+	GetByID(ctx context.Context, id string) (*Person, error)
 	// Create(person Person) error
 }
 
@@ -13,8 +18,13 @@ func NewService(repo PersonRepo) PersonService {
 	 return &personService {repo: repo}
 }
 
-func (s *personService) GetByID(id string) (*Person, error) {
-	return s.repo.GetByID(id)
+func (s *personService) GetByID(ctx context.Context, id string) (*Person, error) {
+	const queryTimeout = 3 * time.Second
+
+	ctx, cancel := context.WithTimeout(ctx, queryTimeout)
+	defer cancel()
+
+	return s.repo.GetByID(ctx, id)
 }
 
 // func (s *personService) Create(person Person) error {

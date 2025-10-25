@@ -2,10 +2,11 @@ package persons
 
 import (
 	"database/sql"
+	"context"
 )
 
 type PersonRepo interface {
-	GetByID(id string) (*Person, error)
+	GetByID(ctx context.Context, id string) (*Person, error)
 	// Create(person Person) error
 }
 
@@ -17,7 +18,7 @@ func NewRepo(db *sql.DB) PersonRepo {
 	return &personRepo{db: db}
 }
 
-func (r *personRepo) GetByID(id string) (*Person, error) {
+func (r *personRepo) GetByID(ctx context.Context, id string) (*Person, error) {
 	query := `
 		SELECT
 			p.PersonId,
@@ -28,7 +29,7 @@ func (r *personRepo) GetByID(id string) (*Person, error) {
 		WHERE p.PersonId = @personId
 	`
 
-	row := r.db.QueryRow(query, sql.Named("personId", id))
+	row := r.db.QueryRowContext(ctx, query, sql.Named("personId", id))
 
 	var p Person
 
