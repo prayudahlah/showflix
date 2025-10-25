@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/prayudahlah/showflix/compare/v1.1.0...v1.2.0) (2025-10-25)
+
+
+### Features
+
+* **errors:** added custom error utilities ([3c41515](https://github.com/prayudahlah/showflix/commit/3c4151594b9e37d8e4078944393bffb2d5add989))
+
 # [1.1.0](https://github.com/prayudahlah/showflix/compare/v1.0.0...v1.1.0) (2025-10-24)
 
 
