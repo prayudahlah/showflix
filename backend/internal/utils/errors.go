@@ -23,6 +23,8 @@ var (
 	ErrResponseNotFound     = &ErrorResponse{Code: "not_found", Message: "Resource not found"}
 	ErrResponseInvalidInput = &ErrorResponse{Code: "invalid_input", Message: "Invalid input provided"}
 	ErrResponseInternal     = &ErrorResponse{Code: "internal_error", Message: "Internal server error"}
+	ErrResponseTimeout      = &ErrorResponse{Code: "timeout", Message: "Request Timeout"}
+	ErrResponseCanceled     = &ErrorResponse{Code: "request_canceled", Message: "Request was canceled"}
 )
 
 // Helper functions
