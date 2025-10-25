@@ -1,8 +1,18 @@
+import { Route, Routes } from 'react-router'
+import Auth from './pages/Auth.tsx'
+import Login from './components/auth/Login.tsx'
+import Register from './components/auth/Register.tsx'
+
 function App() {
   return (
-    <div className="bg-purple-300">
-      <h1 className="text-center">Hello, world!</h1>
-    </div>
+    <>
+      <Routes>
+        <Route element={<Auth />}>
+          <Route path="/auth/login" element={<Login />}></Route>
+          <Route path="/auth/register" element={<Register />}></Route>
+        </Route>
+      </Routes>
+    </>
   )
 }
 
