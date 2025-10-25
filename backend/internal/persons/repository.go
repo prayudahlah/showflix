@@ -1,8 +1,10 @@
 package persons
 
 import (
+	"github.com/prayudahlah/showflix/backend/internal/utils"
 	"database/sql"
 	"context"
+	"errors"
 )
 
 type PersonRepo interface {
@@ -41,9 +43,12 @@ func (r *personRepo) GetByID(ctx context.Context, id string) (*Person, error) {
 	)
 
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, utils.ErrNotFound
+		}
+		
 		return nil, err
 	}
-
 	return &p, nil
 }
 
