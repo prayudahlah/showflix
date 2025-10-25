@@ -40,6 +40,12 @@ func (h *PersonHandler) GetByID(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusRequestTimeout).JSON(utils.ErrResponseTimeout)
 		}
 
+		if errors.Is(err, context.Canceled) {
+			return c.Status(499).JSON(
+				utils.WithDetails(utils.ErrResponseCanceled, "Request canceled by client"),
+			)
+		}
+
 		log.Printf("Internal server error: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrResponseInternal)
 	}
