@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/prayudahlah/showflix/compare/v1.2.0...v1.3.0) (2025-10-25)
+
+
+### Features
+
+* **REST:** Implemented Persons Endpoint (GET only) ([41ca575](https://github.com/prayudahlah/showflix/commit/41ca575120ec975f58615fda5886c56d4cae470b))
+
 # [1.2.0](https://github.com/prayudahlah/showflix/compare/v1.1.0...v1.2.0) (2025-10-25)
 
 
