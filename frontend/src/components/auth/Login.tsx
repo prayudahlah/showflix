@@ -1,11 +1,51 @@
+import purpleStar from '../../assets/icons/purple_star.png'
+import Input from './Input.tsx'
+
 function Login() {
   return (
-    <div className="w-[24.72rem] h-[29.83rem] backdrop-blur-sm bg-white/45 border border-white/80 rounded-xl
-                    flex flex-col justify-start items-center p-2">
-      <h1>login</h1>
+    <div className="auth-div p-4 text-center relative">
+      <img
+        className='absolute top-[-50px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.50)]'
+        src={purpleStar}
+      />
+      <img
+        className='absolute top-[-85px] right-[110px] scale-30 drop-shadow-[0_2px_4px_rgba(0,0,0,0.50)]'
+        src={purpleStar}
+      />
+      <h3 className='pt-12'>Welcome to our universe!</h3>
+      <p>Please enter your information!</p>
+
+      <div className='mt-10 flex flex-col gap-8 w-[95%] items-center'>
+        <Input placeholder="Email" />
+        <Input placeholder="Username" />
+        <Input placeholder="Password" />
+      </div>
+
+      <div className='flex flex-row justify-between w-[95%] mt-10'>
+        <button className="border border-primary2-1 py-1 rounded-4xl text-primary3-1 w-[45%] shadow-4xl
+                           shadow-[0_2px_4px_rgba(0,0,0,0.50)] transition-all duration-200 ease-out
+                           hover:scale-[1.03] hover:shadow-[0_4px_10px_rgba(0,0,0,0.45)]
+                           active:scale-[0.97] active:shadow-[0_1px_2px_rgba(0,0,0,0.25)]
+                           focus-visible:outline-primary3-2">
+          <span
+            className="
+              bg-linear-to-r from-primary3-2 to-primary3-1
+              bg-clip-text text-transparent">
+            BACK
+          </span>
+        </button>
+
+        <button className="py-1 rounded-4xl w-[45%]
+                           bg-linear-to-r from-primary3-2 to-primary3-1 text-white
+                           shadow-[0_2px_4px_rgba(0,0,0,0.50)] transition-all duration-200 ease-out
+                           hover:scale-[1.03] hover:shadow-[0_4px_10px_rgba(0,0,0,0.45)]
+                           active:scale-[0.97] active:shadow-[0_1px_2px_rgba(0,0,0,0.25)]
+                           focus-visible:outline-primary3-2">
+          LOG IN
+        </button>
+      </div>
     </div>
   )
 }
 
 export default Login
-
