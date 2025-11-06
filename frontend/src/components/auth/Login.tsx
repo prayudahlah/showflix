@@ -3,7 +3,7 @@ import Input from './Input.tsx'
 
 function Login() {
   return (
-    <div className="auth-div p-4 text-center relative">
+    <div className="auth-card backdrop-blur-xl p-4 relative bg-white/75">
       <img
         className='absolute top-[-50px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.50)]'
         src={purpleStar}
@@ -44,7 +44,7 @@ function Login() {
           LOG IN
         </button>
       </div>
-    </div>
+    </div >
   )
 }
 

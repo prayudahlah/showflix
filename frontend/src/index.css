@@ -1,9 +1,14 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Questrial&family=Urbanist:wght@0,100..900;1,100..900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@100..900&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+@import "tailwindcss";
+
 @import "./styles/animation.css";
+
+@import "./styles/utilities.css";
+@import "./styles/components.css";
+@import "./styles/base.css";
 
 @theme {
   --color-primary1-1: #20104A;
@@ -17,84 +22,4 @@
   --color-primary3-1: #D057DE;
   --color-primary3-2: #9219A0;
   --color-primary3-3: #560065;
-
-  --font-questrial: "Questrial", sans-serif;
-  --font-urbanist: "Urbanist", sans-serif;
-  --font-poppins: "Poppins", sans-serif;
-}
-
-@layer components {
-  h1 {
-    @apply font-questrial;
-  }
-
-  h2 {
-    @apply font-urbanist;
-  }
-
-  h3 {
-    @apply font-urbanist;
-  }
-
-  h4 {
-    @apply font-poppins;
-  }
-
-  h5 {
-    @apply font-poppins;
-  }
-
-  p {
-    @apply font-poppins;
-  }
-
-  button {
-    @apply font-poppins;
-  }
-}
-
-h1 {
-  font-size: 62px;
-  font-weight: 400;
-  line-height: 110%;
-}
-
-h2 {
-  font-size: 38px;
-  line-height: 120%;
-  font-weight: 600;
-}
-
-h3 {
-  font-size: 28px;
-  line-height: 130%;
-  font-weight: 600;
-}
-
-h4 {
-  font-size: 22px;
-  line-height: 140%;
-  font-weight: 600;
-}
-
-h5 {
-  font-size: 20px;
-  line-height: 150%;
-  font-weight: 600;
-}
-
-p {
-  font-size: 18px;
-  line-height: 170%;
-  font-weight: 400;
-}
-
-button {
-  font-size: 15px;
-  line-height: 170%;
-  font-weight: 400;
-}
-
-@utility auth-div {
-  @apply w-[24.72rem] h-[29.83rem] backdrop-blur-sm bg-white/75 border border-white/80 rounded-xl flex flex-col justify-start items-center
 }

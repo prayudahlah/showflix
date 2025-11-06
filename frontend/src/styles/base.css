@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer base {
+  h1 {
+    @apply text-[68px] leading-[110%] font-normal;
+
+    font-family: "Questrial", Arial, Helvetica, sans-serif;
+  }
+
+  h2 {
+    @apply text-[42px] leading-[120%] font-semibold;
+
+    font-family: "Urbanist", Arial, Helvetica, sans-serif;
+  }
+
+  h3 {
+    @apply text-[28px] leading-[130%] font-semibold;
+
+    font-family: "Urbanist", Arial, Helvetica, sans-serif;
+  }
+
+  h4 {
+    @apply text-[22px] leading-[140%] font-semibold;
+
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+  }
+
+  h5 {
+    @apply text-[18px] leading-[150%] font-semibold;
+
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+  }
+
+  p {
+    @apply text-[16px] leading-[170%] font-normal;
+
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+  }
+
+  button {
+    @apply text-[15px] leading-[170%] font-normal;
+
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+  }
+}

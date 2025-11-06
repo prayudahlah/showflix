@@ -8,13 +8,14 @@ function Auth() {
       <div className="flex justify-center items-center min-h-screen relative overflow-hidden bg-[#010109]">
         <img
           src={bgAuth}
-          className="absolute inset[-2rem] h-full w-auto object-top object-cover animate-gradient-bg"
+          className="absolute h-full w-auto object-top object-cover animate-gradient-bg"
         />
-        <div className="absolute inset-[-2rem] bg-gradient-to-br from-primary1-2 via-primary2-3 to-primary3-3 animate-gradient"></div>
-        <div className="absolute inset-[-2rem] bg-gradient-to-tr from-primary1-1 via-transparent to-primary2-2 animate-gradient-slow opacity-20"></div>
+        <div className="absolute -inset-8 bg-linear-to-br from-primary1-2 via-primary2-3 to-primary3-3 animate-gradient opacity-80"></div>
+        <div className="absolute -inset-8 bg-linear-to-tr from-primary1-1 via-transparent to-primary2-2 animate-gradient-slow opacity-20"></div>
 
         <Stars count={50} size={2} />
         <Stars count={30} size={4} />
+        <Stars count={30} size={6} />
 
         <Login />
       </div>
