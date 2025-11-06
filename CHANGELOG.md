@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/prayudahlah/showflix/compare/v1.3.0...v1.4.0) (2025-11-06)
+
+
+### Features
+
+* **auth:** Implemented Login Page ([b00fca5](https://github.com/prayudahlah/showflix/commit/b00fca54e05f2531daebf2d510e047b9ff9b8eaf))
+
 # [1.3.0](https://github.com/prayudahlah/showflix/compare/v1.2.0...v1.3.0) (2025-10-25)
 
 
