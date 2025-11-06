@@ -1,4 +1,4 @@
-import purpleStar from '../../assets/icons/purple_star.png'
+import purpleStar from '../../assets/icons/purple_star.webp'
 import Input from './Input.tsx'
 
 function Login() {
