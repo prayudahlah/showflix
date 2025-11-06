@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/prayudahlah/showflix/compare/v1.4.0...v1.4.1) (2025-11-06)
+
+
+### Bug Fixes
+
+* **assets:** purple_star png to webp ([e67dd28](https://github.com/prayudahlah/showflix/commit/e67dd2812e46a1d2fbc71c1c506ffd2137f0e425))
+
 # [1.4.0](https://github.com/prayudahlah/showflix/compare/v1.3.0...v1.4.0) (2025-11-06)
 
 
