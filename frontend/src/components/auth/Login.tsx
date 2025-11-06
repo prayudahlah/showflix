@@ -18,7 +18,7 @@ function Login() {
       <div className='mt-10 flex flex-col gap-8 w-[95%] items-center'>
         <Input placeholder="Email" />
         <Input placeholder="Username" />
-        <Input placeholder="Password" />
+        <Input placeholder="Password" type="password" />
       </div>
 
       <div className='flex flex-row justify-between w-[95%] mt-10'>
