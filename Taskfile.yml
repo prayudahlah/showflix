@@ -15,6 +15,12 @@ tasks:
       - go run cmd/main.go
     silent: false
 
+  frontend-host:
+    dir: frontend
+    cmds:
+      - npm run dev -- --host
+    silent: false
+
   frontend:
     dir: frontend
     cmds:
