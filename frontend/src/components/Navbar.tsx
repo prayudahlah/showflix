@@ -18,7 +18,7 @@ function Navbar() {
       <AboutLink />
 
       <button
-        className='hover-scale w-[140.63px] rounded-4xl shadow-[inset_0_0_4px_rgba(0,0,0,0.6)]
+        className='hover-scale w-[140.63px] rounded-4xl shadow-[inset_0_0_4px_rgba(0,0,0,0.4)]
                    bg-linear-to-r from-primary3-2 to-primary3-1 text-white'
         onClick={() => navigate("/auth/login")}
       >
