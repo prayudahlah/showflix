@@ -5,7 +5,7 @@ import Navbar from './components/Navbar.tsx'
 function App() {
   return (
     <>
-      <Navbar />
+      <Navbar withAbout={true} />
       <Routes>
         <Route path="/auth/login" element={<Auth />}></Route>
       </Routes>

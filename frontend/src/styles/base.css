@@ -37,7 +37,7 @@
     font-family: "Poppins", Arial, Helvetica, sans-serif;
   }
 
-  button {
+  button, Link {
     @apply text-[15px] leading-[170%] font-normal;
 
     font-family: "Poppins", Arial, Helvetica, sans-serif;

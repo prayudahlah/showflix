@@ -2,9 +2,9 @@
 
 @layer utilities {
   .hover-scale {
-    @apply shadow-[0_2px_4px_rgba(0,0,0,0.50)] transition-all duration-200 ease-out
-          hover:scale-[1.03] hover:shadow-[0_4px_10px_rgba(0,0,0,0.45)]
-          active:scale-[0.97] active:shadow-[0_1px_2px_rgba(0,0,0,0.25)]
+    @apply transition-all duration-200 ease-out
+          hover:scale-[1.03]
+          active:scale-[0.97] active:shadow-[0_1px_2px_rgba(0,0,0,0.3)]
           focus-visible:outline-primary3-2;
   }
 }
