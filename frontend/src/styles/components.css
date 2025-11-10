@@ -4,4 +4,23 @@
   .auth-card {
     @apply w-[24.72rem] h-[29.83rem] rounded-xl flex flex-col justify-start items-center text-center;
   }
+
+  .page-title-ellipse {
+    @apply w-[800px] h-[400px] rounded-[50%];
+
+    background-image: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(146, 25, 160, 0.05) 75%,
+      rgba(146, 25, 160, 0.1) 80%,
+      rgba(146, 25, 160, 0.2) 90%,
+      rgba(208, 87, 222, 0.5) 100%
+    );
+  }
+
+  .search-bar::placeholder {
+    @apply text-center text-[15px] leading-[150%] font-semibold;
+
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+  }
 }

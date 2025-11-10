@@ -6,7 +6,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-100 px-8 pt-2 pb-[3rem] flex justify-between items-center
+    <nav className="absolute top-0 left-0 right-0 z-50 px-8 pt-2 pb-[3rem] flex justify-between items-center
                     bg-linear-to-b from-primary1-3/80 via-primary1-3/30 to-transparent">
       <img
         src={UniversalLogo}
