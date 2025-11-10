@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/prayudahlah/showflix/compare/v1.4.2...v1.5.0) (2025-11-10)
+
+
+### Features
+
+* **Navbar:** added Navbar ([4ecf1b8](https://github.com/prayudahlah/showflix/commit/4ecf1b82fa1257a12864d7f78198c043bf5a0112))
+
 ## [1.4.2](https://github.com/prayudahlah/showflix/compare/v1.4.1...v1.4.2) (2025-11-06)
 
 
