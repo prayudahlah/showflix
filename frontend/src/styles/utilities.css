@@ -1,3 +1,10 @@
 @import "tailwindcss";
 
-@layer utilities {}
+@layer utilities {
+  .hover-scale {
+    @apply transition-all duration-200 ease-out
+          hover:scale-[1.03]
+          active:scale-[0.97] active:shadow-[0_1px_2px_rgba(0,0,0,0.3)]
+          focus-visible:outline-primary3-2;
+  }
+}
