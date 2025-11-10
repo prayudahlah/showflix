@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/prayudahlah/showflix/compare/v1.4.1...v1.4.2) (2025-11-06)
+
+
+### Bug Fixes
+
+* **input:** input password empty type ([5f89573](https://github.com/prayudahlah/showflix/commit/5f89573532d80c237e12e28b46e2bc1ec77094a3))
+
 ## [1.4.1](https://github.com/prayudahlah/showflix/compare/v1.4.0...v1.4.1) (2025-11-06)
 
 
