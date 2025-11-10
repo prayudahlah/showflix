@@ -22,11 +22,7 @@ function Login() {
       </div>
 
       <div className='flex flex-row justify-between w-[95%] mt-10'>
-        <button className="border border-primary2-1 py-1 rounded-4xl text-primary3-1 w-[45%] shadow-4xl
-                           shadow-[0_2px_4px_rgba(0,0,0,0.50)] transition-all duration-200 ease-out
-                           hover:scale-[1.03] hover:shadow-[0_4px_10px_rgba(0,0,0,0.45)]
-                           active:scale-[0.97] active:shadow-[0_1px_2px_rgba(0,0,0,0.25)]
-                           focus-visible:outline-primary3-2">
+        <button className="button-animation border border-primary2-1 py-1 rounded-4xl text-primary3-1 w-[45%] shadow-4xl">
           <span
             className="
               bg-linear-to-r from-primary3-2 to-primary3-1
@@ -35,12 +31,8 @@ function Login() {
           </span>
         </button>
 
-        <button className="py-1 rounded-4xl w-[45%]
-                           bg-linear-to-r from-primary3-2 to-primary3-1 text-white
-                           shadow-[0_2px_4px_rgba(0,0,0,0.50)] transition-all duration-200 ease-out
-                           hover:scale-[1.03] hover:shadow-[0_4px_10px_rgba(0,0,0,0.45)]
-                           active:scale-[0.97] active:shadow-[0_1px_2px_rgba(0,0,0,0.25)]
-                           focus-visible:outline-primary3-2">
+        <button className="button-animation py-1 rounded-4xl w-[45%]
+                           bg-linear-to-r from-primary3-2 to-primary3-1 text-white">
           LOG IN
         </button>
       </div>
