@@ -4,11 +4,4 @@
   .auth-card {
     @apply w-[24.72rem] h-[29.83rem] rounded-xl flex flex-col justify-start items-center text-center;
   }
-
-  .button-animation {
-    @apply shadow-[0_2px_4px_rgba(0,0,0,0.50)] transition-all duration-200 ease-out
-          hover:scale-[1.03] hover:shadow-[0_4px_10px_rgba(0,0,0,0.45)]
-          active:scale-[0.97] active:shadow-[0_1px_2px_rgba(0,0,0,0.25)]
-          focus-visible:outline-primary3-2;
-  }
 }
