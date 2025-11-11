@@ -1,4 +1,4 @@
-import UniversalLogo from '../assets/icons/universal_logo.svg'
+import UniversalLogo from '../assets/icons/universal_logo_navbar.svg'
 import AboutLink from '../components/AboutLink.tsx'
 import { useNavigate } from 'react-router-dom';
 
