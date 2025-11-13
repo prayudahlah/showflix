@@ -2,19 +2,19 @@ package routes
 
 import (
 	"database/sql"
-	"github.com/prayudahlah/showflix/backend/internal/persons"
+	"github.com/prayudahlah/showflix/backend/internal/login"
 	"github.com/gofiber/fiber/v2"
 )
 
 func SetupRoutes(app *fiber.App, db *sql.DB) {
-	// persons
-	personRepo := persons.NewRepo(db)
-	personService := persons.NewService(personRepo)
-	personHandler := persons.NewHandler(personService)
+	// login
+	loginRepository := login.NewRepository(db)
+	loginService := login.NewService(loginRepository)
+	loginHandler := login.NewHandler(loginService)
 
 	// api group
 	api := app.Group("/api")
 
-	// persons endpoint
-	api.Get("/persons/:id", personHandler.GetByID)
+	// login endpoint
+	api.Post("/login", loginHandler.Login)
 }

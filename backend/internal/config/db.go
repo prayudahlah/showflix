@@ -35,10 +35,10 @@ func InitDB() *sql.DB {
 
 	err = db.PingContext(ctx)
 	if err != nil {
-		log.Fatal("Koneksi ke database gagal\n-> ", err)
+		log.Fatal("Failed connecting to database\n-> ", err)
 	}
 
-	log.Println("Koneksi ke database berhasil")
+	log.Println("Succesfully connected to database")
 
 	return db
 }
