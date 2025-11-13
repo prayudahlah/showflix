@@ -3,15 +3,37 @@ import Auth from './pages/Auth.tsx'
 import Navbar from './components/Navbar.tsx'
 import UrlNotFound from './pages/UrlNotFound.tsx'
 import AboutLink from './components/AboutLink.tsx'
+import Executive from './components/dashboard/Executive.tsx'
+import DashboardLayout from './pages/DashboardLayout.tsx'
+import ProtectedRoute from './components/ProtectedRoute.tsx'
 
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="/about" element={<AboutLink />}></Route>
-        <Route path="/auth/login" element={<Auth />}></Route>
-        <Route path="*" element={<UrlNotFound />}></Route>
+        <Route path="/about" element={<AboutLink />} />
+        <Route path="/auth/login" element={<Auth />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["Executive"]}>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }>
+
+          <Route
+            path='executive'
+            element={
+              <ProtectedRoute allowedRoles={["Executive"]}>
+                <Executive />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+
+        <Route path="*" element={<UrlNotFound />} />
       </Routes>
     </>
   )
