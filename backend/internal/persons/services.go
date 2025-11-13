@@ -7,7 +7,6 @@ import (
 
 type PersonService interface {
 	GetByID(ctx context.Context, id string) (*Person, error)
-	// Create(person Person) error
 }
 
 type personService struct {
@@ -26,7 +25,3 @@ func (s *personService) GetByID(ctx context.Context, id string) (*Person, error)
 
 	return s.repo.GetByID(ctx, id)
 }
-
-// func (s *personService) Create(person Person) error {
-//
-// }
