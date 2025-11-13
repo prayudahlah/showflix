@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/prayudahlah/showflix/compare/v1.5.0...v1.5.1) (2025-11-13)
+
+
+### Bug Fixes
+
+* **auth:** deleted email form ([a07be87](https://github.com/prayudahlah/showflix/commit/a07be871baaa4ac12cd43ea48cecf9d984fb06a2))
+
 # [1.5.0](https://github.com/prayudahlah/showflix/compare/v1.4.2...v1.5.0) (2025-11-10)
 
 
