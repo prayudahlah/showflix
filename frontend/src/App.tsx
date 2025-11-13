@@ -16,14 +16,7 @@ function App() {
         <Route path="/about" element={<AboutLink />} />
         <Route path="/auth/login" element={<Auth />} />
 
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["Executive", "Marketing"]}>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }>
-
+        <Route path="/dashboard" element={<DashboardLayout />}>
           <Route
             path='executive'
             element={

@@ -41,7 +41,11 @@ function LoginForm() {
       </div>
 
       <div className='flex flex-row justify-between w-[95%] mt-10 mb-6'>
-        <button className="hover-scale border border-primary2-1 py-1 rounded-4xl text-primary3-1 w-[45%] shadow-4xl">
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="hover-scale border border-primary2-1 py-1 rounded-4xl text-primary3-1 w-[45%] shadow-4xl"
+        >
           <span className="bg-linear-to-r from-primary3-2 to-primary3-1 bg-clip-text text-transparent">
             BACK
           </span>
