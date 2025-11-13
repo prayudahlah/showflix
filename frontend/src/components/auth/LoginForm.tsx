@@ -1,17 +1,20 @@
+import { useLogin } from '../../hooks/useLogin.ts'
 import Input from './Input.tsx'
 import { useState } from 'react'
 
 function LoginForm() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
+
+  const loginMutation = useLogin();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    setError(null);
-    setSuccess(null);
+    loginMutation.mutate({
+      username: username,
+      password: password,
+    })
   }
 
   return (
@@ -27,7 +30,7 @@ function LoginForm() {
         />
 
         <Input
-          placeholder="Username"
+          placeholder="Password"
           type="password"
           id="password"
           value={password}
@@ -53,9 +56,13 @@ function LoginForm() {
         </button>
       </div>
 
-      {error && <p className='text-red'>{error}</p>}
-      {success && <p className='text-green'>{success}</p>}
-    </form>
+      {loginMutation.isError && (
+        <p className="text-red-500 mt-3">Login gagal. Coba lagi.</p>
+      )}
+
+      {loginMutation.isSuccess && (
+        <p className="text-green-500 mt-3">Login sukses!</p>
+      )}    </form>
   )
 }
 
