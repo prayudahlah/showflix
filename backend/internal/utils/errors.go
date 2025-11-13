@@ -25,6 +25,7 @@ var (
 	ErrResponseInternal     = &ErrorResponse{Code: "internal_error", Message: "Internal server error"}
 	ErrResponseTimeout      = &ErrorResponse{Code: "timeout", Message: "Request Timeout"}
 	ErrResponseCanceled     = &ErrorResponse{Code: "request_canceled", Message: "Request was canceled"}
+	ErrResponseUnauthorized = &ErrorResponse{Code: "unauthorized", Message: "Invalid username or password"}
 )
 
 // Helper functions
