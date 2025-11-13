@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.tsx'
 import UrlNotFound from './pages/UrlNotFound.tsx'
 import AboutLink from './components/AboutLink.tsx'
 import Executive from './components/dashboard/Executive.tsx'
+import Marketing from './components/dashboard/Marketing.tsx'
 import DashboardLayout from './pages/DashboardLayout.tsx'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
 
@@ -18,7 +19,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute allowedRoles={["Executive"]}>
+            <ProtectedRoute allowedRoles={["Executive", "Marketing"]}>
               <DashboardLayout />
             </ProtectedRoute>
           }>
@@ -28,6 +29,15 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["Executive"]}>
                 <Executive />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path='marketing'
+            element={
+              <ProtectedRoute allowedRoles={["Marketing"]}>
+                <Marketing />
               </ProtectedRoute>
             }
           />
