@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/prayudahlah/showflix/compare/v1.5.1...v1.6.0) (2025-11-13)
+
+
+### Features
+
+* **NotFoundPage:** Added NotFound Page ([788690a](https://github.com/prayudahlah/showflix/commit/788690ac0e33368b74cf505aa76abe10d8663683))
+
 ## [1.5.1](https://github.com/prayudahlah/showflix/compare/v1.5.0...v1.5.1) (2025-11-13)
 
 
