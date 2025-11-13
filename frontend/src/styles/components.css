@@ -2,6 +2,6 @@
 
 @layer components {
   .auth-card {
-    @apply w-[24.72rem] h-[29.83rem] rounded-xl flex flex-col justify-start items-center text-center;
+    @apply w-[24.72rem] rounded-xl flex flex-col justify-start items-center text-center;
   }
 }
