@@ -1,5 +1,5 @@
 import purpleStar from '../../assets/icons/purple_star.webp'
-import Input from './Input.tsx'
+import LoginForm from './LoginForm.tsx'
 
 function Login() {
   return (
@@ -15,27 +15,8 @@ function Login() {
       <h3 className='pt-12'>Welcome to our universe!</h3>
       <p>Please enter your information!</p>
 
-      <div className='mt-10 flex flex-col gap-8 w-[95%] items-center'>
-        <Input placeholder="Username" />
-        <Input placeholder="Password" type="password" />
-      </div>
-
-      <div className='flex flex-row justify-between w-[95%] mt-10 mb-6'>
-        <button className="hover-scale border border-primary2-1 py-1 rounded-4xl text-primary3-1 w-[45%] shadow-4xl">
-          <span
-            className="
-              bg-linear-to-r from-primary3-2 to-primary3-1
-              bg-clip-text text-transparent">
-            BACK
-          </span>
-        </button>
-
-        <button className="hover-scale py-1 rounded-4xl w-[45%]
-                           bg-linear-to-r from-primary3-2 to-primary3-1 text-white">
-          LOG IN
-        </button>
-      </div>
-    </div >
+      <LoginForm />
+    </div>
   )
 }
 

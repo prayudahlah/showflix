@@ -1,9 +1,12 @@
 type InputProps = {
   placeholder: string;
   type?: string;
+  id: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function Input({ placeholder, type }: InputProps) {
+function Input({ placeholder, type, id, value, onChange }: InputProps) {
   return (
     <>
       <input
@@ -12,6 +15,9 @@ function Input({ placeholder, type }: InputProps) {
                    shadow-[inset_2px_2px_4px_rgba(0,0,0,0.35)] focus:outline-none focus:ring-2 focus:ring-primary2-1
                    transition-all leading-tight"
         type={type ?? ""}
+        id={id}
+        value={value}
+        onChange={onChange}
       />
     </>
   )
