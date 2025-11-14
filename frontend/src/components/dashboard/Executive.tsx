@@ -8,7 +8,7 @@ function Executive() {
   const [selectedCompanyId, setSelectedCompanyId] = useState(20368)
   let content;
 
-  const filteredChart1 = data?.chart1.filter((d) => (
+  const filteredChart1 = (data?.chart1 ?? []).filter((d) => (
     d.companyId === selectedCompanyId
   ))
 
@@ -19,21 +19,33 @@ function Executive() {
   } else {
     content = (
       <>
-        <select
-          className="border-2 rounded-xl p-4 text-white bg-primary1-2"
-          value={selectedCompanyId}
-          onChange={(e) => {
-            setSelectedCompanyId(Number(e.target.value))
-          }}
-        >
-          {data?.top10Companies.map((c) => (
-            <option key={c.companyId} value={c.companyId}>
-              {c.companyName}
-            </option>
-          ))}
-        </select>
+        <div className="h-20">
+          <select
+            className="dropdown-front text-secondary-2"
+            value={selectedCompanyId}
+            onChange={(e) => {
+              setSelectedCompanyId(Number(e.target.value))
+            }}
+          >
+            {data?.top10Companies.map((c) => (
+              <option key={c.companyId} value={c.companyId}>
+                {c.companyName}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <Chart1 chart1={filteredChart1} />
+        <div className="grid grid-cols-[42%_33%_auto] grid-rows-[40%_auto] gap-4 h-[450px] mx-10">
+
+          <div className="chart-rectangle"></div>
+          <div className="chart-rectangle"></div>
+          <div className="chart-rectangle row-span-2">
+          </div>
+          <div className="chart-rectangle">
+            <Chart1 chart1={filteredChart1} />
+          </div>
+          <div className="chart-rectangle"></div>
+        </div>
       </>
     )
   }

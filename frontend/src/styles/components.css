@@ -4,4 +4,39 @@
   .auth-card {
     @apply w-[24.72rem] rounded-xl flex flex-col justify-start items-center text-center;
   }
+
+  .dropdown-back {
+    @apply absolute rounded-xl p-2;
+
+    background-image: linear-gradient(
+      120deg,
+      var(--color-primary3-2) 0%,
+      rgb(129, 46, 153) 20%,
+      var(--color-primary3-3) 100%
+    )
+  }
+
+  .dropdown-front {
+    @apply absolute rounded-xl p-2;
+
+    background-image: linear-gradient(
+      120deg,
+      var(--color-primary3-1) 0%,
+      rgba(86, 4, 156, 0.5) 18%,
+      rgba(86, 4, 156, 0.5) 79%,
+      rgba(19, 8, 48, 0.2) 100%
+    )
+  }
+
+  .chart-rectangle {
+    @apply rounded-xl shadow-[0_0_20px_2px_rgba(0,0,0,0.2)] flex items-center justify-center;
+
+    background-image: linear-gradient(
+      140deg,
+      rgba(86, 0, 101, 0.7) 0%,
+      rgba(112, 14, 156, 0.3) 10%,
+      rgba(99, 9, 156, 0.25) 20%,
+      rgba(86, 4, 156, 0.2) 26%
+    )
+  }
 }
