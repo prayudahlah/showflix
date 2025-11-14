@@ -20,9 +20,9 @@ function App() {
           <Route
             path='executive'
             element={
-              <ProtectedRoute allowedRoles={["Executive"]}>
-                <Executive />
-              </ProtectedRoute>
+              // <ProtectedRoute allowedRoles={["Executive"]}>
+              <Executive />
+              // </ProtectedRoute>
             }
           />
 

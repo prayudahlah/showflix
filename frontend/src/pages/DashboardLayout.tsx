@@ -12,9 +12,7 @@ function DashboardLayout() {
   }, [])
 
   return (
-    <div className="flex justify-center items-center min-h-screen relative overflow-hidden bg-primary1-2">
-      <Outlet />
-    </div>
+    <Outlet />
   )
 }
 
