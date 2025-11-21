@@ -50,6 +50,46 @@ func (r *repository) Get(ctx context.Context) (*GetResponse, error) {
 			response.Chart1 = *data
 			mu.Unlock()
 		},
+		func() {
+			data, err := r.getChart2(ctx)
+			if err != nil {
+				errChan <- fmt.Errorf("chart2: %w", err)
+				return
+			}
+			mu.Lock()
+			response.Chart2 = *data
+			mu.Unlock()
+		},
+		func() {
+			data, err := r.getChart3(ctx)
+			if err != nil {
+				errChan <- fmt.Errorf("chart3: %w", err)
+				return
+			}
+			mu.Lock()
+			response.Chart3 = *data
+			mu.Unlock()
+		},
+		func() {
+			data, err := r.getChart4(ctx)
+			if err != nil {
+				errChan <- fmt.Errorf("chart4: %w", err)
+				return
+			}
+			mu.Lock()
+			response.Chart4 = *data
+			mu.Unlock()
+		},
+		func() {
+			data, err := r.getChart5(ctx)
+			if err != nil {
+				errChan <- fmt.Errorf("chart5: %w", err)
+				return
+			}
+			mu.Lock()
+			response.Chart5 = *data
+			mu.Unlock()
+		},
 	}
 
 	for _, t := range tasks {
@@ -136,6 +176,148 @@ func (r *repository) getChart1(ctx context.Context) (*[]Chart1, error) {
 			&data.CompanyId,
 			&data.YearAired,
 			&data.TitleCount,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		dataset = append(dataset, data)
+	}
+
+	return &dataset, nil
+}
+
+func (r *repository) getChart2(ctx context.Context) (*[]Chart2, error) {
+	query := `
+		SELECT
+			CompanyId,
+			AverageRating
+		FROM vw_Executive_Chart2
+	`
+
+	rows, err := r.db.QueryContext(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var dataset []Chart2
+
+	for rows.Next() {
+		var data Chart2
+
+		err := rows.Scan(
+			&data.CompanyId,
+			&data.AverageRating,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		dataset = append(dataset, data)
+	}
+
+	return &dataset, nil
+}
+
+func (r *repository) getChart3(ctx context.Context) (*[]Chart3, error) {
+	query := `
+		SELECT
+			CompanyId,
+			CompanyName,
+			TitleCount
+		FROM vw_Executive_Chart3
+	`
+
+	rows, err := r.db.QueryContext(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var dataset []Chart3
+
+	for rows.Next() {
+		var data Chart3
+
+		err := rows.Scan(
+			&data.CompanyId,
+			&data.CompanyName,
+			&data.TitleCount,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		dataset = append(dataset, data)
+	}
+
+	return &dataset, nil
+}
+
+func (r *repository) getChart4(ctx context.Context) (*[]Chart4, error) {
+	query := `
+		SELECT
+			CompanyId,
+			GenreName,
+			GenreCount
+		FROM vw_Executive_Chart4
+	`
+
+	rows, err := r.db.QueryContext(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var dataset []Chart4
+
+	for rows.Next() {
+		var data Chart4
+
+		err := rows.Scan(
+			&data.CompanyId,
+			&data.GenreName,
+			&data.GenreCount,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		dataset = append(dataset, data)
+	}
+
+	return &dataset, nil
+}
+
+func (r *repository) getChart5(ctx context.Context) (*[]Chart5, error) {
+	query := `
+		SELECT
+			CompanyId,
+			PrimaryTitle,
+			NewPopularity
+		FROM vw_Executive_Chart5
+	`
+
+	rows, err := r.db.QueryContext(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var dataset []Chart5
+
+	for rows.Next() {
+		var data Chart5
+
+		err := rows.Scan(
+			&data.CompanyId,
+			&data.PrimaryTitle,
+			&data.Popularity,
 		)
 
 		if err != nil {
