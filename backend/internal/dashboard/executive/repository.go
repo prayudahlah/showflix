@@ -192,7 +192,9 @@ func (r *repository) getChart2(ctx context.Context) (*[]Chart2, error) {
 	query := `
 		SELECT
 			CompanyId,
-			AverageRating
+			RatingStart,
+			RatingEnd,
+			Frequency
 		FROM vw_Executive_Chart2
 	`
 
@@ -209,7 +211,9 @@ func (r *repository) getChart2(ctx context.Context) (*[]Chart2, error) {
 
 		err := rows.Scan(
 			&data.CompanyId,
-			&data.AverageRating,
+			&data.RatingStart,
+			&data.RatingEnd,
+			&data.Frequency,
 		)
 
 		if err != nil {

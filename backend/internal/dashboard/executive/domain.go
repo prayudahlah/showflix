@@ -21,8 +21,10 @@ type Chart1 struct {
 }
 
 type Chart2 struct {
-	CompanyId      int      `json:"company_id"`
-	AverageRating  float64  `json:"average_rating"`
+	CompanyId    int  `json:"company_id"`
+	RatingStart  int  `json:"rating_start"`
+	RatingEnd    int  `json:"rating_end"`
+	Frequency    int  `json:"frequency"`
 }
 
 type Chart3 struct {
