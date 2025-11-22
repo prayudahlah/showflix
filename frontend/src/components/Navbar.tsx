@@ -1,4 +1,4 @@
-import UniversalLogo from '../assets/icons/universal_logo.svg'
+import UniversalLogo from '../assets/icons/universal_logo_navbar.svg'
 import AboutLink from '../components/AboutLink.tsx'
 import { useLocation, useNavigate } from 'react-router-dom';
 import BackLogo from '../assets/icons/back_logo.svg'
@@ -48,7 +48,7 @@ function Navbar() {
 
   return (
     <nav
-      className="pointer-events-none absolute top-0 left-0 right-0 px-8 pt-2 pb-[3rem] flex justify-between items-center
+      className="pointer-events-none absolute top-0 left-0 right-0 px-8 pt-2 pb-12 flex justify-between items-center
                 bg-linear-to-b from-primary1-3/80 via-primary1-3/30 to-transparent z-50"
     >
       {content}
