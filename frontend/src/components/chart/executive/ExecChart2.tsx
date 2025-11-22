@@ -76,8 +76,8 @@ const ExecChart2 = memo(function ExecChart2({ chart2 }: ExecChart2Props) {
       <p className='text-center text-chart-title mb-1'>Show Ratings Distribution</p>
       <BarChart
         data={dataWithPercentage}
-        style={{ height: '90%', width: '90%' }}
-        margin={{ top: 10 }}
+        style={{ height: '90%', width: '95%' }}
+        margin={{ top: 10, right: 10 }}
         barCategoryGap={0}
         onMouseMove={(state) => {
           if (state.isTooltipActive) {

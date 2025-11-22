@@ -2,6 +2,7 @@ package executive
 
 import (
 	"github.com/prayudahlah/showflix/backend/internal/utils"
+	"golang.org/x/sync/errgroup"
 	"database/sql"
 	"context"
 	"errors"
@@ -22,110 +23,98 @@ func NewRepository(db *sql.DB) Repository {
 }
 
 func (r *repository) Get(ctx context.Context) (*GetResponse, error) {
-	var (
-		wg        sync.WaitGroup
-		mu        sync.Mutex
-		response  GetResponse
-		errChan   = make(chan error, 5)
-	)
+	g, ctx := errgroup.WithContext(ctx)
+	var mu sync.Mutex
+	var resp GetResponse
 
-	tasks := []func(){
-		func() {
+	tasks := []func(context.Context) error{
+		func(ctx context.Context) error {
 			data, err := r.getProductionCompanies(ctx)
 			if err != nil {
-				errChan <- fmt.Errorf("production companies: %w", err)
-				return
+				return fmt.Errorf("production companies: %w", err)
 			}
 			mu.Lock()
-			response.ProductionCompanies = *data
+			resp.ProductionCompanies = *data
 			mu.Unlock()
+			return nil
 		},
-		func() {
+		func(ctx context.Context) error {
 			data, err := r.getMetrics(ctx)
 			if err != nil {
-				errChan <- fmt.Errorf("metrics: %w", err)
-				return
+				return fmt.Errorf("metrics: %w", err)
 			}
 			mu.Lock()
-			response.Metrics = *data
+			resp.Metrics = *data
 			mu.Unlock()
+			return nil
 		},
-		func() {
+		func(ctx context.Context) error {
 			data, err := r.getChart1(ctx)
 			if err != nil {
-				errChan <- fmt.Errorf("chart1: %w", err)
-				return
+				return fmt.Errorf("chart1: %w", err)
 			}
 			mu.Lock()
-			response.Chart1 = *data
+			resp.Chart1 = *data
 			mu.Unlock()
+			return nil
 		},
-		func() {
+		func(ctx context.Context) error {
 			data, err := r.getChart2(ctx)
 			if err != nil {
-				errChan <- fmt.Errorf("chart2: %w", err)
-				return
+				return fmt.Errorf("chart2: %w", err)
 			}
 			mu.Lock()
-			response.Chart2 = *data
+			resp.Chart2 = *data
 			mu.Unlock()
+			return nil
 		},
-		func() {
+		func(ctx context.Context) error {
 			data, err := r.getChart3(ctx)
 			if err != nil {
-				errChan <- fmt.Errorf("chart3: %w", err)
-				return
+				return fmt.Errorf("chart3: %w", err)
 			}
 			mu.Lock()
-			response.Chart3 = *data
+			resp.Chart3 = *data
 			mu.Unlock()
+			return nil
 		},
-		func() {
+		func(ctx context.Context) error {
 			data, err := r.getChart4(ctx)
 			if err != nil {
-				errChan <- fmt.Errorf("chart4: %w", err)
-				return
+				return fmt.Errorf("chart4: %w", err)
 			}
 			mu.Lock()
-			response.Chart4 = *data
+			resp.Chart4 = *data
 			mu.Unlock()
+			return nil
 		},
-		func() {
+		func(ctx context.Context) error {
 			data, err := r.getChart5(ctx)
 			if err != nil {
-				errChan <- fmt.Errorf("chart5: %w", err)
-				return
+				return fmt.Errorf("chart5: %w", err)
 			}
 			mu.Lock()
-			response.Chart5 = *data
+			resp.Chart5 = *data
 			mu.Unlock()
+			return nil
 		},
 	}
 
-	for _, t := range tasks {
-		wg.Add(1)
-		go func(task func()) {
-			defer wg.Done()
-			task()
-		}(t)
+	for _, task := range tasks {
+		t := task
+		g.Go(func() error {
+			return t(ctx)
+		})
 	}
 
-	go func() {
-		wg.Wait()
-		close(errChan)
-	}()
-
-	for err := range errChan {
-		if err != nil {
-			if errors.Is(err, sql.ErrNoRows) {
-				return nil, utils.ErrNotFound
-			}
-
-			return nil, err
+	if err := g.Wait(); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, utils.ErrNotFound
 		}
+		return nil, err
 	}
 
-	return &response, nil
+	return &resp, nil
 }
 
 func (r *repository) getProductionCompanies(ctx context.Context) (*[]ProductionCompanies, error) {

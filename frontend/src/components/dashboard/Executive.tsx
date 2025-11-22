@@ -23,6 +23,11 @@ function Executive() {
     [data?.chart1, selectedCompanyId]
   )
 
+  const sortedChart1 = useMemo(() =>
+    [...filteredChart1].sort((a, b) => a.yearAired - b.yearAired),
+    [filteredChart1]
+  )
+
   const filteredChart2 = useMemo(() =>
     (data?.chart2 ?? []).filter((d) => d.companyId === selectedCompanyId),
     [data?.chart2, selectedCompanyId]
@@ -141,7 +146,7 @@ function Executive() {
             <ExecChart5 chart5={filteredChart5} />
           </div>
           <div className="chart-box">
-            <ExecChart1 chart1={filteredChart1} />
+            <ExecChart1 chart1={sortedChart1} />
           </div>
           <div className="chart-box">
             <ExecChart4 chart4={sortedChart4} />
