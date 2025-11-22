@@ -91,6 +91,7 @@ function Executive() {
 
   return (
     <div className="flex justify-center items-center min-h-screen relative overflow-hidden bg-primary1-2">
+      <h2 className="absolute top-2 text-white z-100">EXECUTIVE DASHBOARD</h2>
       <div className="absolute -inset-8 bg-linear-to-br from-primary1-2 via-primary2-3 to-primary2-3 animate-gradient opacity-90" />
       <div className="absolute -inset-8 bg-linear-to-tr from-primary1-1 via-transparent to-primary3-3 animate-gradient-slow opacity-10" />
 
