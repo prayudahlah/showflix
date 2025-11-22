@@ -23,7 +23,6 @@ function ExecChart1({ chart1 }: ExecChart1Props) {
           tick={{ fill: 'rgba(200,200,200)', fontSize: 10 }}
           angle={-90}
           textAnchor="end"
-          height={40}
         />
 
         <YAxis

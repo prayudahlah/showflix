@@ -9,8 +9,8 @@ function ExecChart5({ chart5 }: ExecChart5Props) {
   const data = chart5;
 
   return (
-    <div className='w-full h-full text-white mt-3'>
-      <p className='text-center text-chart-title'>Lorem Ipsum</p>
+    <div className='w-full h-full text-white mt-3 ml-2'>
+      <p className='text-center text-chart-title'>Top 10 Performing Shows</p>
       <BarChart
         data={data}
         style={{ height: '95%', width: '90%' }}

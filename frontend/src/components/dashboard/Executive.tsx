@@ -91,6 +91,19 @@ function Executive() {
 
   return (
     <div className="flex justify-center items-center min-h-screen relative overflow-hidden bg-primary1-2">
+      <div className="absolute -inset-8 bg-linear-to-br from-primary1-2 via-primary2-3 to-primary2-3 animate-gradient opacity-90" />
+      <div className="absolute -inset-8 bg-linear-to-tr from-primary1-1 via-transparent to-primary3-3 animate-gradient-slow opacity-10" />
+
+      <div className="absolute -top-[230px] -left-[330px] w-[670px] h-[360px] bg-primary1-1 rounded-[50%]
+                      blur-2xl rotate-50 flex justify-center items-center">
+        <div className="w-[338px] h-[159px] bg-primary3-1/50 rounded-[50%] blur-2xl" />
+      </div>
+
+      <div className="absolute -bottom-[230px] -left-[50px] w-[570px] h-[360px] bg-primary1-1 rounded-[50%]
+                      blur-2xl rotate-10 flex justify-center items-center">
+        <div className="w-[338px] h-[159px] bg-primary3-1/30 rounded-[50%] blur-2xl" />
+      </div>
+
       <div className="backdrop-blur-2xl rounded-xl bg-linear-120 from-primary3-3/20 to-primary1-2/20
                       w-[1300px] h-[625px] shadow-[0_0px_40px_1px_rgba(255,255,255,0.1)] to-50% mt-7
                       flex flex-col items-center px-10">

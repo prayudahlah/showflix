@@ -10,7 +10,7 @@ function ExecChart2({ chart2 }: ExecChart2Props) {
 
   return (
     <div className='w-full h-full text-white mt-3'>
-      <p className='text-center text-chart-title'>Lorem Ipsum</p>
+      <p className='text-center text-chart-title'>Show Ratings Distribution</p>
       <BarChart
         data={data}
         style={{ height: '95%', width: '90%' }}

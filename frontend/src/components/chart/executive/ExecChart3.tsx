@@ -11,13 +11,13 @@ function ExecChart3({ chart3, selectedCompanyId }: ExecChart3Props) {
 
   return (
     <div className='w-full h-full text-white mt-3'>
-      <p className='text-center text-chart-title'>Lorem Ipsum</p>
+      <p className='text-center text-chart-title'>Top 10 Companies by Show Produced</p>
       <BarChart
         data={data}
         style={{ height: '95%', width: '100%' }}
         layout='vertical'
         barCategoryGap='20%'
-        margin={{ left: -70, right: 0, top: 5, bottom: 5 }}
+        margin={{ left: -50, right: 15, top: 5, bottom: 5 }}
       >
         <CartesianGrid stroke="rgba(255,255,255,0.2)" horizontal={false} />
 
