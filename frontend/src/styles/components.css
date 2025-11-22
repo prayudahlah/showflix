@@ -5,30 +5,18 @@
     @apply w-[24.72rem] rounded-xl flex flex-col justify-start items-center text-center;
   }
 
-  .dropdown-back {
-    @apply absolute rounded-xl p-2;
+  .dropdown-box {
+    @apply absolute rounded-xl shadow-[0_0_20px_2px_rgba(138,0,255,0.25)] bg-primary1-1;
 
     background-image: linear-gradient(
-      120deg,
-      var(--color-primary3-2) 0%,
-      rgb(129, 46, 153) 20%,
-      var(--color-primary3-3) 100%
+      180deg,
+      #5328C7 0%,
+      var(--color-primary2-2) 30%,
+      var(--color-primary2-3) 100%
     )
   }
 
-  .dropdown-front {
-    @apply absolute rounded-xl p-2;
-
-    background-image: linear-gradient(
-      120deg,
-      var(--color-primary3-1) 0%,
-      rgba(86, 4, 156, 0.5) 18%,
-      rgba(86, 4, 156, 0.5) 79%,
-      rgba(19, 8, 48, 0.2) 100%
-    )
-  }
-
-  .chart-rectangle {
+  .chart-box {
     @apply rounded-xl shadow-[0_0_20px_2px_rgba(0,0,0,0.2)] flex items-center justify-center;
 
     background-image: linear-gradient(
@@ -37,6 +25,31 @@
       rgba(112, 14, 156, 0.3) 10%,
       rgba(99, 9, 156, 0.25) 20%,
       rgba(86, 4, 156, 0.2) 26%
+    )
+  }
+
+  .metric-box-back {
+    @apply rounded-xl h-[75%] w-[120px] shadow-[0_0_20px_2px_rgba(138,0,255,0.5)];
+
+    background-image: linear-gradient(
+      140deg,
+      #AF346B 0%,
+      #A33377 5%,
+      #983182 10%,
+      #812E99 20%,
+      #5328C7 100%
+    )
+  }
+
+  .metric-box-front {
+    @apply rounded-xl h-full w-full;
+
+    background-image: linear-gradient(
+      170deg,
+      rgb(208, 87, 222, 0) 0%,
+      rgb(86, 4, 156, 0.5) 18%,
+      rgb(86, 4, 156, 0.5) 79%,
+      rgb(19, 8, 48, 0.2) 100%
     )
   }
 }

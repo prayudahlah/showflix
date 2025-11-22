@@ -15,6 +15,7 @@ function ExecChart5({ chart5 }: ExecChart5Props) {
         data={data}
         style={{ height: '95%', width: '90%' }}
         layout='vertical'
+        margin={{ left: 10, right: -20 }}
       >
         <CartesianGrid stroke="rgba(255,255,255,0.2)" horizontal={false} />
 
@@ -28,11 +29,12 @@ function ExecChart5({ chart5 }: ExecChart5Props) {
         <YAxis
           type='category'
           dataKey="primaryTitle"
-          tick={{ fill: 'rgba(200,200,200)', fontSize: 8 }}
+          tick={{ fill: 'rgba(200,200,200)', fontSize: 12 }}
           textAnchor='end'
           axisLine={false}
           tickLine={false}
           interval={0}
+          width={80}
         />
 
         <Tooltip

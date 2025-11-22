@@ -14,9 +14,10 @@ function ExecChart3({ chart3, selectedCompanyId }: ExecChart3Props) {
       <p className='text-center text-chart-title'>Lorem Ipsum</p>
       <BarChart
         data={data}
-        style={{ height: '95%', width: '90%' }}
+        style={{ height: '95%', width: '100%' }}
         layout='vertical'
         barCategoryGap='20%'
+        margin={{ left: -70, right: 0, top: 5, bottom: 5 }}
       >
         <CartesianGrid stroke="rgba(255,255,255,0.2)" horizontal={false} />
 
@@ -30,11 +31,11 @@ function ExecChart3({ chart3, selectedCompanyId }: ExecChart3Props) {
         <YAxis
           type='category'
           dataKey="companyName"
-          tick={{ fill: 'rgba(200,200,200)', fontSize: 8 }}
-          textAnchor='end'
+          tick={{ fill: 'rgba(200,200,200)', fontSize: 10 }}
           axisLine={false}
           tickLine={false}
           interval={0}
+          width={170}
         />
 
         <Tooltip
@@ -55,7 +56,7 @@ function ExecChart3({ chart3, selectedCompanyId }: ExecChart3Props) {
           {data?.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={entry.companyId === selectedCompanyId ? '#FF6B00' : '#8A00FF'}
+              fill={entry.companyId === selectedCompanyId ? '#D08947' : '#8A00FF'}
             />
           ))}
         </Bar>

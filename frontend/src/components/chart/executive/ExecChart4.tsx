@@ -46,6 +46,7 @@ function ExecChart4({ chart4 }: ExecChart4Props) {
           stroke="#fff"
           fill="fill"
           nameKey="name"
+          isAnimationActive={false}
           content={(props: any) => {
             const { x, y, width, height, name, fill } = props;
             const showText = width >= 40 && height >= 25;
@@ -65,7 +66,8 @@ function ExecChart4({ chart4 }: ExecChart4Props) {
                     y={y + 12}
                     textAnchor="start"
                     fill="#f0f0f0"
-                    fontSize={8}
+                    fontSize={10}
+                    fontFamily="poppins"
                     fontWeight="200"
                   >
                     {name}
