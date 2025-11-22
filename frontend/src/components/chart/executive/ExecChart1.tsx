@@ -1,13 +1,21 @@
 import { Line, LineChart, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
 import type { ExecutiveData } from '../../../types/executive';
 
-function Chart1({ chart1 }: ExecutiveData) {
+interface ExecChart1Props {
+  chart1: ExecutiveData['chart1'];
+}
+
+function ExecChart1({ chart1 }: ExecChart1Props) {
   const data = chart1;
 
   return (
     <div className='w-full h-full text-white mt-3'>
-      <p className='text-center mb-2'>Show Aired Each Year</p>
-      <LineChart data={data} style={{ height: '85%', width: '90%' }}>
+      <p className='text-center text-chart-title'>Show Aired Each Year</p>
+      <LineChart
+        data={data}
+        style={{ height: '85%', width: '90%' }}
+        barCategoryGap='0%'
+      >
         <CartesianGrid stroke="rgba(255,255,255,0.2)" vertical={false} />
 
         <XAxis
@@ -47,4 +55,4 @@ function Chart1({ chart1 }: ExecutiveData) {
   );
 }
 
-export default Chart1;
+export default ExecChart1;
