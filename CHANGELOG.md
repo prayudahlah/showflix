@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/prayudahlah/showflix/compare/v1.7.0...v1.8.0) (2025-11-22)
+
+
+### Features
+
+* **Dashboard:** Finished Executive Dashboard Functionality ([02c03e6](https://github.com/prayudahlah/showflix/commit/02c03e6930d304969ca063f56472c3488d94c603))
+
 # [1.7.0](https://github.com/prayudahlah/showflix/compare/v1.6.0...v1.7.0) (2025-11-13)
 
 
