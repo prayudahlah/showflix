@@ -6,7 +6,7 @@
   }
 
   .dropdown-box {
-    @apply absolute rounded-xl shadow-[0_0_20px_2px_rgba(138,0,255,0.25)] bg-primary1-1;
+    @apply absolute rounded-xl bg-primary1-1;
 
     background-image: linear-gradient(
       180deg,

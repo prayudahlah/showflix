@@ -1,5 +1,6 @@
 export interface ExecutiveData {
-  top10Companies: top10Companies[];
+  productionCompanies: productionCompanies[];
+  metrics: metrics[];
   chart1: chart1[];
   chart2: chart2[];
   chart3: chart3[];
@@ -7,9 +8,17 @@ export interface ExecutiveData {
   chart5: chart5[];
 }
 
-interface top10Companies {
+interface productionCompanies {
   companyId: number;
   companyName: string;
+}
+
+interface metrics {
+  companyId: number;
+  showCount: number;
+  averageRating: number;
+  averagePopularity: number;
+  rank: number;
 }
 
 interface chart1 {

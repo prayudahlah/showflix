@@ -31,13 +31,23 @@ func (r *repository) Get(ctx context.Context) (*GetResponse, error) {
 
 	tasks := []func(){
 		func() {
-			data, err := r.getTop10Companies(ctx)
+			data, err := r.getProductionCompanies(ctx)
 			if err != nil {
-				errChan <- fmt.Errorf("top10: %w", err)
+				errChan <- fmt.Errorf("production companies: %w", err)
 				return
 			}
 			mu.Lock()
-			response.Top10Companies = *data
+			response.ProductionCompanies = *data
+			mu.Unlock()
+		},
+		func() {
+			data, err := r.getMetrics(ctx)
+			if err != nil {
+				errChan <- fmt.Errorf("metrics: %w", err)
+				return
+			}
+			mu.Lock()
+			response.Metrics = *data
 			mu.Unlock()
 		},
 		func() {
@@ -118,12 +128,12 @@ func (r *repository) Get(ctx context.Context) (*GetResponse, error) {
 	return &response, nil
 }
 
-func (r *repository) getTop10Companies(ctx context.Context) (*[]Top10Companies, error) {
+func (r *repository) getProductionCompanies(ctx context.Context) (*[]ProductionCompanies, error) {
 	query := `
 		SELECT
 			CompanyId,
 			CompanyName
-		FROM vw_Executive_Top10Companies
+		FROM vw_ProductionCompanies
 	`
 
 	rows, err := r.db.QueryContext(ctx, query)
@@ -132,10 +142,12 @@ func (r *repository) getTop10Companies(ctx context.Context) (*[]Top10Companies, 
 		return nil, err
 	}
 
-	var companies []Top10Companies
+	defer rows.Close()
+
+	companies := make([]ProductionCompanies, 0, 10)
 
 	for rows.Next() {
-		var data Top10Companies
+		var data ProductionCompanies
 
 		err := rows.Scan(
 			&data.CompanyId,
@@ -149,7 +161,57 @@ func (r *repository) getTop10Companies(ctx context.Context) (*[]Top10Companies, 
 		companies = append(companies, data)
 	}
 
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
 	return &companies, nil
+}
+
+func (r *repository) getMetrics(ctx context.Context) (*[]Metrics, error) {
+	query := `
+		SELECT
+			CompanyId,
+			CompanyShowCount,
+			CompanyAverageRating,
+			CompanyAveragePopularity,
+			CompanyRank
+		FROM vw_DashboardMetrics
+	`
+
+	rows, err := r.db.QueryContext(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	metrics := make([]Metrics, 0, 10)
+
+	for rows.Next() {
+		var data Metrics
+
+		err := rows.Scan(
+			&data.CompanyId,
+			&data.ShowCount,
+			&data.AverageRating,
+			&data.AveragePopularity,
+			&data.Rank,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		metrics = append(metrics, data)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return &metrics, nil
 }
 
 func (r *repository) getChart1(ctx context.Context) (*[]Chart1, error) {
@@ -167,6 +229,8 @@ func (r *repository) getChart1(ctx context.Context) (*[]Chart1, error) {
 		return nil, err
 	}
 
+	defer rows.Close()
+
 	var dataset []Chart1
 
 	for rows.Next() {
@@ -183,6 +247,10 @@ func (r *repository) getChart1(ctx context.Context) (*[]Chart1, error) {
 		}
 
 		dataset = append(dataset, data)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return &dataset, nil
@@ -204,7 +272,9 @@ func (r *repository) getChart2(ctx context.Context) (*[]Chart2, error) {
 		return nil, err
 	}
 
-	var dataset []Chart2
+	defer rows.Close()
+
+	dataset := make([]Chart2, 0, 100)
 
 	for rows.Next() {
 		var data Chart2
@@ -221,6 +291,10 @@ func (r *repository) getChart2(ctx context.Context) (*[]Chart2, error) {
 		}
 
 		dataset = append(dataset, data)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return &dataset, nil
@@ -241,7 +315,9 @@ func (r *repository) getChart3(ctx context.Context) (*[]Chart3, error) {
 		return nil, err
 	}
 
-	var dataset []Chart3
+	defer rows.Close()
+
+	dataset := make([]Chart3, 0, 10)
 
 	for rows.Next() {
 		var data Chart3
@@ -257,6 +333,10 @@ func (r *repository) getChart3(ctx context.Context) (*[]Chart3, error) {
 		}
 
 		dataset = append(dataset, data)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return &dataset, nil
@@ -277,6 +357,8 @@ func (r *repository) getChart4(ctx context.Context) (*[]Chart4, error) {
 		return nil, err
 	}
 
+	defer rows.Close()
+
 	var dataset []Chart4
 
 	for rows.Next() {
@@ -293,6 +375,10 @@ func (r *repository) getChart4(ctx context.Context) (*[]Chart4, error) {
 		}
 
 		dataset = append(dataset, data)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return &dataset, nil
@@ -313,7 +399,9 @@ func (r *repository) getChart5(ctx context.Context) (*[]Chart5, error) {
 		return nil, err
 	}
 
-	var dataset []Chart5
+	defer rows.Close()
+
+	dataset := make([]Chart5, 0, 100)
 
 	for rows.Next() {
 		var data Chart5
@@ -329,6 +417,10 @@ func (r *repository) getChart5(ctx context.Context) (*[]Chart5, error) {
 		}
 
 		dataset = append(dataset, data)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return &dataset, nil
