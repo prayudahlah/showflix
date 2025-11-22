@@ -7,9 +7,10 @@ import ExecChart3 from "../chart/executive/ExecChart3";
 import ExecChart4 from "../chart/executive/ExecChart4";
 import ExecChart5 from "../chart/executive/ExecChart5";
 import MetricBox from "../chart/MetricBox";
+import { MetricSkeleton, ChartSkeleton } from "../LoadingSkeleton";
 
 function Executive() {
-  const { data, isLoading, isError, error } = useExecutiveData()
+  const { data, refetch, isLoading, isError, error } = useExecutiveData()
   const [selectedCompanyId, setSelectedCompanyId] = useState(20368)
   let content;
 
@@ -38,9 +39,33 @@ function Executive() {
   ))
 
   if (isLoading) {
-    content = <p className="text-white">Loading...</p>
+    content = (
+      <>
+        <div className="relative w-full h-20 flex justify-end">
+          <div className="h-full flex justify-between items-center gap-2">
+            {[...Array(4)].map((_, i) => <MetricSkeleton key={i} />)}
+          </div>
+        </div>
+        <div className="grid grid-cols-[42%_33%_25%] grid-rows-[45%_55%] gap-2 h-[83%] w-full">
+          {[...Array(2)].map((_, i) => <ChartSkeleton key={i} />)}
+          <ChartSkeleton rowSpan={2} />
+          {[...Array(2)].map((_, i) => <ChartSkeleton key={i} />)}
+        </div>
+      </>
+    )
   } else if (isError) {
-    content = <p className="text-white">{(error as Error).message}</p>
+    content = (
+      <div className="text-center text-red-400">
+        <h3 className="text-xl font-bold mb-2">Error Loading Data</h3>
+        <p>{(error as Error).message}</p>
+        <button
+          onClick={() => refetch()}
+          className="mt-4 px-4 py-2 bg-primary3-3 rounded"
+        >
+          Retry
+        </button>
+      </div>
+    );
   } else {
     content = (
       <>

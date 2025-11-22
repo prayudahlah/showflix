@@ -39,6 +39,6 @@ interface chart4 {
 
 interface chart5 {
   companyId: number;
-  primaryName: string;
+  primaryTitle: string;
   popularity: number;
 }
