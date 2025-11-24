@@ -13,8 +13,9 @@ export default defineConfig({
     host: "0.0.0.0",
     allowedHosts: ["prayudahlah"],
   },
-
   build: {
+    outDir: 'dist',
+    emptyOutDir: true,
     target: 'es2020',
 
     minify: 'terser',
