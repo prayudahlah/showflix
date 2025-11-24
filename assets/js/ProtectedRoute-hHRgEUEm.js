@@ -1,0 +1,1 @@
+import{j as o}from"./query-vendor-CFGYOLWP.js";import r from"./UrlNotFound-lWa5u6Rh.js";import"./react-vendor-qHkc8kOX.js";import"./StarsBg-DNxmnnEo.js";const e=({allowedRoles:e,children:t})=>{const s=localStorage.getItem("role_name");return s&&e.includes(s)?t:o.jsx(r,{})};export{e as default};
