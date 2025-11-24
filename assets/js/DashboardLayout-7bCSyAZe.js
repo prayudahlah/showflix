@@ -1,0 +1,1 @@
+import{j as a}from"./query-vendor-CFGYOLWP.js";import{d as e,u as r,r as o,O as t}from"./react-vendor-qHkc8kOX.js";function s(){let s=e();const d=r();return o.useEffect(()=>{"/dashboard"!==s.pathname&&"/dashboard/"!==s.pathname||d(`/dashboard/${localStorage.getItem("role_name")}`)},[]),a.jsx(t,{})}export{s as default};
