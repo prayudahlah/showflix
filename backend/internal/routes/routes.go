@@ -8,16 +8,11 @@ import (
 )
 
 func SetupRoutes(app *fiber.App, db *sql.DB) {
-	// login
-	loginRepository := login.NewRepository(db)
-	loginService := login.NewService(loginRepository)
-	loginHandler := login.NewHandler(loginService)
-
 	// api group
 	api := app.Group("/api")
 
 	// login endpoint
-	api.Post("/login", loginHandler.Login)
+	login.RegisterRoutes(api, db)
 
 	// dashboard group
 	dash := api.Group("/dashboard")
