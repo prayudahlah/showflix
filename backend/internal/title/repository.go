@@ -1,7 +1,7 @@
 package title
 
 import (
-	// "github.com/prayudahlah/showflix/backend/internal/utils"
+	"github.com/prayudahlah/showflix/backend/internal/utils"
 	"golang.org/x/sync/errgroup"
 	"database/sql"
 	"context"
@@ -31,8 +31,7 @@ func (r *repository) Get(ctx context.Context, id string) (*GetResponse, error) {
 			data, err := r.getTitle(ctx, id)
 			if err != nil {
 				if errors.Is(err, sql.ErrNoRows) {
-					return nil
-					// return utils.ErrNotFound
+					return utils.ErrNotFound
 				}
 
 				return err
@@ -212,6 +211,10 @@ func (r *repository) getNetworks(ctx context.Context, id string) (*[]Network, er
 	query := `EXEC sp_Show_TitlesNetworks @id = @titleId;`
 
 	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
 	var networks []Network
 
@@ -230,7 +233,7 @@ func (r *repository) getNetworks(ctx context.Context, id string) (*[]Network, er
 		networks = append(networks, n)
 	}
 
-	if err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
@@ -241,6 +244,10 @@ func (r *repository) getProductionCompanies(ctx context.Context, id string) (*[]
 	query := `EXEC sp_Show_TitlesProductionCompanies @id = @titleId;`
 
 	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
 	var productionCompanies []ProductionCompany
 
@@ -259,7 +266,7 @@ func (r *repository) getProductionCompanies(ctx context.Context, id string) (*[]
 		productionCompanies = append(productionCompanies, pc)
 	}
 
-	if err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
@@ -270,6 +277,10 @@ func (r *repository) getTitleAkas(ctx context.Context, id string) (*[]TitleAka, 
 	query := `EXEC sp_Show_TitlesTitleAkas @id = @titleId;`
 
 	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
 	var titleAkas []TitleAka
 
@@ -289,7 +300,7 @@ func (r *repository) getTitleAkas(ctx context.Context, id string) (*[]TitleAka, 
 		titleAkas = append(titleAkas, ta)
 	}
 
-	if err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
@@ -300,6 +311,10 @@ func (r *repository) getGenres(ctx context.Context, id string) (*[]Genre, error)
 	query := `EXEC sp_Show_TitlesGenres @id = @titleId;`
 
 	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
 	var genres []Genre
 
@@ -318,7 +333,7 @@ func (r *repository) getGenres(ctx context.Context, id string) (*[]Genre, error)
 		genres = append(genres, g)
 	}
 
-	if err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
@@ -329,6 +344,10 @@ func (r *repository) getPrincipals(ctx context.Context, id string) (*[]Principal
 	query := `EXEC sp_Show_TitlesPrincipals @id = @titleId;`
 
 	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
 	var principals []Principal
 
@@ -348,7 +367,7 @@ func (r *repository) getPrincipals(ctx context.Context, id string) (*[]Principal
 		principals = append(principals, p)
 	}
 
-	if err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
@@ -359,6 +378,10 @@ func (r *repository) getAvailableLanguages(ctx context.Context, id string) (*[]A
 	query := `EXEC sp_Show_TitlesAvailableLanguages @id = @titleId;`
 
 	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
 	var availableLanguages []AvailableLanguage
 
@@ -377,7 +400,7 @@ func (r *repository) getAvailableLanguages(ctx context.Context, id string) (*[]A
 		availableLanguages = append(availableLanguages, al)
 	}
 
-	if err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
@@ -388,6 +411,10 @@ func (r *repository) getSpokenLanguages(ctx context.Context, id string) (*[]Spok
 	query := `EXEC sp_Show_TitlesSpokenLanguages @id = @titleId;`
 
 	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
 	var spokenLanguages []SpokenLanguage
 
@@ -406,7 +433,7 @@ func (r *repository) getSpokenLanguages(ctx context.Context, id string) (*[]Spok
 		spokenLanguages = append(spokenLanguages, al)
 	}
 
-	if err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
