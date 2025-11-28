@@ -71,4 +71,13 @@
 
     font-family: "Poppins", Arial, Helvetica, sans-serif;
   }
+
+  .gradient-bg {
+    background-image: linear-gradient(
+      var(--color-primary1-2) 0%,
+      var(--color-primary2-3) 56%,
+      var(--color-primary2-1) 79%,
+      #F0DFFF 98%
+    );
+  }
 }

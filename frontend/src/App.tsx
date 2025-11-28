@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar.tsx'
+import Show from './pages/Show.tsx'
+import Throbber from './components/Throbber.tsx'
 
 const Auth = lazy(() => import('./pages/Auth.tsx'))
 const Landing = lazy(() => import('./pages/Landing.tsx'))
@@ -13,7 +15,7 @@ const ProtectedRoute = lazy(() => import('./components/ProtectedRoute.tsx'))
 
 const PageLoader = () => (
   <div className="flex justify-center items-center min-h-screen bg-primary1-2">
-    <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary3-3"></div>
+    <Throbber />
   </div>
 )
 
@@ -26,6 +28,8 @@ function App() {
           <Route path='/' element={<Landing />}></Route>
           <Route path="/about" element={<AboutLink />} />
           <Route path="/auth/login" element={<Auth />} />
+
+          <Route path="/show/:id" element={<Show />} />
 
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route
