@@ -33,6 +33,8 @@ type GetResponse struct {
 	TitleAkas           *[]TitleAka
 	Genres              *[]Genre
 	Principals          *[]Principal
+	AvailableLanguages  *[]AvailableLanguage
+	SpokenLanguages     *[]SpokenLanguage
 }
 
 func (gr *GetResponse) ToDTO() *GetResponseDTO {
@@ -49,6 +51,8 @@ func (gr *GetResponse) ToDTO() *GetResponseDTO {
 		TitleAkas:           toSliceDTO[TitleAka, TitleAkaDTO](gr.TitleAkas),
 		Genres:              toSliceDTO[Genre, GenreDTO](gr.Genres),
 		Principals:          toSliceDTO[Principal, PrincipalDTO](gr.Principals),
+		AvailableLanguages:  toSliceDTO[AvailableLanguage, AvailableLanguageDTO](gr.AvailableLanguages),
+		SpokenLanguages:     toSliceDTO[SpokenLanguage, SpokenLanguageDTO](gr.SpokenLanguages),
 	}
 }
 
@@ -149,12 +153,24 @@ func (p *Principal) ToDTO() *PrincipalDTO {
 	}
 }
 
-type TitleAvailableLanguage struct {
-    TitleId      sql.NullString `db:"TitleId"`
+type AvailableLanguage struct {
+	TitleId      string         `db:"TitleId"`
+	LanguageName sql.NullString `db:"LanguageName"`
+}
+
+func (al *AvailableLanguage) ToDTO() *AvailableLanguageDTO {
+	return &AvailableLanguageDTO{
+		LanguageName: utils.ToStringPtr(al.LanguageName),
+	}
+}
+
+type SpokenLanguage struct {
+    TitleId      string         `db:"TitleId"`
     LanguageName sql.NullString `db:"LanguageName"`
 }
 
-type TitleSpokenLanguage struct {
-    TitleId      sql.NullString `db:"TitleId"`
-    LanguageName sql.NullString `db:"LanguageName"`
+func (sl *SpokenLanguage) ToDTO() *SpokenLanguageDTO {
+	return &SpokenLanguageDTO{
+		LanguageName: utils.ToStringPtr(sl.LanguageName),
+	}
 }

@@ -8,6 +8,8 @@ type GetResponseDTO struct {
 	TitleAkas           *[]TitleAkaDTO          `json:"titleAkas,omitempty"`
 	Genres              *[]GenreDTO             `json:"genres,omitempty"`
 	Principals          *[]PrincipalDTO         `json:"principals,omitempty"`
+	AvailableLanguages  *[]AvailableLanguageDTO `json:"availableLanguages,omitempty"`
+	SpokenLanguages     *[]SpokenLanguageDTO    `json:"spokenLanguages,omitempty"`
 }
 
 type TitleDTO struct {
@@ -46,4 +48,12 @@ type GenreDTO struct {
 type PrincipalDTO struct {
 	PrimaryName *string `json:"primaryName,omitempty"`
 	JobType     *string `json:"jobType,omitempty"`
+}
+
+type AvailableLanguageDTO struct {
+    LanguageName *string `json:"languageName,omitempty"`
+}
+
+type SpokenLanguageDTO struct {
+    LanguageName *string `json:"languageName,omitempty"`
 }

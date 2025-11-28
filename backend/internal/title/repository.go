@@ -120,6 +120,32 @@ func (r *repository) Get(ctx context.Context, id string) (*GetResponse, error) {
 			mu.Unlock()
 			return nil
 		},
+		func(ctx context.Context) error {
+			data, err := r.getAvailableLanguages(ctx, id)
+			if err != nil {
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
+			}
+			mu.Lock()
+			resp.AvailableLanguages = data
+			mu.Unlock()
+			return nil
+		},
+		func(ctx context.Context) error {
+			data, err := r.getSpokenLanguages(ctx, id)
+			if err != nil {
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
+			}
+			mu.Lock()
+			resp.SpokenLanguages = data
+			mu.Unlock()
+			return nil
+		},
 	}
 
 	for _, task := range tasks {
@@ -327,4 +353,62 @@ func (r *repository) getPrincipals(ctx context.Context, id string) (*[]Principal
 	}
 
 	return &principals, nil
+}
+
+func (r *repository) getAvailableLanguages(ctx context.Context, id string) (*[]AvailableLanguage, error) {
+	query := `EXEC sp_Show_TitlesAvailableLanguages @id = @titleId;`
+
+	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+
+	var availableLanguages []AvailableLanguage
+
+	for rows.Next() {
+		var al AvailableLanguage
+
+		err := rows.Scan(
+			&al.TitleId,
+			&al.LanguageName,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		availableLanguages = append(availableLanguages, al)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &availableLanguages, nil
+}
+
+func (r *repository) getSpokenLanguages(ctx context.Context, id string) (*[]SpokenLanguage, error) {
+	query := `EXEC sp_Show_TitlesSpokenLanguages @id = @titleId;`
+
+	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+
+	var spokenLanguages []SpokenLanguage
+
+	for rows.Next() {
+		var al SpokenLanguage
+
+		err := rows.Scan(
+			&al.TitleId,
+			&al.LanguageName,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		spokenLanguages = append(spokenLanguages, al)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &spokenLanguages, nil
 }
