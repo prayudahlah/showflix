@@ -1,8 +1,13 @@
 package title
 
 type GetResponseDTO struct {
-	Title TitleDTO `json:"title"`
-	FirstAirDate FirstAirDateDTO `json:"firstAirDate"`
+  TitleDTO
+  *FirstAirDateDTO    `json:",omitempty"`
+	Networks            *[]NetworkDTO           `json:"networks,omitempty"`
+	ProductionCompanies *[]ProductionCompanyDTO `json:"productionCompanies,omitempty"`
+	TitleAkas           *[]TitleAkaDTO          `json:"titleAkas,omitempty"`
+	Genres              *[]GenreDTO             `json:"genres,omitempty"`
+	Principals          *[]PrincipalDTO         `json:"principals,omitempty"`
 }
 
 type TitleDTO struct {
@@ -18,19 +23,27 @@ type TitleDTO struct {
 }
 
 type FirstAirDateDTO struct {
-	Date *string `json:"date,omitempty"`
+	Date *string `json:"firstAirDate,omitempty"`
 }
 
-type NameDTO struct {
-    Name *string `json:"name,omitempty"`
+type NetworkDTO struct {
+	NetworkName *string `json:"networkName,omitempty"`
 }
 
-type AkaDTO struct {
+type ProductionCompanyDTO struct {
+	CompanyName *string `json:"companyName,omitempty"`
+}
+
+type TitleAkaDTO struct {
     AltTitle   *string `json:"altTitle,omitempty"`
     LanguageId *string `json:"languageId,omitempty"`
 }
 
+type GenreDTO struct {
+	GenreName *string `json:"genreName,omitempty"`
+}
+
 type PrincipalDTO struct {
-    PrimaryName *string `json:"primaryName,omitempty"`
-    JobTypeId   *int32  `json:"jobTypeId,omitempty"`
+	PrimaryName *string `json:"primaryName,omitempty"`
+	JobType     *string `json:"jobType,omitempty"`
 }

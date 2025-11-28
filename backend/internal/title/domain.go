@@ -5,15 +5,50 @@ import (
 	"database/sql"
 )
 
+type DTOConverter[D any] interface {
+	ToDTO() *D
+}
+
+func toSliceDTO[T any, D any, PT interface {
+	*T
+	DTOConverter[D]
+}](items *[]T) *[]D {
+	if items == nil || len(*items) == 0 {
+		return nil
+	}
+	
+	dtos := make([]D, 0, len(*items))
+	for i := range *items {
+		var ptr PT = &(*items)[i]
+		dtos = append(dtos, *ptr.ToDTO())
+	}
+	return &dtos
+}
+
 type GetResponse struct {
-	Title Title
-	FirstAirDate FirstAirDate
+	Title               Title
+	FirstAirDate        *FirstAirDate
+	Networks            *[]Network
+	ProductionCompanies *[]ProductionCompany
+	TitleAkas           *[]TitleAka
+	Genres              *[]Genre
+	Principals          *[]Principal
 }
 
 func (gr *GetResponse) ToDTO() *GetResponseDTO {
+	var firstAirDateDTO *FirstAirDateDTO
+	if gr.FirstAirDate != nil {
+		firstAirDateDTO = gr.FirstAirDate.ToDTO()
+	}
+	
 	return &GetResponseDTO {
-		Title:        *gr.Title.ToDTO(),
-		FirstAirDate: *gr.FirstAirDate.ToDTO(),
+		TitleDTO:            *gr.Title.ToDTO(),
+		FirstAirDateDTO:     firstAirDateDTO,
+		Networks:            toSliceDTO[Network, NetworkDTO](gr.Networks),
+		ProductionCompanies: toSliceDTO[ProductionCompany, ProductionCompanyDTO](gr.ProductionCompanies),
+		TitleAkas:           toSliceDTO[TitleAka, TitleAkaDTO](gr.TitleAkas),
+		Genres:              toSliceDTO[Genre, GenreDTO](gr.Genres),
+		Principals:          toSliceDTO[Principal, PrincipalDTO](gr.Principals),
 	}
 }
 
@@ -55,31 +90,63 @@ func (fad *FirstAirDate) ToDTO() *FirstAirDateDTO {
 	}
 }
 
-type TitleNetwork struct {
-    TitleId     sql.NullString `db:"TitleId"`
-    NetworkName sql.NullString `db:"NetworkName"`
+type Network struct {
+	TitleId     string         `db:"TitleId"`
+	NetworkName sql.NullString `db:"NetworkName"`
 }
 
-type TitleProductionCompany struct {
-    TitleId     sql.NullString `db:"TitleId"`
-    CompanyName sql.NullString `db:"CompanyName"`
+func (n *Network) ToDTO() *NetworkDTO {
+	return &NetworkDTO{
+		NetworkName: utils.ToStringPtr(n.NetworkName),
+	}
+}
+
+type ProductionCompany struct {
+	TitleId     string         `db:"TitleId"`
+	CompanyName sql.NullString `db:"CompanyName"`
+}
+
+func (pc *ProductionCompany) ToDTO() *ProductionCompanyDTO {
+	return &ProductionCompanyDTO{
+		CompanyName: utils.ToStringPtr(pc.CompanyName),
+	}
 }
 
 type TitleAka struct {
-    TitleId    sql.NullString `db:"TitleId"`
-    AltTitle   sql.NullString `db:"AltTitle"`
-    LanguageId sql.NullString `db:"LanguageId"`
+	TitleId    string         `db:"TitleId"`
+	AltTitle   sql.NullString `db:"AltTitle"`
+	LanguageId sql.NullString `db:"LanguageId"`
 }
 
-type TitleGenre struct {
-    TitleId   sql.NullString `db:"TitleId"`
-    GenreName sql.NullString `db:"GenreName"`
+func (ta *TitleAka) ToDTO() *TitleAkaDTO {
+	return &TitleAkaDTO{
+		AltTitle:   utils.ToStringPtr(ta.AltTitle),
+		LanguageId: utils.ToStringPtr(ta.LanguageId),
+	}
 }
 
-type TitlePrincipal struct {
-    TitleId      sql.NullString `db:"TitleId"`
-    PrimaryName  sql.NullString `db:"PrimaryName"`
-    JobTypeId    sql.NullInt32  `db:"JobTypeId"`
+type Genre struct {
+	TitleId   string         `db:"TitleId"`
+	GenreName sql.NullString `db:"GenreName"`
+}
+
+func (g *Genre) ToDTO() *GenreDTO {
+	return &GenreDTO{
+		GenreName: utils.ToStringPtr(g.GenreName),
+	}
+}
+
+type Principal struct {
+	TitleId      string         `db:"TitleId"`
+	PrimaryName  sql.NullString `db:"PrimaryName"`
+	JobType      sql.NullString `db:"JobType"`
+}
+
+func (p *Principal) ToDTO() *PrincipalDTO {
+	return &PrincipalDTO{
+		PrimaryName: utils.ToStringPtr(p.PrimaryName),
+		JobType:     utils.ToStringPtr(p.JobType),
+	}
 }
 
 type TitleAvailableLanguage struct {

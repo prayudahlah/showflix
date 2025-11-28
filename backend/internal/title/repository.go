@@ -1,13 +1,12 @@
 package title
 
 import (
-	"github.com/prayudahlah/showflix/backend/internal/utils"
+	// "github.com/prayudahlah/showflix/backend/internal/utils"
 	"golang.org/x/sync/errgroup"
 	"database/sql"
 	"context"
 	"errors"
 	"sync"
-	"fmt"
 )
 
 type Repository interface {
@@ -31,7 +30,12 @@ func (r *repository) Get(ctx context.Context, id string) (*GetResponse, error) {
 		func(ctx context.Context) error {
 			data, err := r.getTitle(ctx, id)
 			if err != nil {
-				return fmt.Errorf("Title: %w", err)
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+					// return utils.ErrNotFound
+				}
+
+				return err
 			}
 			mu.Lock()
 			resp.Title = *data
@@ -41,10 +45,78 @@ func (r *repository) Get(ctx context.Context, id string) (*GetResponse, error) {
 		func(ctx context.Context) error {
 			data, err := r.getFirstAirDate(ctx, id)
 			if err != nil {
-				return fmt.Errorf("Air Date: %w", err)
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
 			}
 			mu.Lock()
-			resp.FirstAirDate = *data
+			resp.FirstAirDate = data
+			mu.Unlock()
+			return nil
+		},
+		func(ctx context.Context) error {
+			data, err := r.getNetworks(ctx, id)
+			if err != nil {
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
+			}
+			mu.Lock()
+			resp.Networks = data
+			mu.Unlock()
+			return nil
+		},
+		func(ctx context.Context) error {
+			data, err := r.getProductionCompanies(ctx, id)
+			if err != nil {
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
+			}
+			mu.Lock()
+			resp.ProductionCompanies = data
+			mu.Unlock()
+			return nil
+		},
+		func(ctx context.Context) error {
+			data, err := r.getTitleAkas(ctx, id)
+			if err != nil {
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
+			}
+			mu.Lock()
+			resp.TitleAkas = data
+			mu.Unlock()
+			return nil
+		},
+		func(ctx context.Context) error {
+			data, err := r.getGenres(ctx, id)
+			if err != nil {
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
+			}
+			mu.Lock()
+			resp.Genres = data
+			mu.Unlock()
+			return nil
+		},
+		func(ctx context.Context) error {
+			data, err := r.getPrincipals(ctx, id)
+			if err != nil {
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
+			}
+			mu.Lock()
+			resp.Principals = data
 			mu.Unlock()
 			return nil
 		},
@@ -58,9 +130,6 @@ func (r *repository) Get(ctx context.Context, id string) (*GetResponse, error) {
 	}
 
 	if err := g.Wait(); err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, utils.ErrNotFound
-		}
 		return nil, err
 	}
 
@@ -68,7 +137,7 @@ func (r *repository) Get(ctx context.Context, id string) (*GetResponse, error) {
 }
 
 func (r *repository) getTitle(ctx context.Context, id string) (*Title, error) {
-	query := `EXEC sp_Show_Titles @id = @titleId`
+	query := `EXEC sp_Show_Titles @id = @titleId;`
 
 	row := r.db.QueryRowContext(ctx, query, sql.Named("titleId", id))
 
@@ -88,10 +157,6 @@ func (r *repository) getTitle(ctx context.Context, id string) (*Title, error) {
 	)
 
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, utils.ErrNotFound
-		}
-
 		return nil, err
 	}
 
@@ -99,7 +164,7 @@ func (r *repository) getTitle(ctx context.Context, id string) (*Title, error) {
 }
 
 func (r *repository) getFirstAirDate(ctx context.Context, id string) (*FirstAirDate, error) {
-	query := `EXEC sp_Show_TitlesAirDates @id = @titleId`
+	query := `EXEC sp_Show_TitlesAirDates @id = @titleId;`
 
 	row := r.db.QueryRowContext(ctx, query, sql.Named("titleId", id))
 
@@ -111,12 +176,155 @@ func (r *repository) getFirstAirDate(ctx context.Context, id string) (*FirstAirD
 	)
 
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, utils.ErrNotFound
-		}
-
 		return nil, err
 	}
 
 	return &fad, nil
+}
+
+func (r *repository) getNetworks(ctx context.Context, id string) (*[]Network, error) {
+	query := `EXEC sp_Show_TitlesNetworks @id = @titleId;`
+
+	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+
+	var networks []Network
+
+	for rows.Next() {
+		var n Network
+
+		err := rows.Scan(
+			&n.TitleId,
+			&n.NetworkName,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		networks = append(networks, n)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &networks, nil
+}
+
+func (r *repository) getProductionCompanies(ctx context.Context, id string) (*[]ProductionCompany, error) {
+	query := `EXEC sp_Show_TitlesProductionCompanies @id = @titleId;`
+
+	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+
+	var productionCompanies []ProductionCompany
+
+	for rows.Next() {
+		var pc ProductionCompany
+
+		err := rows.Scan(
+			&pc.TitleId,
+			&pc.CompanyName,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		productionCompanies = append(productionCompanies, pc)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &productionCompanies, nil
+}
+
+func (r *repository) getTitleAkas(ctx context.Context, id string) (*[]TitleAka, error) {
+	query := `EXEC sp_Show_TitlesTitleAkas @id = @titleId;`
+
+	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+
+	var titleAkas []TitleAka
+
+	for rows.Next() {
+		var ta TitleAka
+
+		err := rows.Scan(
+			&ta.TitleId,
+			&ta.AltTitle,
+			&ta.LanguageId,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		titleAkas = append(titleAkas, ta)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &titleAkas, nil
+}
+
+func (r *repository) getGenres(ctx context.Context, id string) (*[]Genre, error) {
+	query := `EXEC sp_Show_TitlesGenres @id = @titleId;`
+
+	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+
+	var genres []Genre
+
+	for rows.Next() {
+		var g Genre
+
+		err := rows.Scan(
+			&g.TitleId,
+			&g.GenreName,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		genres = append(genres, g)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &genres, nil
+}
+
+func (r *repository) getPrincipals(ctx context.Context, id string) (*[]Principal, error) {
+	query := `EXEC sp_Show_TitlesPrincipals @id = @titleId;`
+
+	rows, err := r.db.QueryContext(ctx, query, sql.Named("titleId", id))
+
+	var principals []Principal
+
+	for rows.Next() {
+		var p Principal
+
+		err := rows.Scan(
+			&p.TitleId,
+			&p.PrimaryName,
+			&p.JobType,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		principals = append(principals, p)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &principals, nil
 }
