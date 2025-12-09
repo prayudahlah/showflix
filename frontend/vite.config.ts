@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-  base: '/showflix/',
+  base: '/showflix',
   server: {
     host: "0.0.0.0",
     allowedHosts: ["prayudahlah"],
