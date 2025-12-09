@@ -13,6 +13,14 @@ api.interceptors.response.use(
     res.data = camelcaseKeys(res.data, { deep: true });
     return res
   }, (err) => {
-    return Promise.reject(err)
+    const status = err.response?.status
+    const data = err.response?.data
+
+    return Promise.reject({
+      status,
+      data: data ? camelcaseKeys(data, { deep: true }) : null,
+      message: data?.message ?? err.message,
+      raw: err
+    })
   }
 )

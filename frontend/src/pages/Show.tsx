@@ -4,6 +4,7 @@ import { useShowById } from "../hooks/useShow.ts";
 
 import GradientBg from "../components/GradientBg.tsx";
 import Throbber from "../components/Throbber.tsx";
+import UrlNotFound from "./UrlNotFound.tsx";
 
 function Show() {
   const { id } = useParams()
@@ -66,45 +67,54 @@ function Show() {
       </div>
     )
   } else if (isError) {
-    content = (
-      <div className="text-center text-red-400 mt-5">
-        <h3 className="text-xl font-bold mb-2">Error Loading Data</h3>
-        <p>{(error as Error).message}</p>
-        <button
-          onClick={handleRetry}
-          className="mt-4 px-4 py-2 bg-primary3-3 rounded-xl hover-scale"
-        >
-          Retry
-        </button>
-      </div>
-    );
+    if (error.status === 404) {
+      content = (
+        <UrlNotFound />
+      )
+    } else {
+      content = (
+        <div className="text-center text-red-400 mt-5">
+          <h3 className="text-xl font-bold mb-2">Error Loading Data</h3>
+          <p>{error.message}</p>
+          <button
+            onClick={handleRetry}
+            className="mt-4 px-4 py-2 bg-primary3-3 rounded-xl hover-scale"
+          >
+            Retry
+          </button>
+        </div>
+      );
+    }
   } else {
     content = (
-      <div className="flex justify-between text-white">
-        <div>
-          <h2>{data?.primaryTitle}</h2>
-          <p>First Aired: {formattedFirstDate || "-"}</p>
-          <p>Network: {formattedNetworks || "-"}</p>
-          <p>Production Companies: {formattedProdHouse || "-"}</p>
-          <div className="flex justify-between">
-            <p>{formattedCreatedDate}</p>
-            <p>{data?.isAdult ? "All Age" : "R13"}</p>
-            <p>{formattedRuntime}</p>
+      <>
+        <GradientBg />
+        <div className="w-[80%] mt-[120px] z-50">
+          <div className="flex justify-between text-white">
+            <div>
+              <h2>{data?.primaryTitle}</h2>
+              <p>First Aired: {formattedFirstDate || "-"}</p>
+              <p>Network: {formattedNetworks || "-"}</p>
+              <p>Production Companies: {formattedProdHouse || "-"}</p>
+              <div className="flex justify-between">
+                <p>{formattedCreatedDate}</p>
+                <p>{data?.isAdult ? "All Age" : "R13"}</p>
+                <p>{formattedRuntime}</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 
 
   return (
     <div className="flex justify-center min-h-screen relative overflow-hidden bg-[#010109]">
-      <GradientBg />
-      <div className="w-[80%] mt-[120px] z-50">
-        {content}
-      </div>
+      {content}
     </div>
   )
+
 }
 
 export default Show;
