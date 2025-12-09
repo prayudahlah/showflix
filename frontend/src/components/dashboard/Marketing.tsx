@@ -1,8 +1,130 @@
+import { useCallback, useMemo, useState } from "react";
+import { useMarketingData } from "../../hooks/useMarketingData";
+
+import MetricBox from "../chart/MetricBox";
+import { MetricSkeleton, ChartSkeleton } from "../LoadingSkeleton";
+
 function Marketing() {
-  return (
-    <div>
-    </div>
+  const { data, refetch, isLoading, isError, error } = useMarketingData()
+  const [selectedCompanyId, setSelectedCompanyId] = useState(20368)
+
+  const filteredMetrics = useMemo(() =>
+    (data?.metrics ?? []).filter((d) => d.companyId === selectedCompanyId)[0],
+    [data?.metrics, selectedCompanyId]
   )
+
+  const handleCompanyChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCompanyId(Number(e.target.value));
+  }, []);
+
+  const handleRetry = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
+  let content;
+
+  if (isLoading) {
+    content = (
+      <>
+        <div className="relative w-full h-20 flex justify-end">
+          <div className="h-full flex justify-between items-center gap-2">
+            {[...Array(4)].map((_, i) => <MetricSkeleton key={i} />)}
+          </div>
+        </div>
+        <div className="grid grid-cols-[37.5%_37.5%_25%] grid-rows-[45%_55%] gap-2 h-[83%] w-full">
+          {[...Array(2)].map((_, i) => <ChartSkeleton key={i} />)}
+          <ChartSkeleton rowSpan={2} />
+          {[...Array(2)].map((_, i) => <ChartSkeleton key={i} />)}
+        </div>
+      </>
+    )
+  } else if (isError) {
+    content = (
+      <div className="text-center text-red-400 mt-5">
+        <h3 className="text-xl font-bold mb-2">Error Loading Data</h3>
+        <p>{(error as Error).message}</p>
+        <button
+          onClick={handleRetry}
+          className="mt-4 px-4 py-2 bg-primary3-3 rounded-xl hover-scale"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  } else {
+    content = (
+      <>
+        <div className="relative w-full h-20 flex justify-end">
+          <select
+            className="absolute -top-2 left-[50px] dropdown-box text-secondary-2 font-bold py-1 px-[30px]
+                       hover:shadow-[0_0_20px_2px_rgba(138,0,255,0.5)] transition-all duration-300"
+            value={selectedCompanyId}
+            onChange={handleCompanyChange}
+          >
+            {data?.productionCompanies.map((c) => (
+              <option key={c.companyId} value={c.companyId}>
+                {c.companyName}
+              </option>
+            ))}
+          </select>
+
+          <div className="h-full flex justify-between items-center gap-2">
+            <MetricBox
+              title="Show Count"
+              value={filteredMetrics.showCount}
+            />
+            <MetricBox
+              title="Average Rating"
+              value={Number(filteredMetrics.averageRating.toFixed(2))}
+            />
+            <MetricBox
+              title="Average Popularity"
+              value={Number(filteredMetrics.averagePopularity.toFixed(2))}
+            />
+            <MetricBox
+              title="Rank"
+              value={filteredMetrics.rank}
+              isRank={true}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-[37.5%_37.5%_25%] grid-rows-[45%_55%] gap-2 h-[83%] w-full">
+
+          {/* Chart-Chartnya taruh sini ya <3 */}
+
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <div className="flex justify-center items-center min-h-screen relative overflow-hidden bg-primary1-2">
+      <h2 className="absolute top-2 text-white text-3xl z-100">EXECUTIVE DASHBOARD</h2>
+      <div className="absolute -inset-8 bg-linear-to-br from-primary1-2 via-primary2-3 to-primary2-3 animate-gradient opacity-90" />
+
+      <div className="absolute -top-[230px] -left-[330px] w-[670px] h-[360px] bg-primary1-1 rounded-[50%]
+                      blur-2xl rotate-50 flex justify-center items-center">
+        <div className="w-[338px] h-[159px] bg-primary3-1/50 rounded-[50%] blur-2xl" />
+      </div>
+
+      <div className="absolute top-[230px] -right-[330px] w-[670px] h-[360px] bg-primary1-1 rounded-[50%]
+                      blur-2xl rotate-175 flex justify-center items-center">
+        <div className="w-[338px] h-[159px] bg-primary3-1/20 rounded-[50%] blur-2xl" />
+      </div>
+
+      <div className="absolute -bottom-[230px] -left-[50px] w-[570px] h-[360px] bg-primary1-1 rounded-[50%]
+                      blur-2xl rotate-10 flex justify-center items-center">
+        <div className="w-[338px] h-[159px] bg-primary3-1/30 rounded-[50%] blur-2xl" />
+      </div>
+
+      <div className="backdrop-blur-2xl rounded-xl bg-linear-120 from-primary3-3/20 to-primary1-2/20
+                      w-[1300px] h-[625px] shadow-[0_0px_40px_1px_rgba(255,255,255,0.1)] to-50% mt-7
+                      flex flex-col items-center px-10">
+        {content}
+      </div>
+    </div>
+  );
 }
 
 export default Marketing;
