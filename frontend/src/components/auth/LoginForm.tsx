@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 function LoginForm() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const login = useLogin()
   const navigate = useNavigate()
@@ -20,6 +21,19 @@ function LoginForm() {
       navigate(`/dashboard/${login.data.role}`)
     }
   }, [login.isSuccess, login.data])
+
+  useEffect(() => {
+    if (login.isError && login.error) {
+      console.warn(login.error)
+      if (login.error.code === 'ERR_NETWORK') {
+        setErrorMessage("Unable to Connect to Server")
+      } else if (login.error.response) {
+        setErrorMessage(login.error.response.data.message)
+      } else {
+        setErrorMessage("Unknown Error")
+      }
+    }
+  }, [login.isError, login.error])
 
   return (
     <form className='flex flex-col items-center w-full' onSubmit={handleSubmit}>
@@ -61,7 +75,7 @@ function LoginForm() {
       </div>
 
       {login.isError && (
-        <p className="text-red-500 mt-3">Invalid Username or Password</p>
+        <p className="text-red-500 mt-3">{errorMessage}</p>
       )}
     </form>
   )

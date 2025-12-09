@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import camelcaseKeys from 'camelcase-keys';
+import type { ApiError } from "../types/error";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -12,7 +13,7 @@ api.interceptors.response.use(
   (res) => {
     res.data = camelcaseKeys(res.data, { deep: true });
     return res
-  }, (err) => {
-    return Promise.reject(err)
+  }, (err: AxiosError) => {
+    return Promise.reject(err as ApiError)
   }
 )
