@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/prayudahlah/showflix/compare/v1.8.0...v1.8.1) (2025-12-09)
+
+
+### Bug Fixes
+
+* **login:** robust error handling ([1b76eca](https://github.com/prayudahlah/showflix/commit/1b76eca29f9d01680418033b94f1e76cc5f48cfb))
+
 # [1.8.0](https://github.com/prayudahlah/showflix/compare/v1.7.0...v1.8.0) (2025-11-22)
 
 
