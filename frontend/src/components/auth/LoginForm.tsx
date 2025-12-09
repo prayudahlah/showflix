@@ -23,16 +23,21 @@ function LoginForm() {
   }, [login.isSuccess, login.data])
 
   useEffect(() => {
-    if (login.isError && login.error) {
-      console.warn(login.error)
-      if (login.error.code === 'ERR_NETWORK') {
-        setErrorMessage("Unable to Connect to Server")
-      } else if (login.error.response) {
-        setErrorMessage(login.error.response.data.message)
-      } else {
-        setErrorMessage("Unknown Error")
-      }
+    if (!login.isError || !login.error) return;
+
+    const err = login.error;
+
+    if (err.code === "ERR_NETWORK") {
+      setErrorMessage("Unable to Connect to Server");
+      return;
     }
+
+    const message =
+      err.response?.data?.message ??
+      err.message ??
+      "Unexpected Error Occurred";
+
+    setErrorMessage(message);
   }, [login.isError, login.error])
 
   return (
