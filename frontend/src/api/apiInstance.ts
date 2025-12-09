@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import camelcaseKeys from 'camelcase-keys';
 import type { ApiError } from "../types/error";
 
@@ -13,7 +13,7 @@ api.interceptors.response.use(
   (res) => {
     res.data = camelcaseKeys(res.data, { deep: true });
     return res
-  }, (err: AxiosError) => {
-    return Promise.reject(err as ApiError)
+  }, (err: ApiError) => {
+    return Promise.reject(err)
   }
 )
