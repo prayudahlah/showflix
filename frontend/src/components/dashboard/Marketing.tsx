@@ -1,6 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { useMarketingData } from "../../hooks/useMarketingData";
 
+import MarkChart1 from "../chart/marketing/MarkChart1";
+import MarkChart2 from "../chart/marketing/MarkChart2";
+import MarkChart3 from "../chart/marketing/MarkChart3";
+import MarkChart4 from "../chart/marketing/MarkChart4";
+import MarkChart5 from "../chart/marketing/MarkChart5";
 import MetricBox from "../chart/MetricBox";
 import { MetricSkeleton, ChartSkeleton } from "../LoadingSkeleton";
 
@@ -11,6 +16,46 @@ function Marketing() {
   const filteredMetrics = useMemo(() =>
     (data?.metrics ?? []).filter((d) => d.companyId === selectedCompanyId)[0],
     [data?.metrics, selectedCompanyId]
+  )
+
+  const filteredChart1 = useMemo(() =>
+    (data?.chart1 ?? []).filter((d) => d.companyId === selectedCompanyId),
+    [data?.chart1, selectedCompanyId]
+  )
+
+  const sortedChart1 = useMemo(() =>
+    [...filteredChart1].sort((a, b) => a.totalTitles - b.totalTitles),
+    [filteredChart1]
+  )
+
+  const filteredChart2 = useMemo(() =>
+    (data?.chart2 ?? []).filter((d) => d.companyId === selectedCompanyId),
+    [data?.chart2, selectedCompanyId]
+  )
+
+  const sortedChart2 = useMemo(() =>
+    [...filteredChart2].sort((a, b) => b.networkCount - a.networkCount),
+    [filteredChart2]
+  )
+
+  const filteredChart3 = useMemo(() =>
+    (data?.chart3 ?? []).filter((d) => d.companyId === selectedCompanyId),
+    [data?.chart3, selectedCompanyId]
+  )
+
+  const sortedChart3 = useMemo(() =>
+    [...filteredChart3].sort((a, b) => b.voteCount - a.voteCount),
+    [filteredChart3]
+  )
+
+  const filteredChart4 = useMemo(() =>
+    (data?.chart4 ?? []).filter((d) => d.companyId === selectedCompanyId),
+    [data?.chart4, selectedCompanyId]
+  )
+
+  const filteredChart5 = useMemo(() =>
+    (data?.chart5 ?? []).filter((d) => d.companyId === selectedCompanyId),
+    [data?.chart5, selectedCompanyId]
   )
 
   const handleCompanyChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -31,7 +76,7 @@ function Marketing() {
             {[...Array(4)].map((_, i) => <MetricSkeleton key={i} />)}
           </div>
         </div>
-        <div className="grid grid-cols-[37.5%_37.5%_25%] grid-rows-[45%_55%] gap-2 h-[83%] w-full">
+        <div className="grid grid-cols-[40%_40%_20%] grid-rows-[50%_50%] gap-2 h-[83%] w-full">
           {[...Array(2)].map((_, i) => <ChartSkeleton key={i} />)}
           <ChartSkeleton rowSpan={2} />
           {[...Array(2)].map((_, i) => <ChartSkeleton key={i} />)}
@@ -89,9 +134,23 @@ function Marketing() {
           </div>
         </div>
 
-        <div className="grid grid-cols-[37.5%_37.5%_25%] grid-rows-[45%_55%] gap-2 h-[83%] w-full">
-
-          {/* Chart-Chartnya taruh sini ya <3 */}
+        <div className="grid grid-cols-[37.5%_37.5%_25%] grid-rows-[50%_50%] gap-2 h-[83%] w-full">
+          
+          <div className="chart-box">
+            <MarkChart2 chart2={sortedChart2} />
+          </div>
+          <div className="chart-box">
+            <MarkChart3 chart3={sortedChart3} />
+          </div>
+          <div className="chart-box row-span-2">
+            <MarkChart4 chart4={filteredChart4} />
+          </div>
+          <div className="chart-box row-span-2">
+            <MarkChart5 chart5={filteredChart5} />
+          </div>
+          <div className="chart-box">
+            <MarkChart1 chart1={sortedChart1} />
+          </div>
 
         </div>
       </>
@@ -100,7 +159,7 @@ function Marketing() {
 
   return (
     <div className="flex justify-center items-center min-h-screen relative overflow-hidden bg-primary1-2">
-      <h2 className="absolute top-2 text-white text-3xl z-100">EXECUTIVE DASHBOARD</h2>
+      <h2 className="absolute top-2 text-white text-3xl z-100">MARKETING DASHBOARD</h2>
       <div className="absolute -inset-8 bg-linear-to-br from-primary1-2 via-primary2-3 to-primary2-3 animate-gradient opacity-90" />
 
       <div className="absolute -top-[230px] -left-[330px] w-[670px] h-[360px] bg-primary1-1 rounded-[50%]
