@@ -26,151 +26,58 @@ func toSliceDTO[T any, D any, PT interface {
 }
 
 type GetResponse struct {
-	Title               Title
-	FirstAirDate        *FirstAirDate
-	Networks            *[]Network
-	ProductionCompanies *[]ProductionCompany
-	TitleAkas           *[]TitleAka
-	Genres              *[]Genre
-	Principals          *[]Principal
-	AvailableLanguages  *[]AvailableLanguage
-	SpokenLanguages     *[]SpokenLanguage
+  Person          Person
+	TitlePrincipals *[]TitlePrincipal
+	KnownTitles     *[]KnownTitle
 }
 
 func (gr *GetResponse) ToDTO() *GetResponseDTO {
-	var firstAirDateDTO *FirstAirDateDTO
-	if gr.FirstAirDate != nil {
-		firstAirDateDTO = gr.FirstAirDate.ToDTO()
-	}
-	
 	return &GetResponseDTO {
-		TitleDTO:            *gr.Title.ToDTO(),
-		FirstAirDateDTO:     firstAirDateDTO,
-		Networks:            toSliceDTO[Network, NetworkDTO](gr.Networks),
-		ProductionCompanies: toSliceDTO[ProductionCompany, ProductionCompanyDTO](gr.ProductionCompanies),
-		TitleAkas:           toSliceDTO[TitleAka, TitleAkaDTO](gr.TitleAkas),
-		Genres:              toSliceDTO[Genre, GenreDTO](gr.Genres),
-		Principals:          toSliceDTO[Principal, PrincipalDTO](gr.Principals),
-		AvailableLanguages:  toSliceDTO[AvailableLanguage, AvailableLanguageDTO](gr.AvailableLanguages),
-		SpokenLanguages:     toSliceDTO[SpokenLanguage, SpokenLanguageDTO](gr.SpokenLanguages),
+		PersonDTO:       *gr.Person.ToDTO(),
+		TitlePrincipals: toSliceDTO[TitlePrincipal, TitlePrincipalDTO](gr.TitlePrincipals),
+		KnownTitles:     toSliceDTO[KnownTitle, KnownTitleDTO](gr.KnownTitles),
 	}
 }
 
-type Title struct {
-	TitleId        string          `db:"TitleId"`
-	PrimaryTitle   sql.NullString  `db:"PrimaryTitle"`
-	CreatedDate    sql.NullTime    `db:"CreatedDate"`
-	IsAdult        sql.NullBool    `db:"IsAdult"`
-	RuntimeMinutes sql.NullInt32   `db:"RuntimeMinutes"`
-	OriginalTitle  sql.NullString  `db:"OriginalTitle"`
-	AverageRating  sql.NullFloat64 `db:"AverageRating"`
-	PopularityRank sql.NullInt32   `db:"PopularityRank"`
-	NewPopularity  sql.NullFloat64 `db:"NewPopularity"`
-	Overview       sql.NullString  `db:"Overview"`
+type Person struct {
+	PersonId    string         `db:"PersonId"`
+	PrimaryName sql.NullString `db:"PrimaryName"`
+	BirthYear   sql.NullInt32  `db:"BirthYear"`
+	DeathYear   sql.NullInt32  `db:"DeathYear"`
+	Age         sql.NullInt32  `db:"Age"`
 }
 
-func (t *Title) ToDTO() *TitleDTO {
-	return &TitleDTO {
-		PrimaryTitle:   utils.ToStringPtr(t.PrimaryTitle),
-		CreatedDate:    utils.ToTimePtr(t.CreatedDate),
-		IsAdult:        utils.ToBoolPtr(t.IsAdult),
-		RuntimeMinutes: utils.ToInt32Ptr(t.RuntimeMinutes),
-		OriginalTitle:  utils.ToStringPtr(t.OriginalTitle),
-		AverageRating:  utils.ToFloat64Ptr(t.AverageRating),
-		PopularityRank: utils.ToInt32Ptr(t.PopularityRank),
-		NewPopularity:  utils.ToFloat64Ptr(t.NewPopularity),
-		Overview:       utils.ToStringPtr(t.Overview),
+func (p *Person) ToDTO() *PersonDTO {
+	return &PersonDTO {
+		PrimaryName: utils.ToStringPtr(p.PrimaryName),
+		BirthYear:   utils.ToInt32Ptr(p.BirthYear),
+		DeathYear:   utils.ToInt32Ptr(p.DeathYear),
+		Age:         utils.ToInt32Ptr(p.Age),
 	}
 }
 
-type FirstAirDate struct {
-	TitleId string       `db:"TitleId"`
-	Date    sql.NullTime `db:"Date"`
-}
-
-func (fad *FirstAirDate) ToDTO() *FirstAirDateDTO {
-	return &FirstAirDateDTO{
-		Date: utils.ToTimePtr(fad.Date),
-	}
-}
-
-type Network struct {
-	TitleId     string         `db:"TitleId"`
-	NetworkName sql.NullString `db:"NetworkName"`
-}
-
-func (n *Network) ToDTO() *NetworkDTO {
-	return &NetworkDTO{
-		NetworkName: utils.ToStringPtr(n.NetworkName),
-	}
-}
-
-type ProductionCompany struct {
-	TitleId     string         `db:"TitleId"`
-	CompanyName sql.NullString `db:"CompanyName"`
-}
-
-func (pc *ProductionCompany) ToDTO() *ProductionCompanyDTO {
-	return &ProductionCompanyDTO{
-		CompanyName: utils.ToStringPtr(pc.CompanyName),
-	}
-}
-
-type TitleAka struct {
-	TitleId    string         `db:"TitleId"`
-	AltTitle   sql.NullString `db:"AltTitle"`
-	LanguageId sql.NullString `db:"LanguageId"`
-}
-
-func (ta *TitleAka) ToDTO() *TitleAkaDTO {
-	return &TitleAkaDTO{
-		AltTitle:   utils.ToStringPtr(ta.AltTitle),
-		LanguageId: utils.ToStringPtr(ta.LanguageId),
-	}
-}
-
-type Genre struct {
-	TitleId   string         `db:"TitleId"`
-	GenreName sql.NullString `db:"GenreName"`
-}
-
-func (g *Genre) ToDTO() *GenreDTO {
-	return &GenreDTO{
-		GenreName: utils.ToStringPtr(g.GenreName),
-	}
-}
-
-type Principal struct {
-	TitleId      string         `db:"TitleId"`
-	PrimaryName  sql.NullString `db:"PrimaryName"`
+type TitlePrincipal struct {
+	PersonId     string         `db:"PersonId"`
+	PrimaryTitle sql.NullString `db:"PrimaryTitle"`
 	JobType      sql.NullString `db:"JobType"`
 }
 
-func (p *Principal) ToDTO() *PrincipalDTO {
-	return &PrincipalDTO{
-		PrimaryName: utils.ToStringPtr(p.PrimaryName),
-		JobType:     utils.ToStringPtr(p.JobType),
+func (tp *TitlePrincipal) ToDTO() *TitlePrincipalDTO {
+	return &TitlePrincipalDTO {
+		PrimaryTitle: utils.ToStringPtr(tp.PrimaryTitle),
+		JobType: utils.ToStringPtr(tp.JobType),
 	}
 }
 
-type AvailableLanguage struct {
-	TitleId      string         `db:"TitleId"`
-	LanguageName sql.NullString `db:"LanguageName"`
+type KnownTitle struct {
+	PersonId      string          `db:"PersonId"`
+	PrimaryTitle  sql.NullString  `db:"PrimaryTitle"`
+	AverageRating sql.NullFloat64 `db:"AverageRating"`
 }
 
-func (al *AvailableLanguage) ToDTO() *AvailableLanguageDTO {
-	return &AvailableLanguageDTO{
-		LanguageName: utils.ToStringPtr(al.LanguageName),
-	}
-}
-
-type SpokenLanguage struct {
-    TitleId      string         `db:"TitleId"`
-    LanguageName sql.NullString `db:"LanguageName"`
-}
-
-func (sl *SpokenLanguage) ToDTO() *SpokenLanguageDTO {
-	return &SpokenLanguageDTO{
-		LanguageName: utils.ToStringPtr(sl.LanguageName),
+func (kt *KnownTitle) ToDTO() *KnownTitleDTO {
+	return &KnownTitleDTO {
+		PrimaryTitle: utils.ToStringPtr(kt.PrimaryTitle),
+		AverageRating: utils.ToFloat64Ptr(kt.AverageRating),
 	}
 }

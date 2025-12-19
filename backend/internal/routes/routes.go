@@ -2,8 +2,9 @@ package routes
 
 import (
 	"database/sql"
-	"github.com/prayudahlah/showflix/backend/internal/title"
 	"github.com/prayudahlah/showflix/backend/internal/login"
+	"github.com/prayudahlah/showflix/backend/internal/title"
+	"github.com/prayudahlah/showflix/backend/internal/person"
 	"github.com/prayudahlah/showflix/backend/internal/searchTitle"
 	"github.com/prayudahlah/showflix/backend/internal/dashboard/executive"
 	"github.com/prayudahlah/showflix/backend/internal/dashboard/marketing"
@@ -14,8 +15,9 @@ func SetupRoutes(app *fiber.App, db *sql.DB) {
 	// api group
 	api := app.Group("/api")
 
-	title.RegisterRoutes(api, db)
 	login.RegisterRoutes(api, db)
+	title.RegisterRoutes(api, db)
+	person.RegisterRoutes(api, db)
 
 	// search group
 	search := api.Group("/search")

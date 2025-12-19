@@ -10,6 +10,6 @@ func RegisterRoutes(r fiber.Router, db *sql.DB) {
 	service := NewService(repo)
 	handler := NewHandler(service)
 
-	r.Get("/title/:id", handler.Get)
+	r.Get("/person/:id", handler.Get)
 }
 
