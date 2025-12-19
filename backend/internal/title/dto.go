@@ -10,6 +10,7 @@ type GetResponseDTO struct {
 	Principals          *[]PrincipalDTO         `json:"principals,omitempty"`
 	AvailableLanguages  *[]AvailableLanguageDTO `json:"availableLanguages,omitempty"`
 	SpokenLanguages     *[]SpokenLanguageDTO    `json:"spokenLanguages,omitempty"`
+	TopTitles           *[]TopTitleDTO           `json:"topTitles,omitempty"`
 }
 
 type TitleDTO struct {
@@ -37,8 +38,8 @@ type ProductionCompanyDTO struct {
 }
 
 type TitleAkaDTO struct {
-    AltTitle   *string `json:"altTitle,omitempty"`
-    LanguageId *string `json:"languageId,omitempty"`
+	AltTitle   *string `json:"altTitle,omitempty"`
+	LanguageId *string `json:"languageId,omitempty"`
 }
 
 type GenreDTO struct {
@@ -51,9 +52,15 @@ type PrincipalDTO struct {
 }
 
 type AvailableLanguageDTO struct {
-    LanguageName *string `json:"languageName,omitempty"`
+	LanguageName *string `json:"languageName,omitempty"`
 }
 
 type SpokenLanguageDTO struct {
-    LanguageName *string `json:"languageName,omitempty"`
+	LanguageName *string `json:"languageName,omitempty"`
+}
+
+type TopTitleDTO struct {
+	PrimaryTitle   *string  `json:"primaryTitle,omitempty"`
+	AverageRating  *float64 `json:"averageRating,omitempty"`
+	PopularityRank *int32   `json:"popularityRank,omitempty"`
 }

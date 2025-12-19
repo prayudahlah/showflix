@@ -35,6 +35,7 @@ type GetResponse struct {
 	Principals          *[]Principal
 	AvailableLanguages  *[]AvailableLanguage
 	SpokenLanguages     *[]SpokenLanguage
+	TopTitles           *[]TopTitle
 }
 
 func (gr *GetResponse) ToDTO() *GetResponseDTO {
@@ -53,6 +54,7 @@ func (gr *GetResponse) ToDTO() *GetResponseDTO {
 		Principals:          toSliceDTO[Principal, PrincipalDTO](gr.Principals),
 		AvailableLanguages:  toSliceDTO[AvailableLanguage, AvailableLanguageDTO](gr.AvailableLanguages),
 		SpokenLanguages:     toSliceDTO[SpokenLanguage, SpokenLanguageDTO](gr.SpokenLanguages),
+		TopTitles:           toSliceDTO[TopTitle, TopTitleDTO](gr.TopTitles),
 	}
 }
 
@@ -165,12 +167,27 @@ func (al *AvailableLanguage) ToDTO() *AvailableLanguageDTO {
 }
 
 type SpokenLanguage struct {
-    TitleId      string         `db:"TitleId"`
-    LanguageName sql.NullString `db:"LanguageName"`
+	TitleId      string         `db:"TitleId"`
+	LanguageName sql.NullString `db:"LanguageName"`
 }
 
 func (sl *SpokenLanguage) ToDTO() *SpokenLanguageDTO {
 	return &SpokenLanguageDTO{
 		LanguageName: utils.ToStringPtr(sl.LanguageName),
+	}
+}
+
+type TopTitle struct {
+	TitleId        string          `db:"TitleId"`
+	PrimaryTitle   sql.NullString  `db:"PrimaryTitle"`
+	AverageRating  sql.NullFloat64 `db:"AverageRating"`
+	PopularityRank sql.NullInt32   `db:"PopularityRank"`
+}
+
+func (tt *TopTitle) ToDTO() *TopTitleDTO {
+	return &TopTitleDTO{
+		PrimaryTitle:   utils.ToStringPtr(tt.PrimaryTitle),
+		AverageRating:  utils.ToFloat64Ptr(tt.AverageRating),
+		PopularityRank: utils.ToInt32Ptr(tt.PopularityRank),
 	}
 }

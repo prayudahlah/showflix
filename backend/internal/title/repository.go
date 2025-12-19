@@ -145,6 +145,19 @@ func (r *repository) Get(ctx context.Context, id string) (*GetResponse, error) {
 			mu.Unlock()
 			return nil
 		},
+		func(ctx context.Context) error {
+			data, err := r.getTopTitles(ctx)
+			if err != nil {
+				if errors.Is(err, sql.ErrNoRows) {
+					return nil
+				}
+				return err
+			}
+			mu.Lock()
+			resp.TopTitles = data
+			mu.Unlock()
+			return nil
+		},
 	}
 
 	for _, task := range tasks {
@@ -419,18 +432,18 @@ func (r *repository) getSpokenLanguages(ctx context.Context, id string) (*[]Spok
 	var spokenLanguages []SpokenLanguage
 
 	for rows.Next() {
-		var al SpokenLanguage
+		var sl SpokenLanguage
 
 		err := rows.Scan(
-			&al.TitleId,
-			&al.LanguageName,
+			&sl.TitleId,
+			&sl.LanguageName,
 		)
 
 		if err != nil {
 			return nil, err
 		}
 
-		spokenLanguages = append(spokenLanguages, al)
+		spokenLanguages = append(spokenLanguages, sl)
 	}
 
 	if err = rows.Err(); err != nil {
@@ -438,4 +451,47 @@ func (r *repository) getSpokenLanguages(ctx context.Context, id string) (*[]Spok
 	}
 
 	return &spokenLanguages, nil
+}
+
+
+func (r *repository) getTopTitles(ctx context.Context) (*[]TopTitle, error) {
+	query := `
+		SELECT
+    	TitleId,
+    	PrimaryTitle,
+    	AverageRating,
+    	PopularityRank
+		FROM vw_Show_TopTitles
+	`
+
+	rows, err := r.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var topTitles []TopTitle
+
+	for rows.Next() {
+		var tt TopTitle
+
+		err := rows.Scan(
+			&tt.TitleId,
+			&tt.PrimaryTitle,
+			&tt.AverageRating,
+			&tt.PopularityRank,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		topTitles = append(topTitles, tt)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return &topTitles, nil
 }
