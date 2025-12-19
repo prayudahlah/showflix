@@ -16,6 +16,7 @@ export interface GetResponse {
   principals?: Principal[];
   availableLanguages?: AvailableLanguage[];
   spokenLanguages?: SpokenLanguage[];
+  topTitles: TopTitles[];
 }
 
 interface Network {
@@ -48,3 +49,8 @@ interface SpokenLanguage {
   languageName?: string;
 }
 
+interface TopTitles {
+  primaryTitle?: string;
+  averageRating?: number;
+  popularityRank?: number;
+}
