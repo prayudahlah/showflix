@@ -10,7 +10,7 @@ type GetResponseDTO struct {
 	Principals          *[]PrincipalDTO         `json:"principals,omitempty"`
 	AvailableLanguages  *[]AvailableLanguageDTO `json:"availableLanguages,omitempty"`
 	SpokenLanguages     *[]SpokenLanguageDTO    `json:"spokenLanguages,omitempty"`
-	TopTitles           *[]TopTitleDTO           `json:"topTitles,omitempty"`
+	TopTitles           *[]TopTitleDTO          `json:"topTitles"`
 }
 
 type TitleDTO struct {
