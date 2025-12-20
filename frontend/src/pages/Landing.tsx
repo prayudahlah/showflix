@@ -2,8 +2,15 @@ import MagnifyingGlass from "../assets/icons/magnifying_glass.svg"
 import TopShadow from "../components/landing/TopShadow";
 import MidShadow from "../components/landing/MidShadow";
 import LiquidGlass from "../components/landing/LiquidGlass";
+import { useSearchShow } from "../hooks/useSearchShow";
 
 function Landing() {
+  const { mutate, isLoading, data } = useSearchShow();
+
+  mutate({ searchTerm: "love", ratingMin: 7 });
+
+  console.log(data)
+
   const handleScroll = () => {
     window.scrollTo({
       top: 800,
