@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/prayudahlah/showflix/compare/v1.11.1...v1.12.0) (2025-12-20)
+
+
+### Features
+
+* **endpoint:** title search endpoint with stored procedures ([d37e191](https://github.com/prayudahlah/showflix/commit/d37e191438843ac3fdbfbef42499da3462badc35))
+
 ## [1.11.1](https://github.com/prayudahlah/showflix/compare/v1.11.0...v1.11.1) (2025-12-20)
 
 
