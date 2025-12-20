@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/prayudahlah/showflix/compare/v1.13.0...v1.14.0) (2025-12-20)
+
+
+### Features
+
+* **about:** About page ([c08676d](https://github.com/prayudahlah/showflix/commit/c08676d35e255373932cf5a7913985b726486d77))
+
 # [1.13.0](https://github.com/prayudahlah/showflix/compare/v1.12.0...v1.13.0) (2025-12-20)
 
 
