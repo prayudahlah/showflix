@@ -1,4 +1,4 @@
-package persons
+package person
 
 import (
 	"github.com/prayudahlah/showflix/backend/internal/utils"
@@ -8,15 +8,15 @@ import (
 	"errors"
 )
 
-type PersonHandler struct {
-	Service PersonService
+type handler struct {
+	service Service
 }
 
-func NewHandler(service PersonService) *PersonHandler {
-	return &PersonHandler{Service: service}
+func NewHandler(service Service) *handler {
+	return &handler{service: service}
 }
 
-func (h *PersonHandler) GetByID(c *fiber.Ctx) error {
+func (h *handler) Get(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	if id == "" {
@@ -27,15 +27,9 @@ func (h *PersonHandler) GetByID(c *fiber.Ctx) error {
 
 	ctx := c.Context()
 
-	person, err := h.Service.GetByID(ctx, id)
+	data, err := h.service.Get(ctx, id)
 
 	if err != nil {
-		if errors.Is(err, utils.ErrNotFound) {
-			return c.Status(fiber.StatusNotFound).JSON(
-				utils.WithDetails(utils.ErrResponseNotFound, "Person not found"),
-			)
-		}
-
 		if errors.Is(err, context.DeadlineExceeded) {
 			return c.Status(fiber.StatusRequestTimeout).JSON(utils.ErrResponseTimeout)
 		}
@@ -46,15 +40,14 @@ func (h *PersonHandler) GetByID(c *fiber.Ctx) error {
 			)
 		}
 
+		if errors.Is(err, utils.ErrNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(utils.ErrResponseNotFound)
+		}
+
 		log.Printf("Internal server error: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrResponseInternal)
 	}
 
-	personDTO := ToDTO(person)
-
-	return c.JSON(personDTO)
+  return c.JSON(data.ToDTO())
 }
 
-// func (h *PersonHandler) Create(c *fiber.Ctx) error {
-//
-// }

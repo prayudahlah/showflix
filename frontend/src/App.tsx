@@ -1,15 +1,19 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar.tsx'
-import Show from './pages/Show.tsx'
 import Throbber from './components/Throbber.tsx'
 
-const Auth = lazy(() => import('./pages/Auth.tsx'))
 const Landing = lazy(() => import('./pages/Landing.tsx'))
-const UrlNotFound = lazy(() => import('./pages/UrlNotFound.tsx'))
-const AboutLink = lazy(() => import('./components/AboutLink.tsx'))
+const Show = lazy(() => import('./pages/Show.tsx'))
+const Person = lazy(() => import('./pages/Person.tsx'))
+
+const Auth = lazy(() => import('./pages/Auth.tsx'))
 const Executive = lazy(() => import('./components/dashboard/Executive.tsx'))
 const Marketing = lazy(() => import('./components/dashboard/Marketing.tsx'))
+
+const UrlNotFound = lazy(() => import('./pages/UrlNotFound.tsx'))
+const AboutLink = lazy(() => import('./components/AboutLink.tsx'))
+
 const DashboardLayout = lazy(() => import('./pages/DashboardLayout.tsx'))
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoute.tsx'))
 
@@ -30,6 +34,7 @@ function App() {
           <Route path="/auth/login" element={<Auth />} />
 
           <Route path="/show/:id" element={<Show />} />
+          <Route path="/person/:id" element={<Person />} />
 
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route
