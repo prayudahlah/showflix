@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/prayudahlah/showflix/compare/v1.11.0...v1.11.1) (2025-12-20)
+
+
+### Bug Fixes
+
+* **api instance:** useQuery now use custom error type ([1f3015e](https://github.com/prayudahlah/showflix/commit/1f3015e6f217690da1949642e78d6f5cb8261f23))
+
 # [1.11.0](https://github.com/prayudahlah/showflix/compare/v1.10.0...v1.11.0) (2025-12-20)
 
 
