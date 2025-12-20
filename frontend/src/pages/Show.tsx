@@ -12,19 +12,24 @@ import MetricContainer from "../components/show/MetricContainer.tsx";
 import MetricContainer2 from "../components/show/MetricContainer2.tsx";
 import LineGradient from "../components/show/LineGradient.tsx";
 import PinkVertLine from "../components/show/PinkVertLine.tsx";
+import TopShowContainer from "../components/show/TopShowContainer.tsx";
 
 function Show() {
   const { id } = useParams();
   const { data, refetch, isLoading, isError, error } = useShowById(id ?? "");
 
   const formattedFirstDate: string = useMemo(() => {
-    const d = new Date(data?.firstAirDate ?? "");
-    const year = d.getUTCFullYear();
-    const month = String(d.getUTCMonth() + 1).padStart(2, "0");
-    const day = String(d.getUTCDate()).padStart(2, "0");
+  if (!data?.firstAirDate) return "-";
 
-    return `${year}/${month}/${day}`;
-  }, [data?.firstAirDate]);
+  const d = new Date(data.firstAirDate);
+  if (isNaN(d.getTime())) return "-";
+
+  const year = d.getUTCFullYear();
+  const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
+
+  return `${year}/${month}/${day}`;
+}, [data?.firstAirDate]);
 
   const formattedNetworks: string = useMemo(
     () =>
@@ -68,10 +73,30 @@ function Show() {
     [data?.originalTitle]
   );
 
-  const formattedAltTitle: string = useMemo(
-    () => data?.titleAkas?.map((t) => t.altTitle).join(", ") ?? "-",
-    [data?.titleAkas]
-  );
+  const formattedAltTitle = useMemo(() => {
+    if (!data?.titleAkas?.length) return "-";
+
+    const primary = data.primaryTitle?.toLowerCase().trim();
+
+    const distinctTitles = Array.from(
+      new Map(
+        data.titleAkas
+          .filter(t => t.altTitle)
+          .map(t => {
+            const title = t.altTitle!.trim();
+            return [title.toLowerCase(), t];
+          })
+      ).values()
+    );
+
+    return distinctTitles
+      .filter(t => t.altTitle!.toLowerCase() !== primary)
+      .map(t =>
+        `${t.altTitle}${t.languageId ? ` (${t.languageId})` : ""}`
+      )
+      .join(", ") || "-";
+  }, [data?.titleAkas, data?.primaryTitle]);
+
 
   const formattedGenres = useMemo(() => {
     return data?.genres ?? [];
@@ -95,7 +120,7 @@ function Show() {
   }, [data?.popularityRank]);
 
   const formattedOverview = useMemo(() => {
-    return data?.overview ?? "-";
+    return data?.overview ?? "No overview available.";
   }, [data?.overview]);
 
   const formattedDirectorCreator = useMemo(() => {
@@ -132,21 +157,6 @@ function Show() {
     return names.length > 0 ? names.join(", ") : "-";
   }, [data?.principals]);
 
-  const formattedJobTypeCast = useMemo(() => {
-    if (!data?.principals) return "-";
-
-    const jobTypes = data.principals
-      .filter((p) => p.jobType === "actor" || p.jobType === "actress")
-      .map(p => p.jobType)
-      .filter((jt): jt is string => Boolean(jt));
-
-    const uniqueJobTypes = Array.from(new Set(jobTypes));
-
-    return uniqueJobTypes.length > 0
-      ? uniqueJobTypes.join(", ")
-      : "-";
-  }, [data?.principals]);
-
   const topCastList = useMemo(() => {
     return data?.principals
       ?.filter(p => p.jobType === "actor" || p.jobType === "actress")
@@ -163,24 +173,36 @@ function Show() {
   }, [data?.principals]);
   const PEOPLE_BEHIND_SLOTS = 4;
 
+  const formattedAvailableLanguageName: string = useMemo(() => {
+    if (!data?.availableLanguages?.length) return "-";
 
-  const formattedAvailableLanguageName: string = useMemo(
-    () =>
-      data?.availableLanguages
-        ?.map((t) => t.languageName)
-        .filter(Boolean)
-        .join(", ") ?? "-",
-    [data?.availableLanguages]
-  );
+    return data.availableLanguages
+      .map((t) => t.languageName)
+      .filter(Boolean)
+      .map((name) => `${name} (subtitle)`)
+      .join(", ");
+  }, [data?.availableLanguages]);
 
-  const formattedSpokenLanguageName: string = useMemo(
-    () =>
-      data?.spokenLanguages
-        ?.map((t) => t.languageName)
-        .filter(Boolean)
-        .join(", ") ?? "-",
-    [data?.spokenLanguages]
-  );
+  const formattedSpokenLanguageName: string = useMemo(() => {
+    if (!data?.spokenLanguages?.length) return "-";
+
+    return data.spokenLanguages
+      .map((t) => t.languageName)
+      .filter(Boolean)
+      .map((name) => `${name} (in show)`)
+      .join(", ");
+  }, [data?.spokenLanguages]);
+
+  const topShows = useMemo(() => {
+    if (!data?.topTitles?.length) return [];
+
+    return data.topTitles.map((t) => ({
+      title: t.primaryTitle ?? "-",
+      rating: t.averageRating?.toFixed(2) ?? "–",
+      rank: t.popularityRank ?? 0,
+    }));
+  }, [data?.topTitles]);
+
 
   {/*STOP*/}
 
@@ -263,7 +285,10 @@ function Show() {
                     </div>
                     <div className="flex items-center gap-2">
                       <h5 className="font-semibold">Alt Title:</h5>
-                      <span className="text-[#D057DE] font-medium">
+                      <span
+                        className="text-[#D057DE] font-medium truncate max-w-[300px]"
+                        title={formattedAltTitle}
+                      >
                         {formattedAltTitle}
                       </span>
                     </div>
@@ -290,18 +315,24 @@ function Show() {
 
                   <div className="flex items-start">
                     <h5 className="text-white font-semibold w-1/4 min-w-[150px]">Directors / Creators</h5>
-                    <p className="text-white text-sm flex-1">
-                      {formattedDirectorCreator}
-                    </p>
+                    <span
+                        className="font-medium truncate max-w-[600px]"
+                        title={formattedDirectorCreator}
+                      >
+                        {formattedDirectorCreator || "-"}
+                      </span>
                   </div>
 
                   <LineGradient className="my-2" />
 
                   <div className="flex items-start">
                     <h5 className="text-white font-semibold w-1/4 min-w-[150px]">Writers</h5>
-                    <p className="text-white text-sm flex-1">
-                      {formattedWriters}
-                    </p>
+                    <span
+                        className="font-medium truncate max-w-[600px]"
+                        title={formattedWriters}
+                      >
+                        {formattedWriters || "-"}
+                      </span>
                   </div>
 
                   <LineGradient className="my-2" />
@@ -434,27 +465,34 @@ function Show() {
               {/*KANAN*/}
               <div className="w-[40%] h-[400px] flex flex-col mt-10 mb-10">
                 
-                <div className="flex-[2] flex flex-col items-center justify-center">
+                <div className="flex-[2] flex flex-col items-center justify-center mb-6">
                   <MetricContainer2>
-                    <span className="text-white text-xs">
-                      LANGUAGES
-                    </span>
+                    <span className="text-white text-xs">LANGUAGES</span>
                   </MetricContainer2>
-                  <p className="text-black mt-5 text-sm leading-relaxed text-center max-w-[240px]">
+
+                  <p className="text-black mt-4 text-sm leading-relaxed text-center max-w-[240px]">
                     {formattedSpokenLanguageName || formattedAvailableLanguageName || "-"}
                   </p>
                 </div>
 
-                <div className="flex-[8] flex flex-col items-center justify-center">
-                  <MetricContainer2>
-                    <span className="text-white text-xs">
-                      FIND ANOTHER
-                    </span>
-                  </MetricContainer2>
-                  <div className="mt-4 text-center">
-                    {/*TO DO*/}
-                  </div>
+               <div className="flex-[8] flex flex-col items-center justify-start pt-4">
+    
+                <MetricContainer2>
+                  <span className="text-white text-xs">FIND ANOTHER</span>
+                </MetricContainer2>
+
+                <div className="mt-4 flex flex-col gap-3 w-full items-center">
+                  {topShows.slice(0, 5).map((show) => (
+                    <TopShowContainer
+                      key={show.rank}
+                      rank={show.rank}
+                      title={show.title}
+                      rating={show.rating}
+                    />
+                  ))}
                 </div>
+                
+              </div>
               </div>
             </div>
           </div>
