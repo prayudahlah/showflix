@@ -31,9 +31,9 @@ type PostResponse struct {
 }
 
 func (pr *PostResponse) ToDTO() *PostResponseDTO {
-	return &GetResponseDTO {
-		SearchTitles: toSliceDTO[SearchTitle, SearchTitleDTO](pr.SearchTitle),
-		Cursor: pr.Cursor.toDTO,
+	return &PostResponseDTO {
+		SearchTitles: toSliceDTO[SearchTitle, SearchTitleDTO](pr.SearchTitles),
+		Cursor:       *pr.Cursor.ToDTO(),
 	}
 }
 
@@ -50,6 +50,7 @@ type SearchTitle struct {
 
 func (st *SearchTitle) ToDTO() *SearchTitleDTO {
 	return &SearchTitleDTO{
+		TitleId:        st.TitleId,
 		PrimaryTitle:   st.PrimaryTitle,
 		StartYear:      utils.ToInt32Ptr(st.StartYear),
 		AverageRating:  utils.ToFloat64Ptr(st.AverageRating),
@@ -62,14 +63,14 @@ func (st *SearchTitle) ToDTO() *SearchTitleDTO {
 
 type Cursor struct {
 	NextCursorValue   sql.NullFloat64 `db:"NextCursorValue"`
-	NextCursorTitleId sql.NullFloat64 `db:"NextCursorTitleId"`
+	NextCursorTitleId sql.NullString  `db:"NextCursorTitleId"`
 	HasMore           bool            `db:"HasMore"`
 }
 
 func (c *Cursor) ToDTO() *CursorDTO {
 	return &CursorDTO{
 		NextCursorValue:   utils.ToFloat64Ptr(c.NextCursorValue),
-		NextCursorTitleId: utils.ToFloat64Ptr(c.NextCursorTitleId),
+		NextCursorTitleId: utils.ToStringPtr(c.NextCursorTitleId),
 		HasMore:           c.HasMore,
 	}
 }

@@ -1,14 +1,12 @@
 package searchTitle
 
 import (
-	"github.com/prayudahlah/showflix/backend/internal/utils"
 	"database/sql"
 	"context"
-	"errors"
 )
 
 type Repository interface {
-	GetByUsername(ctx context.Context, username string) (*Role, error)
+	Search(ctx context.Context, req RequestBody) (*PostResponse, error)
 }
 
 type repository struct {
@@ -19,34 +17,89 @@ func NewRepository(db *sql.DB) Repository {
 	return &repository{db: db}
 }
 
-func (r *repository) GetByUsername(ctx context.Context, username string) (*Role, error) {
+func (r *repository) Search(ctx context.Context, req RequestBody) (*PostResponse, error) {
 	query := `
-		SELECT
-			r.RoleName,
-			r.Username,
-			r.Salt,
-			r.HashedPassword
-		FROM ROLE r
-		WHERE r.Username = @username
+	EXEC sp_Landing_Titles
+		@SearchTerm = @searchTerm,
+		@RatingMin = @ratingMin,
+		@RatingMax = @ratingMax,
+		@Genre = @genre,
+		@RuntimeMin = @runtimeMin,
+		@RuntimeMax = @runtimeMax,
+		@IsAdult = @isAdult,
+		@Year = @year,
+		@SortBy = @sortBy,
+		@SortDirection = @sortDirection,
+		@CursorValue = @cursorValue,
+		@CursorTitleId = @cursorTitleId,
+		@PageSize = @pageSize
 	`
 
-	row := r.db.QueryRowContext(ctx, query, sql.Named("username", username))
-
-	var role Role
-
-	err := row.Scan(
-		&role.RoleName,
-		&role.Username,
-		&role.Salt,
-		&role.HashedPassword,
+	rows, err := r.db.QueryContext(ctx, query,
+		sql.Named("searchTerm",    req.SearchTerm),
+		sql.Named("ratingMin",     req.RatingMin),
+		sql.Named("ratingMax",     req.RatingMax),
+		sql.Named("genre",         req.Genre),
+		sql.Named("runtimeMin",    req.RuntimeMin),
+		sql.Named("runtimeMax",    req.RuntimeMax),
+		sql.Named("isAdult",       req.IsAdult),
+		sql.Named("year",          req.Year),
+		sql.Named("sortBy",        req.SortBy),
+		sql.Named("sortDirection", req.SortDirection),
+		sql.Named("cursorValue",   req.CursorValue),
+		sql.Named("cursorTitleId", req.CursorTitleId),
+		sql.Named("pageSize",      req.PageSize),
 	)
-
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, utils.ErrUnauthorized
-		}
-
 		return nil, err
 	}
-	return &role, nil
+	defer rows.Close()
+
+	var searchTitles []SearchTitle
+
+	for rows.Next() {
+		var st SearchTitle
+
+		err := rows.Scan(
+			&st.TitleId,
+			&st.PrimaryTitle,
+			&st.StartYear,
+			&st.AverageRating,
+			&st.RuntimeMinutes,
+			&st.IsAdult,
+			&st.GenreName,
+			&st.Popularity,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		searchTitles = append(searchTitles, st)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	var cursor Cursor
+	if rows.NextResultSet() {
+		if rows.Next() {
+			err := rows.Scan(
+				&cursor.NextCursorValue,
+				&cursor.NextCursorTitleId,
+				&cursor.HasMore,
+			)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+	
+	postResponse := PostResponse {
+		SearchTitles: searchTitles,
+		Cursor: cursor,
+	}
+
+	return &postResponse, nil
 }

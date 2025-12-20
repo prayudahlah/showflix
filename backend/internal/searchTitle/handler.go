@@ -16,26 +16,24 @@ func NewHandler(service Service) *handler {
 	return &handler{service: service}
 }
 
-type searchRequest struct {
-	SearchTerm string `json:"searchTerm"`
-	RatingMin string `json:"ratingMin"`
-    @SearchTerm NVARCHAR(200) = NULL,
-    @RatingMin DECIMAL(3,1) = NULL,
-    @RatingMax DECIMAL(3,1) = NULL,
-    @Genre VARCHAR(50) = NULL,
-    @RuntimeMin INT = NULL,
-    @RuntimeMax INT = NULL,
-    @IsAdult BIT = NULL,
-    @Year INT = NULL,
-    @SortBy VARCHAR(20) = 'Popularity',
-    @SortDirection VARCHAR(4) = 'DESC',
-    @CursorValue DECIMAL(18,4) = NULL,
-    @CursorTitleId VARCHAR(50) = NULL,
-    @PageSize INT = 7
+type RequestBody struct {
+	SearchTerm    *string  `json:"searchTerm"`
+	RatingMin     *float64 `json:"ratingMin"`
+	RatingMax     *float64 `json:"ratingMax"`
+	Genre         *string  `json:"genre"`
+	RuntimeMin    *int     `json:"runtimeMin"`
+	RuntimeMax    *int     `json:"runtimeMax"`
+	IsAdult       *bool    `json:"isAdult"`
+	Year          *int     `json:"year"`
+	SortBy        *string  `json:"sortBy"`
+	SortDirection *string  `json:"sortDirection"`
+	CursorValue   *float64 `json:"cursorValue"`
+	CursorTitleId *string  `json:"cursorTitleId"`
+	PageSize      *int     `json:"pageSize"`
 }
 
-func (h *handler) Login(c *fiber.Ctx) error {
-	var req searchRequest
+func (h *handler) Search(c *fiber.Ctx) error {
+	var req RequestBody
 
 	if err := c.BodyParser(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -46,7 +44,7 @@ func (h *handler) Login(c *fiber.Ctx) error {
 
 	ctx := c.Context()
 
-	role, err := h.service.Search(ctx, req)
+	data, err := h.service.Search(ctx, req)
 
 	if err != nil {
 		if errors.Is(err, context.DeadlineExceeded) {
@@ -67,7 +65,5 @@ func (h *handler) Login(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(utils.ErrResponseInternal)
 	}
 
-  return c.JSON(fiber.Map{
-        "role": role.RoleName,
-    })
+  return c.JSON(data.ToDTO())
 }
