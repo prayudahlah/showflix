@@ -1,4 +1,4 @@
-package executive
+package marketing
 
 type GetResponse struct {
 	ProductionCompanies  []ProductionCompanies  `json:"productionCompanies"`
@@ -24,28 +24,29 @@ type Metrics struct {
 }
 
 type Chart1 struct {
-	CompanyId   int  `json:"companyId"`
-	YearAired   int  `json:"yearAired"`
-	TitleCount  int  `json:"titleCount"`
+	CompanyId   int    `json:"companyId"`
+	RegionName  string `json:"regionName"`
+	TotalTitles int    `json:"totalTitles"`
 }
 
 type Chart2 struct {
-	CompanyId    int  `json:"companyId"`
-	RatingStart  int  `json:"ratingStart"`
-	RatingEnd    int  `json:"ratingEnd"`
-	Frequency    int  `json:"frequency"`
+	CompanyId    int    `json:"companyId"`
+	NetworkName  string `json:"networkName"`
+	NetworkCount int    `json:"networkCount"`
 }
 
 type Chart3 struct {
-	CompanyId    int     `json:"companyId"`
-	CompanyName  string  `json:"companyName"`
-	TitleCount   int     `json:"titleCount"`
+	CompanyId     int     `json:"companyId"`
+	PrimaryTitle  string  `json:"primaryTitle"`
+	VoteCount     int     `json:"voteCount"`
+	AverageRating float64 `json:"averageRating"`
+	Popularity    float64 `json:"popularity"`
 }
 
 type Chart4 struct {
-	CompanyId   int     `json:"companyId"`
-	GenreName   string  `json:"genreName"`
-	GenreCount  int     `json:"genreCount"`
+	CompanyId    int     `json:"companyId"`
+	PrimaryTitle string  `json:"primaryTitle"`
+	GenreName    string  `json:"genreName"`
 }
 
 type Chart5 struct {
