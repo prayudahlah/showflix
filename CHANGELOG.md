@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/prayudahlah/showflix/compare/v1.12.0...v1.13.0) (2025-12-20)
+
+
+### Features
+
+* **person page:** person detail endpoint and frontend page ([f61994d](https://github.com/prayudahlah/showflix/commit/f61994d78daf9fe25c50f4fcec3add637bdd3393))
+
 # [1.12.0](https://github.com/prayudahlah/showflix/compare/v1.11.1...v1.12.0) (2025-12-20)
 
 
