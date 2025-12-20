@@ -1,3 +1,25 @@
+# [1.10.0](https://github.com/prayudahlah/showflix/compare/v1.9.0...v1.10.0) (2025-12-20)
+
+
+### Bug Fixes
+
+* **config:** base url /showflix/ tp /showflix ([17f2b4e](https://github.com/prayudahlah/showflix/commit/17f2b4e19ae6adf1f0775fac6b3e3fd50dc328af))
+* **query:** added defer(free) tu rows object ([736fe6c](https://github.com/prayudahlah/showflix/commit/736fe6c1b880e2dd32659a9bfa6b2e1b66d12907))
+* **topTitles:** made top titles json non-nullable ([76ad8bf](https://github.com/prayudahlah/showflix/commit/76ad8bfe6cfa2bf82194a90bdb67edfaeb2239b3))
+
+
+### Features
+
+* **endpoint:** added title endpoint with title and first air date query ([efb1d7f](https://github.com/prayudahlah/showflix/commit/efb1d7fee838af31fb01391ce6fa4bc2c4b9dbb6))
+* **page:** added page routing and fetching ([4011471](https://github.com/prayudahlah/showflix/commit/40114717c21c4fd8d33bb6bc7e6decedf7fe2871))
+* **queries:** added avail and spoken languages ([1be0061](https://github.com/prayudahlah/showflix/commit/1be0061e3ca5339f870b21c743105be97ec35153))
+* **queries:** added title akas, genres, and principals queries ([38c0dfc](https://github.com/prayudahlah/showflix/commit/38c0dfc6d9e4a840a607d19077cc2edbf2189da4))
+* **routes:** added basename routes 'showflix' ([f448145](https://github.com/prayudahlah/showflix/commit/f44814566683de29c0d3bb69103fa19947b08ea7))
+* **title:** bikin title page kurang top show ([ee7ef0c](https://github.com/prayudahlah/showflix/commit/ee7ef0c56d824b90260df95afa645e420d2e98b7))
+* **titles:** error ui ([3faf8e2](https://github.com/prayudahlah/showflix/commit/3faf8e291a1f5846113906dbc25a04f71d67b8e4))
+* **topTitles:** added top 5 titles to get endpoint ([8865049](https://github.com/prayudahlah/showflix/commit/886504944fb782c560a84a0ea52c3e7d01d6457a))
+* **topTitles:** added topTitles to fetch structs ([f2c2503](https://github.com/prayudahlah/showflix/commit/f2c25030cd4ca078b78452646bff2253fee46672))
+
 # [1.9.0](https://github.com/prayudahlah/showflix/compare/v1.8.1...v1.9.0) (2025-12-20)
 
 
