@@ -7,6 +7,6 @@ export function useMarketingData() {
   return useQuery<MarketingData, ApiError>({
     queryFn: getMarketingData,
     queryKey: ['marketingData'],
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 6,
   });
 }

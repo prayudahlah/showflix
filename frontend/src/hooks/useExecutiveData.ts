@@ -7,6 +7,6 @@ export function useExecutiveData() {
   return useQuery<ExecutiveData, ApiError>({
     queryFn: getExecutiveData,
     queryKey: ['executiveData'],
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 6,
   });
 }
