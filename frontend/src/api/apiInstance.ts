@@ -11,15 +11,7 @@ export const api = axios.create({
 api.interceptors.response.use(
   (res) => {
     return res
-  }, (err) => {
-    const status = err.response?.status
-    const data = err.response?.data
-
-    return Promise.reject({
-      status,
-      data: data ? camelcaseKeys(data, { deep: true }) : null,
-      message: data?.message ?? err.message,
-      raw: err
-    })
+  }, (err: ApiError) => {
+    return Promise.reject(err)
   }
 )
