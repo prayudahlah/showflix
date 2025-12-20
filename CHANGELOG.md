@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/prayudahlah/showflix/compare/v1.10.0...v1.11.0) (2025-12-20)
+
+
+### Features
+
+* **title:** added top 5 titles and truncate details that are overflowing ([ffdaa9d](https://github.com/prayudahlah/showflix/commit/ffdaa9ddf80757daddbb96feedbf4f737d21ec5c))
+
 # [1.10.0](https://github.com/prayudahlah/showflix/compare/v1.9.0...v1.10.0) (2025-12-20)
 
 
