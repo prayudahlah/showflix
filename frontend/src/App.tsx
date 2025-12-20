@@ -8,11 +8,11 @@ const Show = lazy(() => import('./pages/Show.tsx'))
 const Person = lazy(() => import('./pages/Person.tsx'))
 
 const Auth = lazy(() => import('./pages/Auth.tsx'))
+const About = lazy(() => import('./pages/About.tsx'))
 const Executive = lazy(() => import('./components/dashboard/Executive.tsx'))
 const Marketing = lazy(() => import('./components/dashboard/Marketing.tsx'))
 
 const UrlNotFound = lazy(() => import('./pages/UrlNotFound.tsx'))
-const AboutLink = lazy(() => import('./components/AboutLink.tsx'))
 
 const DashboardLayout = lazy(() => import('./pages/DashboardLayout.tsx'))
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoute.tsx'))
@@ -30,7 +30,7 @@ function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path='/' element={<Landing />}></Route>
-          <Route path="/about" element={<AboutLink />} />
+          <Route path="/about" element={<About />} />
           <Route path="/auth/login" element={<Auth />} />
 
           <Route path="/show/:id" element={<Show />} />
