@@ -135,7 +135,7 @@ function Marketing() {
         </div>
 
         <div className="grid grid-cols-[37.5%_37.5%_25%] grid-rows-[50%_50%] gap-2 h-[83%] w-full">
-          
+
           <div className="chart-box">
             <MarkChart2 chart2={sortedChart2} />
           </div>
@@ -145,7 +145,7 @@ function Marketing() {
           <div className="chart-box row-span-2">
             <MarkChart4 chart4={filteredChart4} />
           </div>
-          <div className="chart-box row-span-2">
+          <div className="chart-box">
             <MarkChart5 chart5={filteredChart5} />
           </div>
           <div className="chart-box">
