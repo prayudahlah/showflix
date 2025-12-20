@@ -19,17 +19,17 @@ function Show() {
   const { data, refetch, isLoading, isError, error } = useShowById(id ?? "");
 
   const formattedFirstDate: string = useMemo(() => {
-  if (!data?.firstAirDate) return "-";
+    if (!data?.firstAirDate) return "-";
 
-  const d = new Date(data.firstAirDate);
-  if (isNaN(d.getTime())) return "-";
+    const d = new Date(data.firstAirDate);
+    if (isNaN(d.getTime())) return "-";
 
-  const year = d.getUTCFullYear();
-  const month = String(d.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(d.getUTCDate()).padStart(2, "0");
+    const year = d.getUTCFullYear();
+    const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
 
-  return `${year}/${month}/${day}`;
-}, [data?.firstAirDate]);
+    return `${year}/${month}/${day}`;
+  }, [data?.firstAirDate]);
 
   const formattedNetworks: string = useMemo(
     () =>
@@ -204,7 +204,7 @@ function Show() {
   }, [data?.topTitles]);
 
 
-  {/*STOP*/}
+  {/*STOP*/ }
 
   const handleRetry = useCallback(() => {
     refetch();
@@ -243,11 +243,11 @@ function Show() {
           <div className="absolute top-0 left-0 w-full h-full z-0">
             <GradientBg />
           </div>
-          
+
           <div className="relative z-10 flex justify-center h-full">
             <div className="w-[80%] mt-[120px] text-white">
               <div className="flex justify-between w-full gap-10">
-                
+
                 {/* KIRI ATAS */}
                 <div className="flex flex-col w-[70%]">
                   <h2 className="text-3xl font-bold mb-4">{data?.primaryTitle}</h2>
@@ -316,11 +316,11 @@ function Show() {
                   <div className="flex items-start">
                     <h5 className="text-white font-semibold w-1/4 min-w-[150px]">Directors / Creators</h5>
                     <span
-                        className="font-medium truncate max-w-[600px]"
-                        title={formattedDirectorCreator}
-                      >
-                        {formattedDirectorCreator || "-"}
-                      </span>
+                      className="font-medium truncate max-w-[600px]"
+                      title={formattedDirectorCreator}
+                    >
+                      {formattedDirectorCreator || "-"}
+                    </span>
                   </div>
 
                   <LineGradient className="my-2" />
@@ -328,11 +328,11 @@ function Show() {
                   <div className="flex items-start">
                     <h5 className="text-white font-semibold w-1/4 min-w-[150px]">Writers</h5>
                     <span
-                        className="font-medium truncate max-w-[600px]"
-                        title={formattedWriters}
-                      >
-                        {formattedWriters || "-"}
-                      </span>
+                      className="font-medium truncate max-w-[600px]"
+                      title={formattedWriters}
+                    >
+                      {formattedWriters || "-"}
+                    </span>
                   </div>
 
                   <LineGradient className="my-2" />
@@ -382,7 +382,7 @@ function Show() {
             </div>
           </div>
         </section>
-        
+
         {/* Page Bawah: Putih Transparan */}
         <section className="relative bg-white/65 backdrop-blur-sm flex justify-center py-20">
           <div className="w-[80%]">
@@ -460,11 +460,11 @@ function Show() {
                     })}
                   </div>
                 </div>
-              </div>                
-              
+              </div>
+
               {/*KANAN*/}
               <div className="w-[40%] h-[400px] flex flex-col mt-10 mb-10">
-                
+
                 <div className="flex-[2] flex flex-col items-center justify-center mb-6">
                   <MetricContainer2>
                     <span className="text-white text-xs">LANGUAGES</span>
@@ -475,24 +475,24 @@ function Show() {
                   </p>
                 </div>
 
-               <div className="flex-[8] flex flex-col items-center justify-start pt-4">
-    
-                <MetricContainer2>
-                  <span className="text-white text-xs">FIND ANOTHER</span>
-                </MetricContainer2>
+                <div className="flex-[8] flex flex-col items-center justify-start pt-4">
 
-                <div className="mt-4 flex flex-col gap-3 w-full items-center">
-                  {topShows.slice(0, 5).map((show) => (
-                    <TopShowContainer
-                      key={show.rank}
-                      rank={show.rank}
-                      title={show.title}
-                      rating={show.rating}
-                    />
-                  ))}
+                  <MetricContainer2>
+                    <span className="text-white text-xs">FIND ANOTHER</span>
+                  </MetricContainer2>
+
+                  <div className="mt-4 flex flex-col gap-3 w-full items-center">
+                    {topShows.slice(0, 5).map((show) => (
+                      <TopShowContainer
+                        key={show.rank}
+                        rank={show.rank}
+                        title={show.title}
+                        rating={show.rating}
+                      />
+                    ))}
+                  </div>
+
                 </div>
-                
-              </div>
               </div>
             </div>
           </div>
