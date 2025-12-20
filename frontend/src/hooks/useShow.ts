@@ -12,6 +12,6 @@ export function useShowById(id: string) {
       const [, showId] = queryKey as ShowQueryKey;
       return getShowById(showId);
     },
-    staleTime: 1000 * 60 * 6,
+    staleTime: 1000 * 60 * 5,
   });
 }
