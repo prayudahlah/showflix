@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"github.com/prayudahlah/showflix/backend/internal/title"
 	"github.com/prayudahlah/showflix/backend/internal/login"
+	"github.com/prayudahlah/showflix/backend/internal/searchTitle"
 	"github.com/prayudahlah/showflix/backend/internal/dashboard/executive"
 	"github.com/prayudahlah/showflix/backend/internal/dashboard/marketing"
 	"github.com/gofiber/fiber/v2"
@@ -15,6 +16,11 @@ func SetupRoutes(app *fiber.App, db *sql.DB) {
 
 	title.RegisterRoutes(api, db)
 	login.RegisterRoutes(api, db)
+
+	// search group
+	search := api.Group("/search")
+
+	searchTitle.RegisterRoutes(search, db)
 
 	// dashboard group
 	dash := api.Group("/dashboard")
