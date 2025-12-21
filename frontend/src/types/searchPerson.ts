@@ -7,8 +7,8 @@ export interface SearchPersonRequest {
   deathDateMax?: number;
   SortDirection?: string;
   cursorValue?: number;
-  CursorPersonId?: string;
-  PageSize?: number;
+  cursorPersonId?: string;
+  pageSize?: number;
 }
 
 export interface SearchPersonResponse {
@@ -28,6 +28,6 @@ interface searchPerson {
 
 interface cursor {
   nextCursorValue?: number;
-  nextCursorPersonId?: number;
-  hasMode: boolean;
+  nextCursorPersonId?: string;
+  hasMore: boolean;
 }

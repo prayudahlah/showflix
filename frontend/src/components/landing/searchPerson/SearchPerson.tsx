@@ -12,21 +12,88 @@ import { useState } from "react";
 import RangeSlider from "../RangeSlider";
 import FilterDropdown from "../FilterSortDropdown";
 
+interface CursorData {
+  nextCursorValue?: number;
+  nextCursorPersonId?: string;
+  hasMore: boolean;
+}
+
 function SearchPerson({ searchTerm }: { searchTerm: string }) {
   const { mutate, isPending } = useSearchPerson();
   const [data, setData] = useState<SearchPersonResponse | null>(null)
   const [filters, setFilters] = useState<SearchPersonRequest>({});
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentCursor, setCurrentCursor] = useState<CursorData | null>(null);
+  const [cursorHistory, setCursorHistory] = useState<CursorData[]>([]);
+
   let content;
 
   const handleApply = () => {
-    console.log(filters)
     mutate({
       ...filters,
       searchTerm: searchTerm || undefined,
+      cursorValue: undefined,
+      cursorPersonId: undefined,
     },
       {
         onSuccess: (response) => {
-          setData(response)
+          setData(response);
+          setCurrentCursor({
+            nextCursorValue: response.cursor?.nextCursorValue,
+            nextCursorPersonId: response.cursor?.nextCursorPersonId,
+            hasMore: response.cursor?.hasMore || false,
+          });
+          setCursorHistory([]);
+          setCurrentPage(1);
+        }
+      });
+  };
+
+  const handleNextPage = () => {
+    if (!currentCursor?.nextCursorValue || !currentCursor?.nextCursorPersonId) return;
+
+    mutate({
+      ...filters,
+      searchTerm: searchTerm || undefined,
+      cursorValue: currentCursor.nextCursorValue,
+      cursorPersonId: currentCursor.nextCursorPersonId,
+    },
+      {
+        onSuccess: (response) => {
+          setData(response);
+          setCursorHistory(prev => [...prev, currentCursor]);
+          setCurrentCursor({
+            nextCursorValue: response.cursor?.nextCursorValue,
+            nextCursorPersonId: response.cursor?.nextCursorPersonId,
+            hasMore: response.cursor?.hasMore || false,
+          });
+          setCurrentPage(prev => prev + 1);
+        }
+      });
+  };
+
+  const handlePrevPage = () => {
+    if (cursorHistory.length === 0) return;
+
+    const prevCursor = cursorHistory[cursorHistory.length - 1];
+
+    mutate({
+      ...filters,
+      searchTerm: searchTerm || undefined,
+      cursorValue: cursorHistory.length === 1 ? undefined : prevCursor.nextCursorValue,
+      cursorPersonId: cursorHistory.length === 1 ? undefined : prevCursor.nextCursorPersonId,
+    },
+      {
+        onSuccess: (response) => {
+          setData(response);
+          setCursorHistory(prev => prev.slice(0, -1));
+          setCurrentCursor({
+            nextCursorValue: response.cursor?.nextCursorValue,
+            nextCursorPersonId: response.cursor?.nextCursorPersonId,
+            hasMore: response.cursor?.hasMore || false,
+          });
+          setCurrentPage(prev => prev - 1);
         }
       });
   };
@@ -51,7 +118,13 @@ function SearchPerson({ searchTerm }: { searchTerm: string }) {
           ))
         }
 
-        <PaginationArrows />
+        <PaginationArrows
+          isFirstPage={cursorHistory.length === 0}
+          hasMore={data?.cursor?.hasMore || false}
+          currentPage={currentPage}
+          onNext={handleNextPage}
+          onPrev={handlePrevPage}
+        />
       </div>
     )
   }
@@ -128,20 +201,21 @@ function SearchPerson({ searchTerm }: { searchTerm: string }) {
               </div>
             </div>
 
+            <div className="w-px h-auto py-2 bg-primary2-2/50" />
+
             {/* SORT */}
             <div className="w-[40%] flex flex-col justify-start pl-8">
               <h2 className="text-white font-semibold text-xl mb-4 text-start">
                 SORT
               </h2>
 
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+              <div className="grid grid-cols-1 gap-x-4 gap-y-2">
                 <FilterDropdown
                   value={`POPULARITY (${filters.SortDirection ?? "DESC"})`}
                   options={["ASC", "DESC"]}
                   onChange={(value) =>
                     setFilters((prev) => ({ ...prev, SortDirection: value }))
                   }
-                  width="w-[220px]"
                 />
               </div>
 

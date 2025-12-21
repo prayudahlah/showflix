@@ -32,6 +32,6 @@ interface searchTitle {
 
 interface cursor {
   nextCursorValue?: number;
-  nextCursorTitleId?: number;
-  hasMode: boolean;
+  nextCursorTitleId?: string;
+  hasMore: boolean;
 }

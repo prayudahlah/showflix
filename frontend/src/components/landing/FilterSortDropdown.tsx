@@ -5,14 +5,12 @@ interface FilterDropdownProps {
   options: string[];
   value: string | number;
   onChange: (value: string) => void;
-  width?: string;
 }
 
 export default function FilterDropdown({
   options,
   value,
   onChange,
-  width = "w-[150px]",
 }: FilterDropdownProps) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -26,7 +24,7 @@ export default function FilterDropdown({
   }, [open]);
 
   return (
-    <div className={`relative ${width} text-white`}>
+    <div className={`relative w-full text-white`}>
       <button
         ref={buttonRef}
         onClick={() => setOpen(!open)}

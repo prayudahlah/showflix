@@ -12,24 +12,91 @@ import { useSearchShow } from "../../../hooks/useSearchShow";
 import RangeSlider from "../RangeSlider";
 import FilterDropdown from "../FilterSortDropdown";
 
+interface CursorData {
+  nextCursorValue?: number;
+  nextCursorTitleId?: string;
+  hasMore: boolean;
+}
+
 function SearchShow({ searchTerm }: { searchTerm: string }) {
   const { mutate, isPending } = useSearchShow();
   const [data, setData] = useState<SearchShowResponse | null>(null)
   const [filters, setFilters] = useState<SearchShowRequest>({});
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentCursor, setCurrentCursor] = useState<CursorData | null>(null);
+  const [cursorHistory, setCursorHistory] = useState<CursorData[]>([]);
+
   let content;
 
   const handleApply = () => {
     mutate({
       ...filters,
       searchTerm: searchTerm || undefined,
+      cursorValue: undefined,
+      cursorTitleId: undefined,
     },
       {
         onSuccess: (response) => {
-          setData(response)
+          setData(response);
+          setCurrentCursor({
+            nextCursorValue: response.cursor?.nextCursorValue,
+            nextCursorTitleId: response.cursor?.nextCursorTitleId,
+            hasMore: response.cursor?.hasMore || false,
+          });
+          setCursorHistory([]);
+          setCurrentPage(1);
         }
       });
   };
 
+  const handleNextPage = () => {
+    if (!currentCursor?.nextCursorValue || !currentCursor?.nextCursorTitleId) return;
+
+    mutate({
+      ...filters,
+      searchTerm: searchTerm || undefined,
+      cursorValue: currentCursor.nextCursorValue,
+      cursorTitleId: currentCursor.nextCursorTitleId,
+    },
+      {
+        onSuccess: (response) => {
+          setData(response);
+          setCursorHistory(prev => [...prev, currentCursor]);
+          setCurrentCursor({
+            nextCursorValue: response.cursor?.nextCursorValue,
+            nextCursorTitleId: response.cursor?.nextCursorTitleId,
+            hasMore: response.cursor?.hasMore || false,
+          });
+          setCurrentPage(prev => prev + 1);
+        }
+      });
+  };
+
+  const handlePrevPage = () => {
+    if (cursorHistory.length === 0) return;
+
+    const prevCursor = cursorHistory[cursorHistory.length - 1];
+
+    mutate({
+      ...filters,
+      searchTerm: searchTerm || undefined,
+      cursorValue: cursorHistory.length === 1 ? undefined : prevCursor.nextCursorValue,
+      cursorTitleId: cursorHistory.length === 1 ? undefined : prevCursor.nextCursorTitleId,
+    },
+      {
+        onSuccess: (response) => {
+          setData(response);
+          setCursorHistory(prev => prev.slice(0, -1));
+          setCurrentCursor({
+            nextCursorValue: response.cursor?.nextCursorValue,
+            nextCursorTitleId: response.cursor?.nextCursorTitleId,
+            hasMore: response.cursor?.hasMore || false,
+          });
+          setCurrentPage(prev => prev - 1);
+        }
+      });
+  };
   if (isPending) {
     content = <SearchSkeleton />
   } else {
@@ -52,7 +119,13 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
           ))
         }
 
-        <PaginationArrows />
+        <PaginationArrows
+          isFirstPage={cursorHistory.length === 0}
+          hasMore={data?.cursor?.hasMore || false}
+          currentPage={currentPage}
+          onNext={handleNextPage}
+          onPrev={handlePrevPage}
+        />
       </div>
     )
   }
@@ -65,16 +138,35 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
           <div className="flex h-full">
 
             {/* FILTER */}
-            <div className="w-[55%] flex flex-col justify-start text-white">
+            <div className="w-[55%] flex flex-col justify-start text-white pl-2 pr-8">
               <h2 className="font-semibold text-xl mb-4 text-start">
                 FILTER
               </h2>
-              <div className="grid grid-cols-3 gap-x-4 gap-y-2">
-                {/* <FilterSortDropdown label="GENRE" options={["Drama", "Action", "Comedy", "Sci-Fi", "Horror"]} /> */}
-                {/* <FilterSortDropdown label="DURATION" options={["< 60 min", "60–90 min", "90–120 min", "> 120 min"]} /> */}
-                {/* <FilterSortDropdown label="RATED" options={["Adult", "Non-Adult"]} /> */}
-                {/* <FilterSortDropdown label="YEAR" options={["2025", "2024", "2023", "2020–2022", "< 2020"]} /> */}
-                <div className="grid grid-cols-[1fr_300px] col-span-3 items-center pr-15">
+              <div className="grid grid-cols-2 gap-x-8 gap-y-2 items-center">
+                <FilterSortDropdown
+                  value={filters?.genre ?? "All Genre"}
+                  options={["All Genre", "Drama", "Action", "Comedy", "Sci-Fi", "Horror"]}
+                  onChange={(value) => {
+                    setFilters((prev) => ({
+                      ...prev,
+                      genre: value === "All Genre" ? undefined : value,
+                    }));
+                  }}
+                />
+                <FilterSortDropdown
+                  value={filters?.isAdult === undefined ? "All Rated" : filters.isAdult ? "Adult" : "All Age"}
+                  options={["All Rated", "All Age", "Adult"]}
+                  onChange={(value) => {
+                    setFilters((prev) => ({
+                      ...prev,
+                      isAdult:
+                        value === "All Rated" ? undefined :
+                          value === "Adult" ? true : false,
+                    }));
+                  }}
+                />
+
+                <div className="grid grid-cols-[1fr_300px] col-span-2 items-center">
                   <span>Rating:</span>
                   <RangeSlider
                     min={0}
@@ -109,8 +201,10 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
               </div>
             </div>
 
+            <div className="w-px h-auto py-2 bg-primary2-2/50" />
+
             {/* SORT */}
-            <div className="w-[40%] flex flex-col justify-center pl-8">
+            <div className="w-[40%] flex flex-col justify-start pl-8">
               <h2 className="text-white font-semibold text-xl mb-4 text-start">
                 SORT
               </h2>
