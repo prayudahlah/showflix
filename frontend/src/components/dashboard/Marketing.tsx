@@ -71,7 +71,10 @@ function Marketing() {
   if (isLoading) {
     content = (
       <>
-        <div className="relative w-full h-20 flex justify-end">
+        <div className="relative w-full h-20 flex justify-between">
+          <div className="flex flex-col mt-3">
+            <h2 className="text-white text-2xl tracking-wider animate-pulse">MARKETING DASHBOARD</h2>
+          </div>
           <div className="h-full flex justify-between items-center gap-2">
             {[...Array(4)].map((_, i) => <MetricSkeleton key={i} />)}
           </div>
@@ -99,19 +102,23 @@ function Marketing() {
   } else {
     content = (
       <>
-        <div className="relative w-full h-20 flex justify-end">
-          <select
-            className="absolute -top-2 left-[50px] dropdown-box text-secondary-2 font-bold py-1 px-[30px]
-                       hover:shadow-[0_0_20px_2px_rgba(138,0,255,0.5)] transition-all duration-300"
-            value={selectedCompanyId}
-            onChange={handleCompanyChange}
-          >
-            {data?.productionCompanies.map((c) => (
-              <option key={c.companyId} value={c.companyId}>
-                {c.companyName}
-              </option>
-            ))}
-          </select>
+        <div className="w-full h-20 flex justify-between">
+          <div className="flex flex-col mt-3">
+            <h2 className="text-white text-2xl tracking-wider">MARKETING DASHBOARD</h2>
+            <div>
+              <select
+                className="text-secondary-2 font-bold mt px-2 bg-primary1-1/60 rounded-xl"
+                value={selectedCompanyId}
+                onChange={handleCompanyChange}
+              >
+                {data?.productionCompanies.map((c) => (
+                  <option key={c.companyId} value={c.companyId}>
+                    {c.companyName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
           <div className="h-full flex justify-between items-center gap-2">
             <MetricBox
@@ -159,7 +166,6 @@ function Marketing() {
 
   return (
     <div className="flex justify-center items-center min-h-screen relative overflow-hidden bg-primary1-2">
-      <h2 className="absolute top-2 text-white text-3xl z-100">MARKETING DASHBOARD</h2>
       <div className="absolute -inset-8 bg-linear-to-br from-primary1-2 via-primary2-3 to-primary2-3 animate-gradient opacity-90" />
 
       <div className="absolute -top-[230px] -left-[330px] w-[670px] h-[360px] bg-primary1-1 rounded-[50%]
