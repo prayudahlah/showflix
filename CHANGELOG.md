@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/prayudahlah/showflix/compare/v1.14.0...v1.15.0) (2025-12-21)
+
+
+### Features
+
+* **endpoint:** search person POST endpoint with cursor pagination ([fd5fdfe](https://github.com/prayudahlah/showflix/commit/fd5fdfe9d76f276e02bf01a7a6db4c9848a150a5))
+
 # [1.14.0](https://github.com/prayudahlah/showflix/compare/v1.13.0...v1.14.0) (2025-12-20)
 
 
