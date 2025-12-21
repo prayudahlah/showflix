@@ -1,19 +1,13 @@
 import MagnifyingGlass from "../assets/icons/magnifying_glass.svg"
 import TopShadow from "../components/landing/TopShadow";
 import MidShadow from "../components/landing/MidShadow";
-import Searching from "../components/landing/Searching";
+import SearchShow from "../components/landing/searchShow/SearchShow";
+import SearchPerson from "../components/landing/searchPerson/SearchPerson";
 
-import { useSearchShow } from "../hooks/useSearchShow";
-import { useEffect } from "react";
+import { useState } from "react";
 
 function Landing() {
-  const { mutate, isLoading, data } = useSearchShow(); // isloading belum dipakai
-
-  useEffect(() => {
-    mutate({ searchTerm: "" });
-  }, [mutate]);
-
-  console.log(data) // tadi error karena ini undefined pas pertama kali render
+  const [activeTab, setActiveTab] = useState<"shows" | "persons">("shows");
 
   const handleScroll = () => {
     window.scrollTo({
@@ -40,9 +34,10 @@ function Landing() {
 
       <MidShadow />
 
-      <div className="flex flex-col items-center text-white mt-[150px] text-center rotate-180 page-title-ellipse" />
+      <div className="absolute mt-[150px] rotate-180 page-title-ellipse top-[550px]" />
 
-      <div className="-mt-[200px] ">
+      <div className="mt-[350px] z-10 flex flex-col items-center">
+
         <form className="relative text-white z-10">
           <input
             placeholder="Start Browsing"
@@ -57,8 +52,33 @@ function Landing() {
         </form>
       </div>
 
-      {/*SEARCHING*/}
-      <Searching />
+      <div className="flex justify-between mt-10 gap-1 border-b border-gray-700 w-[500px] z-10">
+        <button
+          onClick={() => setActiveTab("shows")}
+          className={`pb-2 w-full text-center
+              ${activeTab === "shows"
+              ? "border-b-3 border-white text-xl text-white"
+              : "text-gray-400 text-md hover:text-gray-200"
+            }
+            `}
+        >
+          SHOWS
+        </button>
+
+        <button
+          onClick={() => setActiveTab("persons")}
+          className={`pb-2 w-full text-center
+              ${activeTab === "persons"
+              ? "border-b-3 border-white text-xl text-white"
+              : "text-gray-400 text-md hover:text-gray-200"}
+            `}
+        >
+          PERSONS
+        </button>
+      </div>
+
+      {activeTab === "shows" && <SearchShow />}
+      {activeTab === "persons" && <SearchPerson />}
 
     </div>
   )
