@@ -1,4 +1,4 @@
-import type { SearchPersonResponse } from "../../../types/searchPerson";
+import type { SearchPersonRequest, SearchPersonResponse } from "../../../types/searchPerson";
 
 import PaginationArrows from "../ChevronButtonProps";
 import FilterSortDropdown from "../FilterSortDropdown";
@@ -8,23 +8,28 @@ import PersonHeader from "./PersonHeader";
 import SearchSkeleton from "../SearchSkeleton";
 
 import { useSearchPerson } from "../../../hooks/useSearchPerson";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import RangeSlider from "../RangeSlider";
+import FilterDropdown from "../FilterSortDropdown";
 
-function SearchPerson() {
+function SearchPerson({ searchTerm }: { searchTerm: string }) {
   const { mutate, isPending } = useSearchPerson();
   const [data, setData] = useState<SearchPersonResponse | null>(null)
+  const [filters, setFilters] = useState<SearchPersonRequest>({});
   let content;
 
-  useEffect(() => {
-    mutate(
-      { searchTerm: "kim" },
+  const handleApply = () => {
+    console.log(filters)
+    mutate({
+      ...filters,
+      searchTerm: searchTerm || undefined,
+    },
       {
         onSuccess: (response) => {
           setData(response)
-        },
-      }
-    );
-  }, [mutate]);
+        }
+      });
+  };
 
   if (isPending) {
     content = <SearchSkeleton />
@@ -36,12 +41,12 @@ function SearchPerson() {
         {
           (data?.searchPersons ?? []).map((item) => (
             <PersonCard
-              key={item.personId}
-              personId={item.personId}
-              popularity={item.popularity}
-              primaryName={item.primaryName}
-              profession={item.profession}
-              age={item.age}
+              key={item?.personId ?? ""}
+              personId={item?.personId ?? ""}
+              popularity={item?.popularity ?? 0}
+              primaryName={item?.primaryName ?? ""}
+              profession={item?.profession ?? ""}
+              age={item?.age}
             />
           ))
         }
@@ -55,18 +60,71 @@ function SearchPerson() {
     <>
       {/*Tempat Filter & Sort*/}
       <div className="flex w-full max-w-[1080px] mt-10 px-8 gap-4 items-start">
-        <LiquidGlass className="flex-[95%] h-[150px] px-4 py-4">
+        <LiquidGlass className="flex-[95%] px-4 py-4">
           <div className="flex h-full">
 
             {/* FILTER */}
-            <div className="w-[55%] flex flex-col justify-start">
-              <h2 className="text-white font-semibold text-xl mb-4 text-start">
+            <div className="w-[55%] flex flex-col justify-start text-white">
+              <h2 className="font-semibold text-xl mb-4 text-start">
                 FILTER
               </h2>
-              <div className="grid grid-cols-3 grid-rows-2 gap-x-4 gap-y-2">
-                <FilterSortDropdown label="PROFESSION" options={["All", "9+", "8+", "7+", "6+"]} />
-                <FilterSortDropdown label="BIRTH DATE" options={["Drama", "Action", "Comedy", "Sci-Fi", "Horror"]} />
-                <FilterSortDropdown label="DEATH DATE" options={["< 60 min", "60–90 min", "90–120 min", "> 120 min"]} />
+              <div className="grid grid-cols-1 gap-x-4 gap-y-2">
+
+                <FilterSortDropdown
+                  value="PROFESSION"
+                  options={[
+                    "All",
+                    "actor",
+                    "actress",
+                    "miscellaneous",
+                    "producer",
+                    "writer",
+                    "camera_department",
+                    "director",
+                    "art_department",
+                    "sound_department",
+                    "cinematographer"
+                  ]}
+                  onChange={(value) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      profession: value === "All" ? undefined : value
+                    }))
+                  }
+                />
+
+                <div className="grid grid-cols-[1fr_300px] col-span-3 items-center pr-15">
+                  <span>Birth Year:</span>
+                  <RangeSlider
+                    min={1800}
+                    max={2025}
+                    step={10}
+                    initialMin={1800}
+                    initialMax={2025}
+                    onChange={({ min, max }) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        birthDateMin: min,
+                        birthDateMax: max,
+                      }));
+                    }}
+                  />
+                  <span>Death Year:</span>
+                  <RangeSlider
+                    min={1800}
+                    max={2025}
+                    step={10}
+                    initialMin={1800}
+                    initialMax={2025}
+                    onChange={({ min, max }) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        deathDateMin: min,
+                        deathDateMax: max,
+                      }));
+                    }}
+                  />
+                </div>
               </div>
             </div>
 
@@ -75,23 +133,36 @@ function SearchPerson() {
               <h2 className="text-white font-semibold text-xl mb-4 text-start">
                 SORT
               </h2>
+
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                <FilterSortDropdown label="POPULARITY" options={["ASC", "DESC"]} />
+                <FilterDropdown
+                  value={`POPULARITY (${filters.SortDirection ?? "DESC"})`}
+                  options={["ASC", "DESC"]}
+                  onChange={(value) =>
+                    setFilters((prev) => ({ ...prev, SortDirection: value }))
+                  }
+                  width="w-[220px]"
+                />
               </div>
+
             </div>
           </div>
         </LiquidGlass>
 
         <div className="flex-[5%] flex items-start justify-end">
           <button
+            onClick={handleApply}
             className="
               w-[130px] h-[30px]
               rounded-[100px]
-              bg-linear-to-r from-primary2-2/80 via-[#89189C]/80
+              bg-gradient-to-r from-primary2-2/80 via-[#89189C]/80
               shadow-[0_5px_4px_rgba(19,8,48,0.4)]
               flex items-center justify-center
               text-white font-poppins font-normal text-[15px] leading-[170%]
               tracking-widest uppercase
+              transform transition-all duration-200 ease-in-out
+              hover:scale-105 hover:shadow-[0_6px_6px_rgba(19,8,48,0.5)]
+              active:scale-95 active:shadow-[0_4px_3px_rgba(19,8,48,0.3)]
             "
           >
             APPLY

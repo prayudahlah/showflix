@@ -59,7 +59,7 @@ export default function ShowCard({
 
       {/* Duration */}
       <div className="text-center text-white font-poppins font-normal text-[18px]">
-        {age ?? "-"}
+        {age && age <= 100 ? age : "-"}
       </div>
     </Link>
   );

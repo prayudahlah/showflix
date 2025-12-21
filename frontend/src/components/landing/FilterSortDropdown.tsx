@@ -55,9 +55,11 @@ export default function FilterDropdown({
             {options.map((opt) => (
               <li
                 key={opt}
-                className="px-4 py-2 cursor-pointer hover:bg-[#4b0a85] text-white"
+                className={`px-4 py-2 cursor-pointer hover:bg-[#4b0a85] ${
+                  value === opt ? "font-bold text-yellow-400" : "text-white/70"
+                }`}
                 onClick={() => {
-                  onChange(opt)
+                  onChange(opt);
                   setOpen(false);
                 }}
               >

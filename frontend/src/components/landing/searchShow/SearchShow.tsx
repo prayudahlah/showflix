@@ -10,6 +10,7 @@ import SearchSkeleton from "../SearchSkeleton";
 import { useState } from "react";
 import { useSearchShow } from "../../../hooks/useSearchShow";
 import RangeSlider from "../RangeSlider";
+import FilterDropdown from "../FilterSortDropdown";
 
 function SearchShow({ searchTerm }: { searchTerm: string }) {
   const { mutate, isPending } = useSearchShow();
@@ -114,10 +115,53 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
                 SORT
               </h2>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                {/* <FilterSortDropdown label="RATING" options={["ASC", "DESC"]} /> */}
-                {/* <FilterSortDropdown label="POPULARITY" options={["ASC", "DESC"]} /> */}
-                {/* <FilterSortDropdown label="YEAR" options={["ASC", "DESC"]} /> */}
-                {/* <FilterSortDropdown label="DURATION" options={["ASC", "DESC"]} /> */}
+                <FilterDropdown
+                  value="RATING"
+                  options={["ASC", "DESC"]}
+                  onChange={(value) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      SortBy: "averageRating",
+                      SortDirection: value
+                    }))
+                  }
+                />
+
+                <FilterDropdown
+                  value="POPULARITY"
+                  options={["ASC", "DESC"]}
+                  onChange={(value) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      SortBy: "popularity",
+                      SortDirection: value
+                    }))
+                  }
+                />
+
+                <FilterDropdown
+                  value="YEAR"
+                  options={["ASC", "DESC"]}
+                  onChange={(value) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      SortBy: "startYear",
+                      SortDirection: value
+                    }))
+                  }
+                />
+
+                <FilterDropdown
+                  value="DURATION"
+                  options={["ASC", "DESC"]}
+                  onChange={(value) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      SortBy: "runtimeMinutes",
+                      SortDirection: value
+                    }))
+                  }
+                />
               </div>
             </div>
           </div>
@@ -129,15 +173,19 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
             className="
               w-[130px] h-[30px]
               rounded-[100px]
-              bg-linear-to-r from-primary2-2/80 via-[#89189C]/80
+              bg-gradient-to-r from-primary2-2/80 via-[#89189C]/80
               shadow-[0_5px_4px_rgba(19,8,48,0.4)]
               flex items-center justify-center
               text-white font-poppins font-normal text-[15px] leading-[170%]
               tracking-widest uppercase
+              transform transition-all duration-200 ease-in-out
+              hover:scale-105 hover:shadow-[0_6px_6px_rgba(19,8,48,0.5)]
+              active:scale-95 active:shadow-[0_4px_3px_rgba(19,8,48,0.3)]
             "
           >
             APPLY
           </button>
+
         </div>
       </div>
 

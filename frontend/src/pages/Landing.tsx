@@ -81,7 +81,7 @@ function Landing() {
       </div>
 
       {activeTab === "shows" && <SearchShow searchTerm={searchTerm} />}
-      {activeTab === "persons" && <SearchPerson />}
+      {activeTab === "persons" && <SearchPerson searchTerm={searchTerm} />}
 
     </div>
   )
