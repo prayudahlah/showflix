@@ -58,15 +58,15 @@ func (st *SearchPerson) ToDTO() *SearchPersonDTO {
 }
 
 type Cursor struct {
-	NextCursorValue   sql.NullFloat64 `db:"NextCursorValue"`
-	NextCursorTitleId sql.NullString  `db:"NextCursorTitleId"`
-	HasMore           bool            `db:"HasMore"`
+	NextCursorValue    sql.NullFloat64 `db:"NextCursorValue"`
+	NextCursorPersonId sql.NullString  `db:"NextCursorPersonId"`
+	HasMore            bool            `db:"HasMore"`
 }
 
 func (c *Cursor) ToDTO() *CursorDTO {
 	return &CursorDTO{
 		NextCursorValue:   utils.ToFloat64Ptr(c.NextCursorValue),
-		NextCursorTitleId: utils.ToStringPtr(c.NextCursorTitleId),
+		NextCursorPersonId: utils.ToStringPtr(c.NextCursorPersonId),
 		HasMore:           c.HasMore,
 	}
 }

@@ -25,7 +25,7 @@ interface searchTitle {
   startYear?: number;
   averageRating?: number;
   runtimeMinutes?: number;
-  isAdult?: boolean;
+  isAdult: boolean;
   genreName?: string;
   popularity?: number;
 }

@@ -16,6 +16,6 @@ type SearchPersonDTO struct {
 
 type CursorDTO struct {
 	NextCursorValue   *float64 `json:"nextCursorValue,omitempty"`
-	NextCursorTitleId *string  `json:"nextCursorTitleId,omitempty"`
+	NextCursorPersonId *string  `json:"nextCursorPersonId,omitempty"`
 	HasMore           bool     `json:"hasMore"`
 }

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { usePersonById } from "../hooks/usePerson.ts";
 
@@ -20,14 +20,14 @@ function Person() {
     : data?.deathYear
       ? `- - ${data.deathYear}`
       : "Unknown"
-  ;
+    ;
 
   const distinctJobTypes = data?.titlePrincipals
-  ? Array.from(new Set(data.titlePrincipals
+    ? Array.from(new Set(data.titlePrincipals
       .map(tp => tp.jobType)
       .filter(Boolean)
     ))
-  : [];
+    : [];
 
   const topKnownTitles = data?.knownTitles
     ?.sort((a, b) => (b.averageRating ?? 0) - (a.averageRating ?? 0))
@@ -137,20 +137,20 @@ function Person() {
                   <h4 className="text">Other Works</h4>
                 </div>
                 <div className="grid grid-cols-3 grid-rows-2 gap-4">
-                 {uniquePrincipals?.map(item => (
-                  <OtherWorksContainer
-                    key={item.primaryTitle}
-                    title={
-                      <span
-                        className="font-bold truncate max-w-[200px] block"
-                        title={item.primaryTitle}
-                      >
-                        {item.primaryTitle}
-                      </span>
-                    }
-                    jobType={item.jobType}
-                  />
-                ))}
+                  {uniquePrincipals?.map(item => (
+                    <OtherWorksContainer
+                      key={item.primaryTitle}
+                      title={
+                        <span
+                          className="font-bold truncate max-w-[200px] block"
+                          title={item.primaryTitle}
+                        >
+                          {item.primaryTitle}
+                        </span>
+                      }
+                      jobType={item.jobType}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

@@ -1,19 +1,56 @@
+import type { SearchShowResponse } from "../../../types/searchShow";
+
 import FilterSortDropdown from "../FilterSortDropdown";
 import LiquidGlass from "../LiquidGlass";
 import ShowCard from "./ShowCard";
 import ShowHeader from "./ShowHeader";
-import { useSearchShow } from "../../../hooks/useSearchShow";
-import { useEffect } from "react";
 import PaginationArrows from "../ChevronButtonProps";
+import SearchSkeleton from "../SearchSkeleton";
+
+import { useEffect, useState } from "react";
+import { useSearchShow } from "../../../hooks/useSearchShow";
 
 function SearchShow() {
-  const { mutate, data } = useSearchShow();
+  const { mutate, isPending } = useSearchShow();
+  const [data, setData] = useState<SearchShowResponse | null>(null)
+  let content;
 
   useEffect(() => {
-    mutate({ searchTerm: "" });
+    mutate(
+      { searchTerm: "pride" },
+      {
+        onSuccess: (response) => {
+          setData(response)
+        },
+      }
+    );
   }, [mutate]);
 
-  console.log(data)
+  if (isPending) {
+    content = <SearchSkeleton />
+  } else {
+    content = (
+      <div className="flex flex-col justify-between h-full">
+        <ShowHeader />
+
+        {
+          (data?.searchTitles ?? []).map((item) => (
+            <ShowCard
+              titleId={item?.titleId ?? ""}
+              rating={item?.averageRating ?? 0}
+              primaryTitle={item?.primaryTitle ?? ""}
+              genres={item?.genreName ?? ""}
+              startYear={item?.startYear ?? "-"}
+              isAdult={item.isAdult}
+              runtimeMinutes={item?.runtimeMinutes ?? 0}
+            />
+          ))
+        }
+
+        <PaginationArrows />
+      </div>
+    )
+  }
 
   return (
     <>
@@ -70,18 +107,8 @@ function SearchShow() {
 
 
       {/*Tempat Shows*/}
-      <LiquidGlass className="w-full max-w-[1080px] min-h-[900px] mt-5 px-8">
-        <ShowHeader />
-
-        <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
-        <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
-        <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
-        <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
-        <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
-        <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
-        <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
-
-        <PaginationArrows />
+      <LiquidGlass className="w-full max-w-[1080px] mt-5 px-8 ">
+        {content}
       </LiquidGlass>
     </>
   );

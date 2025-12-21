@@ -17,16 +17,16 @@ func NewHandler(service Service) *handler {
 }
 
 type RequestBody struct {
-	SearchTerm    *string  `json:"searchTerm"`
-	Profession    *string  `json:"profession"`
-	BirthDateMin  *int32   `json:"birthDateMin"`
-	BirthDateMax  *int32   `json:"birthDateMax"`
-	DeathDateMin  *int32   `json:"deathDateMin"`
-	DeathDateMax  *int32   `json:"deathDateMax"`
-	SortDirection *string  `json:"sortDirection"`
-	CursorValue   *float64 `json:"cursorValue"`
-	CursorTitleId *string  `json:"cursorTitleId"`
-	PageSize      *int     `json:"pageSize"`
+	SearchTerm     *string  `json:"searchTerm"`
+	Profession     *string  `json:"profession"`
+	BirthDateMin   *int32   `json:"birthDateMin"`
+	BirthDateMax   *int32   `json:"birthDateMax"`
+	DeathDateMin   *int32   `json:"deathDateMin"`
+	DeathDateMax   *int32   `json:"deathDateMax"`
+	SortDirection  *string  `json:"sortDirection"`
+	CursorValue    *float64 `json:"cursorValue"`
+	CursorPersonId *string  `json:"cursorPersonId"`
+	PageSize       *int     `json:"pageSize"`
 }
 
 func (h *handler) Search(c *fiber.Ctx) error {

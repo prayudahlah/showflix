@@ -1,10 +1,56 @@
+import type { SearchPersonResponse } from "../../../types/searchPerson";
+
 import PaginationArrows from "../ChevronButtonProps";
 import FilterSortDropdown from "../FilterSortDropdown";
 import LiquidGlass from "../LiquidGlass";
 import PersonCard from "./PersonCard";
 import PersonHeader from "./PersonHeader";
+import SearchSkeleton from "../SearchSkeleton";
+
+import { useSearchPerson } from "../../../hooks/useSearchPerson";
+import { useEffect, useState } from "react";
 
 function SearchPerson() {
+  const { mutate, isPending } = useSearchPerson();
+  const [data, setData] = useState<SearchPersonResponse | null>(null)
+  let content;
+
+  useEffect(() => {
+    mutate(
+      { searchTerm: "john" },
+      {
+        onSuccess: (response) => {
+          setData(response)
+        },
+      }
+    );
+  }, [mutate]);
+
+  if (isPending) {
+    content = <SearchSkeleton />
+  } else {
+    content = (
+      <div className="flex flex-col justify-between h-full">
+        <PersonHeader />
+
+        {
+          (data?.searchPersons ?? []).map((item) => (
+            <PersonCard
+              personId={item.personId}
+              popularity={item.popularity}
+              primaryName={item.primaryName}
+              profession={item.profession}
+              birthYear={item.birthYear}
+              deathYear={item.deathYear}
+            />
+          ))
+        }
+
+        <PaginationArrows />
+      </div>
+    )
+  }
+
   return (
     <>
       {/*Tempat Filter & Sort*/}
@@ -13,29 +59,24 @@ function SearchPerson() {
           <div className="flex h-full">
 
             {/* FILTER */}
-            <div className="w-[55%] flex flex-col justify-center">
+            <div className="w-[55%] flex flex-col justify-start">
               <h2 className="text-white font-semibold text-xl mb-4 text-start">
                 FILTER
               </h2>
               <div className="grid grid-cols-3 grid-rows-2 gap-x-4 gap-y-2">
-                <FilterSortDropdown label="RATING" options={["All", "9+", "8+", "7+", "6+"]} />
-                <FilterSortDropdown label="GENRE" options={["Drama", "Action", "Comedy", "Sci-Fi", "Horror"]} />
-                <FilterSortDropdown label="DURATION" options={["< 60 min", "60–90 min", "90–120 min", "> 120 min"]} />
-                <FilterSortDropdown label="RATED" options={["Adult", "Non-Adult"]} />
-                <FilterSortDropdown label="YEAR" options={["2025", "2024", "2023", "2020–2022", "< 2020"]} />
+                <FilterSortDropdown label="PROFESSION" options={["All", "9+", "8+", "7+", "6+"]} />
+                <FilterSortDropdown label="BIRTH DATE" options={["Drama", "Action", "Comedy", "Sci-Fi", "Horror"]} />
+                <FilterSortDropdown label="DEATH DATE" options={["< 60 min", "60–90 min", "90–120 min", "> 120 min"]} />
               </div>
             </div>
 
             {/* SORT */}
-            <div className="w-[40%] flex flex-col justify-center pl-8">
+            <div className="w-[40%] flex flex-col justify-start pl-8">
               <h2 className="text-white font-semibold text-xl mb-4 text-start">
                 SORT
               </h2>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                <FilterSortDropdown label="RATING" options={["ASC", "DESC"]} />
                 <FilterSortDropdown label="POPULARITY" options={["ASC", "DESC"]} />
-                <FilterSortDropdown label="YEAR" options={["ASC", "DESC"]} />
-                <FilterSortDropdown label="DURATION" options={["ASC", "DESC"]} />
               </div>
             </div>
           </div>
@@ -60,18 +101,8 @@ function SearchPerson() {
 
 
       {/*Tempat Shows*/}
-      <LiquidGlass className="w-full max-w-[1080px] min-h-[900px] mt-5 px-8">
-        <PersonHeader />
-
-        <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
-        <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
-        <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
-        <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
-        <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
-        <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
-        <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
-
-        <PaginationArrows />
+      <LiquidGlass className="w-full max-w-[1080px] mt-5 px-8">
+        {content}
       </LiquidGlass>
     </>
   );
