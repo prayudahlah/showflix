@@ -2,18 +2,19 @@ import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 interface FilterDropdownProps {
-  label: string;
   options: string[];
+  value: string | number;
+  onChange: (value: string) => void;
   width?: string;
 }
 
 export default function FilterDropdown({
-  label,
   options,
+  value,
+  onChange,
   width = "w-[150px]",
 }: FilterDropdownProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(label);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [dropdownPos, setDropdownPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
@@ -32,7 +33,7 @@ export default function FilterDropdown({
         className="
           w-full h-[35px]
           text-white
-          bg-[#34045D]
+          bg-primary2-3
           rounded-[5px]
           px-4
           flex items-center justify-between
@@ -54,11 +55,10 @@ export default function FilterDropdown({
             {options.map((opt) => (
               <li
                 key={opt}
-                className="px-4 py-2 cursor-pointer hover:bg-[#4b0a85]"
+                className="px-4 py-2 cursor-pointer hover:bg-[#4b0a85] text-white"
                 onClick={() => {
-                  setValue(`${opt}`);
+                  onChange(opt)
                   setOpen(false);
-                  // Logic 
                 }}
               >
                 {opt}

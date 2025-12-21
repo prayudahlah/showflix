@@ -8,6 +8,7 @@ import { useState } from "react";
 
 function Landing() {
   const [activeTab, setActiveTab] = useState<"shows" | "persons">("shows");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleScroll = () => {
     window.scrollTo({
@@ -38,8 +39,10 @@ function Landing() {
 
       <div className="mt-[350px] z-10 flex flex-col items-center">
 
-        <form className="relative text-white z-10">
+        <form className="relative text-white z-10" onSubmit={(e) => e.preventDefault()}>
           <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Start Browsing"
             className="w-[800px] border-2 border-primary2-1 rounded-3xl py-2 px-4
                       shadow-[0_0_10px_2px_rgba(208,87,222,0.2)] 
@@ -77,7 +80,7 @@ function Landing() {
         </button>
       </div>
 
-      {activeTab === "shows" && <SearchShow />}
+      {activeTab === "shows" && <SearchShow searchTerm={searchTerm} />}
       {activeTab === "persons" && <SearchPerson />}
 
     </div>

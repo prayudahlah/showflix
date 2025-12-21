@@ -17,7 +17,7 @@ function SearchPerson() {
 
   useEffect(() => {
     mutate(
-      { searchTerm: "john" },
+      { searchTerm: "kim" },
       {
         onSuccess: (response) => {
           setData(response)
@@ -36,12 +36,12 @@ function SearchPerson() {
         {
           (data?.searchPersons ?? []).map((item) => (
             <PersonCard
+              key={item.personId}
               personId={item.personId}
               popularity={item.popularity}
               primaryName={item.primaryName}
               profession={item.profession}
-              birthYear={item.birthYear}
-              deathYear={item.deathYear}
+              age={item.age}
             />
           ))
         }

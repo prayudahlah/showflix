@@ -23,6 +23,7 @@ interface searchPerson {
   profession?: string;
   birthYear?: number;
   deathYear?: number;
+  age?: number;
 }
 
 interface cursor {

@@ -12,6 +12,7 @@ type SearchPersonDTO struct {
 	Profession  *string  `json:"profession,omitempty"`
 	BirthYear   *int32   `json:"birthYear,omitempty"`
 	DeathYear   *int32   `json:"deathYear,omitempty"`
+	Age         *int32   `json:"age,omitempty"`
 }
 
 type CursorDTO struct {

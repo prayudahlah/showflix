@@ -44,6 +44,7 @@ type SearchPerson struct {
 	Profession  sql.NullString  `db:"Profession"`
 	BirthYear   sql.NullInt32   `db:"BirthYear"`
 	DeathYear   sql.NullInt32   `db:"DeathYear"`
+	Age         sql.NullInt32   `db:"Age"`
 }
 
 func (st *SearchPerson) ToDTO() *SearchPersonDTO {
@@ -54,6 +55,7 @@ func (st *SearchPerson) ToDTO() *SearchPersonDTO {
 		Profession:  utils.ToStringPtr(st.Profession),
 		BirthYear:   utils.ToInt32Ptr(st.BirthYear),
 		DeathYear:   utils.ToInt32Ptr(st.DeathYear),
+		Age:         utils.ToInt32Ptr(st.Age),
 	}
 }
 

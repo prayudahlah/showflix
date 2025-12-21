@@ -3,15 +3,15 @@ export interface SearchShowRequest {
   ratingMin?: number;
   ratingMax?: number;
   genre?: string;
-  RuntimeMin?: number;
+  runtimeMin?: number;
   runtimeMax?: number;
   isAdult?: boolean;
   year?: number;
   SortBy?: string;
   SortDirection?: string;
   cursorValue?: number;
-  CursorTitleId?: string;
-  PageSize?: number;
+  cursorTitleId?: string;
+  pageSize?: number;
 }
 
 export interface SearchShowResponse {

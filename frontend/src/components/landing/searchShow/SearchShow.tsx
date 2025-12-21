@@ -1,4 +1,4 @@
-import type { SearchShowResponse } from "../../../types/searchShow";
+import type { SearchShowRequest, SearchShowResponse } from "../../../types/searchShow";
 
 import FilterSortDropdown from "../FilterSortDropdown";
 import LiquidGlass from "../LiquidGlass";
@@ -7,24 +7,27 @@ import ShowHeader from "./ShowHeader";
 import PaginationArrows from "../ChevronButtonProps";
 import SearchSkeleton from "../SearchSkeleton";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchShow } from "../../../hooks/useSearchShow";
+import RangeSlider from "../RangeSlider";
 
-function SearchShow() {
+function SearchShow({ searchTerm }: { searchTerm: string }) {
   const { mutate, isPending } = useSearchShow();
   const [data, setData] = useState<SearchShowResponse | null>(null)
+  const [filters, setFilters] = useState<SearchShowRequest>({});
   let content;
 
-  useEffect(() => {
-    mutate(
-      { searchTerm: "pride" },
+  const handleApply = () => {
+    mutate({
+      ...filters,
+      searchTerm: searchTerm || undefined,
+    },
       {
         onSuccess: (response) => {
           setData(response)
-        },
-      }
-    );
-  }, [mutate]);
+        }
+      });
+  };
 
   if (isPending) {
     content = <SearchSkeleton />
@@ -36,6 +39,7 @@ function SearchShow() {
         {
           (data?.searchTitles ?? []).map((item) => (
             <ShowCard
+              key={item?.titleId ?? ""}
               titleId={item?.titleId ?? ""}
               rating={item?.averageRating ?? 0}
               primaryTitle={item?.primaryTitle ?? ""}
@@ -56,20 +60,51 @@ function SearchShow() {
     <>
       {/*Tempat Filter & Sort*/}
       <div className="flex w-full max-w-[1080px] mt-10 px-8 gap-4 items-start">
-        <LiquidGlass className="flex-[95%] h-[150px] px-4 py-4">
+        <LiquidGlass className="flex-[95%] px-4 py-4">
           <div className="flex h-full">
 
             {/* FILTER */}
-            <div className="w-[55%] flex flex-col justify-center">
-              <h2 className="text-white font-semibold text-xl mb-4 text-start">
+            <div className="w-[55%] flex flex-col justify-start text-white">
+              <h2 className="font-semibold text-xl mb-4 text-start">
                 FILTER
               </h2>
-              <div className="grid grid-cols-3 grid-rows-2 gap-x-4 gap-y-2">
-                <FilterSortDropdown label="RATING" options={["All", "9+", "8+", "7+", "6+"]} />
-                <FilterSortDropdown label="GENRE" options={["Drama", "Action", "Comedy", "Sci-Fi", "Horror"]} />
-                <FilterSortDropdown label="DURATION" options={["< 60 min", "60–90 min", "90–120 min", "> 120 min"]} />
-                <FilterSortDropdown label="RATED" options={["Adult", "Non-Adult"]} />
-                <FilterSortDropdown label="YEAR" options={["2025", "2024", "2023", "2020–2022", "< 2020"]} />
+              <div className="grid grid-cols-3 gap-x-4 gap-y-2">
+                {/* <FilterSortDropdown label="GENRE" options={["Drama", "Action", "Comedy", "Sci-Fi", "Horror"]} /> */}
+                {/* <FilterSortDropdown label="DURATION" options={["< 60 min", "60–90 min", "90–120 min", "> 120 min"]} /> */}
+                {/* <FilterSortDropdown label="RATED" options={["Adult", "Non-Adult"]} /> */}
+                {/* <FilterSortDropdown label="YEAR" options={["2025", "2024", "2023", "2020–2022", "< 2020"]} /> */}
+                <div className="grid grid-cols-[1fr_300px] col-span-3 items-center pr-15">
+                  <span>Rating:</span>
+                  <RangeSlider
+                    min={0}
+                    max={10}
+                    step={0.5}
+                    initialMin={0}
+                    initialMax={10}
+                    onChange={({ min, max }) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        ratingMin: min,
+                        ratingMax: max,
+                      }));
+                    }}
+                  />
+                  <span>Runtime:</span>
+                  <RangeSlider
+                    min={0}
+                    max={500}
+                    step={10}
+                    initialMin={0}
+                    initialMax={500}
+                    onChange={({ min, max }) => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        runtimeMin: min,
+                        runtimeMax: max,
+                      }));
+                    }}
+                  />
+                </div>
               </div>
             </div>
 
@@ -79,10 +114,10 @@ function SearchShow() {
                 SORT
               </h2>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                <FilterSortDropdown label="RATING" options={["ASC", "DESC"]} />
-                <FilterSortDropdown label="POPULARITY" options={["ASC", "DESC"]} />
-                <FilterSortDropdown label="YEAR" options={["ASC", "DESC"]} />
-                <FilterSortDropdown label="DURATION" options={["ASC", "DESC"]} />
+                {/* <FilterSortDropdown label="RATING" options={["ASC", "DESC"]} /> */}
+                {/* <FilterSortDropdown label="POPULARITY" options={["ASC", "DESC"]} /> */}
+                {/* <FilterSortDropdown label="YEAR" options={["ASC", "DESC"]} /> */}
+                {/* <FilterSortDropdown label="DURATION" options={["ASC", "DESC"]} /> */}
               </div>
             </div>
           </div>
@@ -90,6 +125,7 @@ function SearchShow() {
 
         <div className="flex-[5%] flex items-start justify-end">
           <button
+            onClick={handleApply}
             className="
               w-[130px] h-[30px]
               rounded-[100px]

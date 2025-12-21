@@ -60,6 +60,7 @@ func (r *repository) Search(ctx context.Context, req RequestBody) (*PostResponse
 			&sp.Profession,
 			&sp.BirthYear,
 			&sp.DeathYear,
+			&sp.Age,
 		)
 
 		if err != nil {
