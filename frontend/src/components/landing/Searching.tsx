@@ -1,3 +1,4 @@
+import PaginationArrows from "./ChevronButtonProps";
 import FilterSortDropdown from "./FilterSortDropdown";
 import LiquidGlass from "./LiquidGlass";
 import ShowCardProps from "./ShowCardProps";
@@ -59,17 +60,21 @@ function Searching() {
 
     
       {/*Tempat Shows*/}
-      <LiquidGlass className="w-full max-w-[1080px] min-h-[900px] mt-5 px-8">
+      <LiquidGlass className="relative w-full max-w-[1080px] min-h-[900px] mt-5 px-8 flex flex-col justify-between">
         <ShowsHeader />
 
-        <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
-        <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
-        <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
-        <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
-        <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
-        <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
-        <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
+        <div className="flex flex-col">
+          <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
+          <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
+          <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
+          <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
+          <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
+          <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
+          <ShowCardProps rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCardProps>
+        </div>
         
+        <PaginationArrows />
+
       </LiquidGlass>
     </>
   );
