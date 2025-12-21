@@ -1,15 +1,19 @@
 import MagnifyingGlass from "../assets/icons/magnifying_glass.svg"
 import TopShadow from "../components/landing/TopShadow";
 import MidShadow from "../components/landing/MidShadow";
-import LiquidGlass from "../components/landing/LiquidGlass";
+import Searching from "../components/landing/Searching";
+
 import { useSearchShow } from "../hooks/useSearchShow";
+import { useEffect } from "react";
 
 function Landing() {
-  const { mutate, isLoading, data } = useSearchShow();
+  const { mutate, isLoading, data } = useSearchShow(); // isloading belum dipakai
 
-  mutate({ searchTerm: "love", ratingMin: 7 });
+  useEffect(() => {
+    mutate({ searchTerm: "" });
+  }, [mutate]);
 
-  console.log(data)
+  console.log(data) // tadi error karena ini undefined pas pertama kali render
 
   const handleScroll = () => {
     window.scrollTo({
@@ -19,7 +23,7 @@ function Landing() {
   };
 
   return (
-    <div className="relative min-h-screen w-full
+    <div className="relative min-h-[300vh] w-full
                 bg-primary1-2 flex flex-col items-center overflow-x-hidden">
       <TopShadow />
 
@@ -53,19 +57,8 @@ function Landing() {
         </form>
       </div>
 
-      {/*Tempat Filter*/}
-      <LiquidGlass className="w-full max-w-[1080px] h-[150px] mt-30 px-8">
-        <h2 className="text-white font-semibold text-xl mt-6 text-center">
-          TEMPAT FILTER
-        </h2>
-      </LiquidGlass>
-
-      {/*Tempat Shows*/}
-      <LiquidGlass className="w-full max-w-[1080px] h-[1264px] mt-5 px-8">
-        <h2 className="text-white font-semibold text-xl mt-6 text-center">
-          TEMPAT SHOWS
-        </h2>
-      </LiquidGlass>
+      {/*SEARCHING*/}
+      <Searching />
 
     </div>
   )

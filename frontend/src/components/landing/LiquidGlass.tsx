@@ -57,7 +57,7 @@ const LiquidGlass: React.FC<LiquidGlassProps> = ({
       />
 
       {/* CONTENT */}
-      <div className="relative z-10 w-full h-full">
+      <div className="relative w-full h-full overflow-visible">
         {children}
       </div>
     </div>
