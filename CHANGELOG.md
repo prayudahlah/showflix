@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/prayudahlah/showflix/compare/v1.15.0...v1.15.1) (2025-12-21)
+
+
+### Bug Fixes
+
+* **dashboard:** moved dashboard title and dropdown ([11819ad](https://github.com/prayudahlah/showflix/commit/11819ad83a3eaf24817b775fccf275cb8e7252e0))
+
 # [1.15.0](https://github.com/prayudahlah/showflix/compare/v1.14.0...v1.15.0) (2025-12-21)
 
 
