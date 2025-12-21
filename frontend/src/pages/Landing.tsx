@@ -9,10 +9,16 @@ import { useState } from "react";
 function Landing() {
   const [activeTab, setActiveTab] = useState<"shows" | "persons">("shows");
   const [searchTerm, setSearchTerm] = useState("");
+  const [triggerSearch, setTriggerSearch] = useState(0);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTriggerSearch(prev => prev + 1);
+  };
 
   const handleScroll = () => {
     window.scrollTo({
-      top: 800,
+      top: 900,
       behavior: "smooth",
     });
   };
@@ -39,7 +45,7 @@ function Landing() {
 
       <div className="mt-[350px] z-10 flex flex-col items-center">
 
-        <form className="relative text-white z-10" onSubmit={(e) => e.preventDefault()}>
+        <form className="relative text-white z-10" onSubmit={handleSubmit}>
           <input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -80,8 +86,20 @@ function Landing() {
         </button>
       </div>
 
-      {activeTab === "shows" && <SearchShow searchTerm={searchTerm} />}
-      {activeTab === "persons" && <SearchPerson searchTerm={searchTerm} />}
+      {activeTab === "shows" && (
+        <SearchShow
+          searchTerm={searchTerm}
+          triggerSearch={triggerSearch}
+          onSearchTrigger={() => setTriggerSearch(0)}
+        />
+      )}
+      {activeTab === "persons" && (
+        <SearchPerson
+          searchTerm={searchTerm}
+          triggerSearch={triggerSearch}
+          onSearchTrigger={() => setTriggerSearch(0)}
+        />
+      )}
 
     </div>
   )

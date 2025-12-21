@@ -8,7 +8,7 @@ import PersonHeader from "./PersonHeader";
 import SearchSkeleton from "../SearchSkeleton";
 
 import { useSearchPerson } from "../../../hooks/useSearchPerson";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import RangeSlider from "../RangeSlider";
 import FilterDropdown from "../FilterSortDropdown";
 
@@ -18,7 +18,17 @@ interface CursorData {
   hasMore: boolean;
 }
 
-function SearchPerson({ searchTerm }: { searchTerm: string }) {
+interface SearchPersonProps {
+  searchTerm: string;
+  triggerSearch?: number;
+  onSearchTrigger?: () => void;
+}
+
+function SearchPerson({
+  searchTerm,
+  triggerSearch = 0,
+  onSearchTrigger
+}: SearchPersonProps) {
   const { mutate, isPending } = useSearchPerson();
   const [data, setData] = useState<SearchPersonResponse | null>(null)
   const [filters, setFilters] = useState<SearchPersonRequest>({});
@@ -27,7 +37,21 @@ function SearchPerson({ searchTerm }: { searchTerm: string }) {
   const [currentCursor, setCurrentCursor] = useState<CursorData | null>(null);
   const [cursorHistory, setCursorHistory] = useState<CursorData[]>([]);
 
-  let content;
+  useEffect(() => {
+    if (triggerSearch > 0) {
+      handleApply();
+      onSearchTrigger?.();
+    }
+  }, [triggerSearch]);
+
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+  }, []);
 
   const handleApply = () => {
     mutate({
@@ -98,6 +122,8 @@ function SearchPerson({ searchTerm }: { searchTerm: string }) {
       });
   };
 
+  let content;
+
   if (isPending) {
     content = <SearchSkeleton />
   } else {
@@ -132,21 +158,21 @@ function SearchPerson({ searchTerm }: { searchTerm: string }) {
   return (
     <>
       {/*Tempat Filter & Sort*/}
-      <div className="flex w-full max-w-[1080px] mt-10 px-8 gap-4 items-start">
+      <div className="flex w-full max-w-[1080px] mt-10 gap-4 items-start">
         <LiquidGlass className="flex-[95%] px-4 py-4">
           <div className="flex h-full">
 
             {/* FILTER */}
-            <div className="w-[55%] flex flex-col justify-start text-white">
+            <div className="w-[55%] flex flex-col justify-start text-white pl-2 pr-8">
               <h2 className="font-semibold text-xl mb-4 text-start">
                 FILTER
               </h2>
               <div className="grid grid-cols-1 gap-x-4 gap-y-2">
 
                 <FilterSortDropdown
-                  value="PROFESSION"
+                  value={filters?.profession ?? "All Profession"}
                   options={[
-                    "All",
+                    "All Profession",
                     "actor",
                     "actress",
                     "miscellaneous",
@@ -161,12 +187,12 @@ function SearchPerson({ searchTerm }: { searchTerm: string }) {
                   onChange={(value) =>
                     setFilters((prev) => ({
                       ...prev,
-                      profession: value === "All" ? undefined : value
+                      profession: value === "All Profession" ? undefined : value
                     }))
                   }
                 />
 
-                <div className="grid grid-cols-[1fr_300px] col-span-3 items-center pr-15">
+                <div className="grid grid-cols-[1fr_300px] items-center">
                   <span>Birth Year:</span>
                   <RangeSlider
                     min={1800}

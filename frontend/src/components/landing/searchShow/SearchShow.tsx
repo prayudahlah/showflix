@@ -7,7 +7,7 @@ import ShowHeader from "./ShowHeader";
 import PaginationArrows from "../ChevronButtonProps";
 import SearchSkeleton from "../SearchSkeleton";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchShow } from "../../../hooks/useSearchShow";
 import RangeSlider from "../RangeSlider";
 import FilterRadioGroup from "../FilterRadioGroupProps";
@@ -18,7 +18,17 @@ interface CursorData {
   hasMore: boolean;
 }
 
-function SearchShow({ searchTerm }: { searchTerm: string }) {
+interface SearchShowProps {
+  searchTerm: string;
+  triggerSearch?: number;
+  onSearchTrigger?: () => void;
+}
+
+function SearchShow({
+  searchTerm,
+  triggerSearch = 0,
+  onSearchTrigger
+}: SearchShowProps) {
   const { mutate, isPending } = useSearchShow();
   const [data, setData] = useState<SearchShowResponse | null>(null)
   const [filters, setFilters] = useState<SearchShowRequest>({});
@@ -27,7 +37,21 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
   const [currentCursor, setCurrentCursor] = useState<CursorData | null>(null);
   const [cursorHistory, setCursorHistory] = useState<CursorData[]>([]);
 
-  let content;
+  useEffect(() => {
+    if (triggerSearch > 0) {
+      handleApply();
+      onSearchTrigger?.();
+    }
+  }, [triggerSearch]);
+
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+  }, []);
 
   const handleApply = () => {
     console.log(filters)
@@ -98,6 +122,9 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
         }
       });
   };
+
+  let content;
+
   if (isPending) {
     content = <SearchSkeleton />
   } else {
