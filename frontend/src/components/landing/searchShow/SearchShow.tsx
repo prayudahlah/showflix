@@ -4,6 +4,7 @@ import ShowCard from "./ShowCard";
 import ShowHeader from "./ShowHeader";
 import { useSearchShow } from "../../../hooks/useSearchShow";
 import { useEffect } from "react";
+import PaginationArrows from "../ChevronButtonProps";
 
 function SearchShow() {
   const { mutate, data } = useSearchShow();
@@ -80,6 +81,7 @@ function SearchShow() {
         <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
         <ShowCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></ShowCard>
 
+        <PaginationArrows />
       </LiquidGlass>
     </>
   );

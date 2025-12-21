@@ -1,3 +1,4 @@
+import PaginationArrows from "../ChevronButtonProps";
 import FilterSortDropdown from "../FilterSortDropdown";
 import LiquidGlass from "../LiquidGlass";
 import PersonCard from "./PersonCard";
@@ -70,6 +71,7 @@ function SearchPerson() {
         <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
         <PersonCard rating={8.5} primaryTitle="Sore: Wife From The Future" genres="Drama, Comed, Romance" startYear={2025} isAdult={false} runtimeMinutes={119}></PersonCard>
 
+        <PaginationArrows />
       </LiquidGlass>
     </>
   );
