@@ -10,7 +10,7 @@ import SearchSkeleton from "../SearchSkeleton";
 import { useState } from "react";
 import { useSearchShow } from "../../../hooks/useSearchShow";
 import RangeSlider from "../RangeSlider";
-import FilterDropdown from "../FilterSortDropdown";
+import FilterRadioGroup from "../FilterRadioGroupProps";
 
 interface CursorData {
   nextCursorValue?: number;
@@ -30,6 +30,7 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
   let content;
 
   const handleApply = () => {
+    console.log(filters)
     mutate({
       ...filters,
       searchTerm: searchTerm || undefined,
@@ -133,7 +134,7 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
   return (
     <>
       {/*Tempat Filter & Sort*/}
-      <div className="flex w-full max-w-[1080px] mt-10 px-8 gap-4 items-start">
+      <div className="flex w-full max-w-[1080px] mt-10 gap-4 items-start">
         <LiquidGlass className="flex-[95%] px-4 py-4">
           <div className="flex h-full">
 
@@ -208,54 +209,37 @@ function SearchShow({ searchTerm }: { searchTerm: string }) {
               <h2 className="text-white font-semibold text-xl mb-4 text-start">
                 SORT
               </h2>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                <FilterDropdown
-                  value="RATING"
-                  options={["ASC", "DESC"]}
-                  onChange={(value) =>
+
+              {/* STACK VERTICAL */}
+              <div className="flex flex-col gap-6">
+                {/* Sort Field */}
+                <FilterRadioGroup
+                label="Sort By"
+                options={["Rating", "Popularity", "Year", "Runtime"]}
+                columns={2} 
+                value={filters.sortBy ?? "Popularity"}
+                  onChange={(val) => 
                     setFilters((prev) => ({
                       ...prev,
-                      SortBy: "averageRating",
-                      SortDirection: value
+                      sortBy: val,
+                    }
+                  ))}
+                />
+
+                {/* Sort Direction → DI BAWAH */}
+                <FilterRadioGroup
+                  label="Sort Direction"
+                  options={["ASC", "DESC"]}
+                  direction="col"
+                  value={filters?.sortDirection ?? "DESC"}
+                  onChange={(val) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      sortDirection: val,
                     }))
                   }
                 />
 
-                <FilterDropdown
-                  value="POPULARITY"
-                  options={["ASC", "DESC"]}
-                  onChange={(value) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      SortBy: "popularity",
-                      SortDirection: value
-                    }))
-                  }
-                />
-
-                <FilterDropdown
-                  value="YEAR"
-                  options={["ASC", "DESC"]}
-                  onChange={(value) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      SortBy: "startYear",
-                      SortDirection: value
-                    }))
-                  }
-                />
-
-                <FilterDropdown
-                  value="DURATION"
-                  options={["ASC", "DESC"]}
-                  onChange={(value) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      SortBy: "runtimeMinutes",
-                      SortDirection: value
-                    }))
-                  }
-                />
               </div>
             </div>
           </div>
