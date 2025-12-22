@@ -173,7 +173,7 @@ function SearchShow({
               <div className="grid grid-cols-2 gap-x-8 gap-y-2 items-center">
                 <FilterSortDropdown
                   value={filters?.genre ?? "All Genre"}
-                  options={["All Genre", "Drama", "Action", "Comedy", "Sci-Fi", "Horror"]}
+                  options={["All Genre", "Drama", "Comedy", "News", "Romance", "Talk-Show", "Short", "Family", "Reality-TV", "Documentary", "Animation"]}
                   onChange={(value) => {
                     setFilters((prev) => ({
                       ...prev,
