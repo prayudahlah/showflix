@@ -2,7 +2,6 @@ package title
 
 import (
 	"context"
-	"time"
 )
 
 type Service interface {
@@ -18,11 +17,6 @@ func NewService(repo Repository) Service {
 }
 
 func (s *service) Get(ctx context.Context, id string) (*GetResponse, error) {
-	const queryTimeout = 5 * time.Second
-
-	ctx, cancel := context.WithTimeout(ctx, queryTimeout)
-	defer cancel()
-
 	return s.repo.Get(ctx, id)
 }
 

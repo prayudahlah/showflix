@@ -2,7 +2,6 @@ package login
 
 import (
 	"context"
-	"time"
 	"crypto/sha256"
 	"github.com/prayudahlah/showflix/backend/internal/utils"
 )
@@ -20,11 +19,6 @@ func NewService(repo Repository) Service {
 }
 
 func (s *service) Login(ctx context.Context, username string, password string) (*Role, error) {
-	const queryTimeout = 5 * time.Second
-
-	ctx, cancel := context.WithTimeout(ctx, queryTimeout)
-	defer cancel()
-
 	role, err := s.repo.GetByUsername(ctx, username)
 
 	if err != nil {

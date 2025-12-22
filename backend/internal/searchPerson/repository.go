@@ -19,16 +19,16 @@ func NewRepository(db *sql.DB) Repository {
 
 func (r *repository) Search(ctx context.Context, req RequestBody) (*PostResponse, error) {
 	query := `
-	EXEC sp_Landing_Person
+	EXEC sp_Landing_Persons
 		@SearchTerm = @searchTerm,
-		@Profesion = @profession,
+		@Profession = @profession,
 		@BirthDateMin = @birthDateMin,
 		@BirthDateMax = @birthDateMax,
 		@DeathDateMin = @deathDateMin,
 		@DeathDateMax = @deathDateMax,
 		@SortDirection = @sortDirection,
 		@CursorValue = @cursorValue,
-		@CursorTitleId = @cursorTitleId,
+		@CursorPersonId = @cursorPersonId,
 		@PageSize = @pageSize
 	`
 	rows, err := r.db.QueryContext(ctx, query,
@@ -40,7 +40,7 @@ func (r *repository) Search(ctx context.Context, req RequestBody) (*PostResponse
 		sql.Named("deathDateMax",     req.DeathDateMax),
 		sql.Named("sortDirection", req.SortDirection),
 		sql.Named("cursorValue",   req.CursorValue),
-		sql.Named("cursorTitleId", req.CursorTitleId),
+		sql.Named("cursorPersonId", req.CursorPersonId),
 		sql.Named("pageSize",      req.PageSize),
 	)
 	if err != nil {
@@ -60,6 +60,7 @@ func (r *repository) Search(ctx context.Context, req RequestBody) (*PostResponse
 			&sp.Profession,
 			&sp.BirthYear,
 			&sp.DeathYear,
+			&sp.Age,
 		)
 
 		if err != nil {
@@ -78,7 +79,7 @@ func (r *repository) Search(ctx context.Context, req RequestBody) (*PostResponse
 		if rows.Next() {
 			err := rows.Scan(
 				&cursor.NextCursorValue,
-				&cursor.NextCursorTitleId,
+				&cursor.NextCursorPersonId,
 				&cursor.HasMore,
 			)
 			if err != nil {

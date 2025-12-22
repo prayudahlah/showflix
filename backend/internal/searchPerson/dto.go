@@ -12,10 +12,11 @@ type SearchPersonDTO struct {
 	Profession  *string  `json:"profession,omitempty"`
 	BirthYear   *int32   `json:"birthYear,omitempty"`
 	DeathYear   *int32   `json:"deathYear,omitempty"`
+	Age         *int32   `json:"age,omitempty"`
 }
 
 type CursorDTO struct {
 	NextCursorValue   *float64 `json:"nextCursorValue,omitempty"`
-	NextCursorTitleId *string  `json:"nextCursorTitleId,omitempty"`
+	NextCursorPersonId *string  `json:"nextCursorPersonId,omitempty"`
 	HasMore           bool     `json:"hasMore"`
 }

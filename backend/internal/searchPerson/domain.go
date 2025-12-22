@@ -44,6 +44,7 @@ type SearchPerson struct {
 	Profession  sql.NullString  `db:"Profession"`
 	BirthYear   sql.NullInt32   `db:"BirthYear"`
 	DeathYear   sql.NullInt32   `db:"DeathYear"`
+	Age         sql.NullInt32   `db:"Age"`
 }
 
 func (st *SearchPerson) ToDTO() *SearchPersonDTO {
@@ -54,19 +55,20 @@ func (st *SearchPerson) ToDTO() *SearchPersonDTO {
 		Profession:  utils.ToStringPtr(st.Profession),
 		BirthYear:   utils.ToInt32Ptr(st.BirthYear),
 		DeathYear:   utils.ToInt32Ptr(st.DeathYear),
+		Age:         utils.ToInt32Ptr(st.Age),
 	}
 }
 
 type Cursor struct {
-	NextCursorValue   sql.NullFloat64 `db:"NextCursorValue"`
-	NextCursorTitleId sql.NullString  `db:"NextCursorTitleId"`
-	HasMore           bool            `db:"HasMore"`
+	NextCursorValue    sql.NullFloat64 `db:"NextCursorValue"`
+	NextCursorPersonId sql.NullString  `db:"NextCursorPersonId"`
+	HasMore            bool            `db:"HasMore"`
 }
 
 func (c *Cursor) ToDTO() *CursorDTO {
 	return &CursorDTO{
 		NextCursorValue:   utils.ToFloat64Ptr(c.NextCursorValue),
-		NextCursorTitleId: utils.ToStringPtr(c.NextCursorTitleId),
+		NextCursorPersonId: utils.ToStringPtr(c.NextCursorPersonId),
 		HasMore:           c.HasMore,
 	}
 }

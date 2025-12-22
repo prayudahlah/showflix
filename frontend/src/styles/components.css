@@ -80,4 +80,33 @@
       #F0DFFF 98%
     );
   }
+
+  .range-slider {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+    appearance: none;
+    background: transparent;
+  }
+
+  .range-slider::-webkit-slider-thumb {
+    pointer-events: auto;
+    appearance: none;
+    height: 12px;
+    width: 12px;
+    background: white;
+    border-radius: 9999px;
+    cursor: pointer;
+    border: 2px solid #a855f7;
+  }
+
+  .range-slider::-moz-range-thumb {
+    pointer-events: auto;
+    height: 12px;
+    width: 12px;
+    background: white;
+    border-radius: 9999px;
+    cursor: pointer;
+    border: 2px solid #a855f7;
+  }
 }
