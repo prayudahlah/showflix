@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/prayudahlah/showflix/compare/v1.15.1...v1.16.0) (2025-12-22)
+
+
+### Features
+
+* **landing:** searching for shows and persons ([66290f2](https://github.com/prayudahlah/showflix/commit/66290f2a78e6484aeff5b27fd0d96c541ea5a046))
+
 ## [1.15.1](https://github.com/prayudahlah/showflix/compare/v1.15.0...v1.15.1) (2025-12-21)
 
 
