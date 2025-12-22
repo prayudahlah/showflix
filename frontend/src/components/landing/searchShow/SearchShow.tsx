@@ -241,11 +241,11 @@ function SearchShow({
               <div className="flex flex-col gap-6">
                 {/* Sort Field */}
                 <FilterRadioGroup
-                  label="Sort By"
-                  options={["Rating", "Popularity", "Year", "Runtime"]}
-                  columns={2}
-                  value={filters.sortBy ?? "Popularity"}
-                  onChange={(val) =>
+                label="Sort By"
+                options={["Popularity", "Rating", "Year", "Runtime"]}
+                columns={2} 
+                value={filters.sortBy ?? "Popularity"}
+                  onChange={(val) => 
                     setFilters((prev) => ({
                       ...prev,
                       sortBy: val,
@@ -256,7 +256,7 @@ function SearchShow({
                 {/* Sort Direction → DI BAWAH */}
                 <FilterRadioGroup
                   label="Sort Direction"
-                  options={["ASC", "DESC"]}
+                  options={["DESC", "ASC"]}
                   direction="col"
                   value={filters?.sortDirection ?? "DESC"}
                   onChange={(val) =>
