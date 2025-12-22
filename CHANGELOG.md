@@ -1,3 +1,10 @@
+## [1.16.2](https://github.com/prayudahlah/showflix/compare/v1.16.1...v1.16.2) (2025-12-22)
+
+
+### Bug Fixes
+
+* **search show:** changed genre filter to top 10 ([a19c28d](https://github.com/prayudahlah/showflix/commit/a19c28db1aa3eb35d5b9babe2d66dd8688545a8c))
+
 ## [1.16.1](https://github.com/prayudahlah/showflix/compare/v1.16.0...v1.16.1) (2025-12-22)
 
 
