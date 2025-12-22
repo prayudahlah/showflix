@@ -1,3 +1,10 @@
+## [1.16.1](https://github.com/prayudahlah/showflix/compare/v1.16.0...v1.16.1) (2025-12-22)
+
+
+### Bug Fixes
+
+* **title:** new top 5 titles view ([78ebd73](https://github.com/prayudahlah/showflix/commit/78ebd73e10d6551aead5b7d8e598e2a208def32d))
+
 # [1.16.0](https://github.com/prayudahlah/showflix/compare/v1.15.1...v1.16.0) (2025-12-22)
 
 
