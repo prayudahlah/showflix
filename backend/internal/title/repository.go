@@ -462,6 +462,7 @@ func (r *repository) getTopTitles(ctx context.Context) (*[]TopTitle, error) {
     	AverageRating,
     	PopularityRank
 		FROM vw_Show_TopTitles
+		ORDER BY PopularityRank ASC
 	`
 
 	rows, err := r.db.QueryContext(ctx, query)
