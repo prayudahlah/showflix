@@ -232,7 +232,7 @@ function SearchShow({
             <div className="w-px h-auto py-2 bg-primary2-2/50" />
 
             {/* SORT */}
-            <div className="w-[40%] flex flex-col justify-start pl-8">
+            <div className="w-[45%] flex flex-col justify-start pl-8">
               <h2 className="text-white font-semibold text-xl mb-4 text-start">
                 SORT
               </h2>
@@ -241,16 +241,16 @@ function SearchShow({
               <div className="flex flex-col gap-6">
                 {/* Sort Field */}
                 <FilterRadioGroup
-                label="Sort By"
-                options={["Rating", "Popularity", "Year", "Runtime"]}
-                columns={2} 
-                value={filters.sortBy ?? "Popularity"}
-                  onChange={(val) => 
+                  label="Sort By"
+                  options={["Rating", "Popularity", "Year", "Runtime"]}
+                  columns={2}
+                  value={filters.sortBy ?? "Popularity"}
+                  onChange={(val) =>
                     setFilters((prev) => ({
                       ...prev,
                       sortBy: val,
                     }
-                  ))}
+                    ))}
                 />
 
                 {/* Sort Direction → DI BAWAH */}

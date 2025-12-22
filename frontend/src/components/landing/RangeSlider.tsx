@@ -41,7 +41,7 @@ export default function RangeSlider({
 
       {/* Active Range */}
       <div
-        className="absolute top-1/2 -translate-y-1/2 h-0.5 bg-primary3-2 rounded"
+        className="absolute top-1/2 -translate-y-1/2 h-0.5 bg-secondary-2 rounded"
         style={{
           left: `${rangePercent(minValue)}%`,
           width: `${rangePercent(maxValue) - rangePercent(minValue)}%`,

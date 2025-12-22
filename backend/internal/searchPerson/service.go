@@ -2,7 +2,6 @@ package searchPerson
 
 import (
 	"context"
-	"time"
 )
 
 type Service interface {
@@ -18,11 +17,6 @@ func NewService(repo Repository) Service {
 }
 
 func (s *service) Search(ctx context.Context, req RequestBody) (*PostResponse, error) {
-	const queryTimeout = 10 * time.Second
-
-	ctx, cancel := context.WithTimeout(ctx, queryTimeout)
-	defer cancel()
-
 	if req.SearchTerm != nil {
     quoted := `"` + *req.SearchTerm + `"`
     req.SearchTerm = &quoted
