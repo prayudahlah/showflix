@@ -272,7 +272,6 @@ function Show() {
                     </div>
                   </div>
                   <div className="flex items-center gap-6 mb-6">
-                    <span>{formattedCreatedDate}</span>
                     <span>{data?.isAdult ? "Adult" : "Non-Adult"}</span>
                     <span>{formattedRuntime}</span>
                   </div>
