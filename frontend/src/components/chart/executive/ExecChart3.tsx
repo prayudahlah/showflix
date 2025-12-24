@@ -36,6 +36,29 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
+const CustomYAxisTick = (props: any) => {
+  const { x, y, payload } = props;
+  const maxLength = 12;
+  const text = payload.value.length > maxLength
+    ? payload.value.substring(0, maxLength) + '...'
+    : payload.value;
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={-5}
+        y={0}
+        textAnchor="end"
+        fill="rgba(200,200,200,0.9)"
+        fontSize={12}
+        dominantBaseline="middle"
+      >
+        {text}
+      </text>
+    </g>
+  );
+};
+
 function ExecChart3({ chart3, selectedCompanyId }: ExecChart3Props) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const data = chart3;
@@ -127,7 +150,7 @@ function ExecChart3({ chart3, selectedCompanyId }: ExecChart3Props) {
           tickLine={false}
           interval={0}
           width={200}
-          tick={{ fill: 'rgba(200,200,200,0.9)', fontSize: 10 }}
+          tick={<CustomYAxisTick />}
         />
 
         <Tooltip
@@ -161,8 +184,7 @@ function ExecChart3({ chart3, selectedCompanyId }: ExecChart3Props) {
         </Bar>
       </BarChart>
     </div>
-  )
+  );
 }
 
 export default ExecChart3;
-
