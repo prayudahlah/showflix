@@ -1,3 +1,10 @@
+## [1.16.3](https://github.com/prayudahlah/showflix/compare/v1.16.2...v1.16.3) (2025-12-24)
+
+
+### Bug Fixes
+
+* **show page:** remove created date ([26127c2](https://github.com/prayudahlah/showflix/commit/26127c25a8feba2865ceb5ba777692c264888255))
+
 ## [1.16.2](https://github.com/prayudahlah/showflix/compare/v1.16.1...v1.16.2) (2025-12-22)
 
 
