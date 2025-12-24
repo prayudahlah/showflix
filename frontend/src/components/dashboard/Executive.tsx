@@ -6,6 +6,14 @@ import ExecChart2 from "../chart/executive/ExecChart2";
 import ExecChart3 from "../chart/executive/ExecChart3";
 import ExecChart4 from "../chart/executive/ExecChart4";
 import ExecChart5 from "../chart/executive/ExecChart5";
+
+import ExecChart1Info from "../chartInfo/executive/ExecChart1Info";
+import ExecChart2Info from "../chartInfo/executive/ExecChart2Info";
+import ExecChart3Info from "../chartInfo/executive/ExecChart3Info";
+import ExecChart4Info from "../chartInfo/executive/ExecChart4Info";
+import ExecChart5Info from "../chartInfo/executive/ExecChart5Info";
+
+import ExpandableInfo from "../chart/ExpandableInfo";
 import MetricBox from "../chart/MetricBox";
 import { MetricSkeleton, ChartSkeleton } from "../LoadingSkeleton";
 
@@ -145,18 +153,33 @@ function Executive() {
 
           <div className="chart-box">
             <ExecChart2 chart2={sortedChart2} />
+            <ExpandableInfo>
+              <ExecChart2Info chart2={sortedChart2} />
+            </ExpandableInfo>
           </div>
           <div className="chart-box">
             <ExecChart3 chart3={sortedChart3} selectedCompanyId={selectedCompanyId} />
+            <ExpandableInfo>
+              <ExecChart3Info chart3={sortedChart3} selectedCompanyId={selectedCompanyId} />
+            </ExpandableInfo>
           </div>
           <div className="chart-box row-span-2">
             <ExecChart5 chart5={filteredChart5} />
+            <ExpandableInfo>
+              <ExecChart5Info chart5={filteredChart5} />
+            </ExpandableInfo>
           </div>
           <div className="chart-box">
             <ExecChart1 chart1={sortedChart1} />
+            <ExpandableInfo>
+              <ExecChart1Info chart1={sortedChart1} />
+            </ExpandableInfo>
           </div>
           <div className="chart-box">
             <ExecChart4 chart4={sortedChart4} />
+            <ExpandableInfo>
+              <ExecChart4Info chart4={sortedChart4} />
+            </ExpandableInfo>
           </div>
         </div>
       </>
