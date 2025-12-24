@@ -14,6 +14,7 @@ import ExecChart4Info from "../chartInfo/executive/ExecChart4Info";
 import ExecChart5Info from "../chartInfo/executive/ExecChart5Info";
 
 import ExpandableInfo from "../chart/ExpandableInfo";
+import ExecRecommendation from "../chartInfo/executive/ExecRecommendation";
 import MetricBox from "../chart/MetricBox";
 import { MetricSkeleton, ChartSkeleton } from "../LoadingSkeleton";
 
@@ -187,7 +188,7 @@ function Executive() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen relative overflow-hidden bg-primary1-2">
+    <div className="flex flex-col justify-start items-center min-h-screen relative overflow-hidden bg-primary1-2">
       <div className="absolute -inset-8 bg-linear-to-br from-primary1-2 via-primary2-3 to-primary2-3 animate-gradient opacity-90" />
 
       <div className="absolute -top-[230px] -left-[330px] w-[670px] h-[360px] bg-primary1-1 rounded-[50%]
@@ -206,9 +207,27 @@ function Executive() {
       </div>
 
       <div className="backdrop-blur-2xl rounded-xl bg-linear-120 from-primary3-3/20 to-primary1-2/20
-                      w-[1300px] h-[625px] shadow-[0_0px_40px_1px_rgba(255,255,255,0.1)] to-50% mt-7
+                      w-[1300px] h-[625px] shadow-[0_0px_40px_1px_rgba(255,255,255,0.1)] to-50% mt-15
                       flex flex-col items-center px-10">
         {content}
+      </div>
+
+      <div className="relative z-10 mt-10 mb-50 w-full max-w-[80%]
+                rounded-xl border border-white/10
+                bg-primary1-1/60 backdrop-blur-sm
+                px-10 py-5 text-white shadow-lg">
+
+        <div className="mb-3 flex items-center gap-2">
+          <span className="text-xs font-semibold tracking-widest text-white/80 select-none">
+            OVERALL RECOMMENTDATON
+          </span>
+          <div className="flex-1 h-px bg-white/10" />
+        </div>
+
+        <div className="text-sm leading-relaxed text-white/90 space-y-3 text-justify">
+          <ExecRecommendation selectedCompanyId={selectedCompanyId} />
+        </div>
+
       </div>
     </div>
   );
