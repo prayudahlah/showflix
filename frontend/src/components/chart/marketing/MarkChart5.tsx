@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis, } from 'recharts';
 import type { MarketingData } from '../../../types/marketing';
 
-interface ExecChart5Props {
+interface MarkChart5Props {
   chart5: MarketingData['chart5'];
 }
 
@@ -54,7 +54,7 @@ const CustomYAxisTick = (props: any) => {
   );
 };
 
-function ExecChart5({ chart5 }: ExecChart5Props) {
+function MarkChart5({ chart5 }: MarkChart5Props) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const data = chart5;
 
@@ -200,5 +200,4 @@ function ExecChart5({ chart5 }: ExecChart5Props) {
   )
 }
 
-export default ExecChart5;
-
+export default MarkChart5;
