@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/prayudahlah/showflix/compare/v1.17.0...v1.18.0) (2025-12-28)
+
+
+### Features
+
+* **dashboard:** Dashboard shows searching on selected company ([3f27372](https://github.com/prayudahlah/showflix/commit/3f2737273c1b66f14ea58b4b5b4f93c0e201f2ce))
+
 # [1.17.0](https://github.com/prayudahlah/showflix/compare/v1.16.3...v1.17.0) (2025-12-28)
 
 
