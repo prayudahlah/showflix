@@ -25,6 +25,7 @@ type RequestBody struct {
 	RuntimeMax    *int     `json:"runtimeMax"`
 	IsAdult       *bool    `json:"isAdult"`
 	Year          *int     `json:"year"`
+	CompanyId     *int     `json:"companyId`
 	SortBy        *string  `json:"sortBy"`
 	SortDirection *string  `json:"sortDirection"`
 	CursorValue   *float64 `json:"cursorValue"`

@@ -54,7 +54,6 @@ function SearchShow({
   }, []);
 
   const handleApply = () => {
-    console.log(filters)
     mutate({
       ...filters,
       searchTerm: searchTerm || undefined,
@@ -241,11 +240,11 @@ function SearchShow({
               <div className="flex flex-col gap-6">
                 {/* Sort Field */}
                 <FilterRadioGroup
-                label="Sort By"
-                options={["Popularity", "Rating", "Year", "Runtime"]}
-                columns={2} 
-                value={filters.sortBy ?? "Popularity"}
-                  onChange={(val) => 
+                  label="Sort By"
+                  options={["Popularity", "Rating", "Year", "Runtime"]}
+                  columns={2}
+                  value={filters.sortBy ?? "Popularity"}
+                  onChange={(val) =>
                     setFilters((prev) => ({
                       ...prev,
                       sortBy: val,

@@ -17,10 +17,19 @@ import ExpandableInfo from "../chart/ExpandableInfo";
 import MarkRecommendation from "../chartInfo/marketing/MarkRecommendation";
 import MetricBox from "../chart/MetricBox";
 import { MetricSkeleton, ChartSkeleton } from "../LoadingSkeleton";
+import MagnifyingGlass from "../../assets/icons/magnifying_glass.svg"
+import SearchDashboard from "./searchDashboard";
 
 function Marketing() {
   const { data, refetch, isLoading, isError, error } = useMarketingData()
   const [selectedCompanyId, setSelectedCompanyId] = useState(20368)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [triggerSearch, setTriggerSearch] = useState(1);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTriggerSearch(prev => prev + 1);
+  };
 
   const filteredMetrics = useMemo(() =>
     (data?.metrics ?? []).filter((d) => d.companyId === selectedCompanyId)[0],
@@ -69,6 +78,7 @@ function Marketing() {
 
   const handleCompanyChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCompanyId(Number(e.target.value));
+    setTriggerSearch(1)
   }, []);
 
   const handleRetry = useCallback(() => {
@@ -212,7 +222,7 @@ function Marketing() {
         {content}
       </div>
 
-      <div className="relative z-10 mt-10 mb-50 w-full max-w-[80%]
+      <div className="relative z-10 mt-10 w-full max-w-[80%]
                 rounded-xl border border-white/10
                 bg-primary1-1/60 backdrop-blur-sm
                 px-10 py-5 text-white shadow-lg">
@@ -229,6 +239,29 @@ function Marketing() {
         </div>
 
       </div>
+      <div className="mt-10 z-10 flex flex-col items-center">
+
+        <form className="relative text-white z-10" onSubmit={handleSubmit}>
+          <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Start Browsing"
+            className="w-[800px] border-2 border-primary2-1 rounded-3xl py-2 px-4
+                      shadow-[0_0_10px_2px_rgba(208,87,222,0.2)] 
+                      focus:outline-none focus:shadow-[0_0_30px_4px_rgba(208,87,222,0.3)]
+                      focus:ring-2 focus:ring-primary2-1
+                      search-bar transition-all"
+          />
+
+          <img src={MagnifyingGlass} className="absolute top-[11px] right-[20px]" />
+        </form>
+      </div>
+      <SearchDashboard
+        searchTerm={searchTerm}
+        selectedCompanyId={selectedCompanyId}
+        triggerSearch={triggerSearch}
+        onSearchTrigger={() => setTriggerSearch(0)}
+      />
     </div>
   );
 }
