@@ -26,26 +26,38 @@ function ExpandableInfo({ children }: ExpandableInfoProps) {
   }, []);
 
   return (
-    <div
-      onClick={() => setIsOpen(prev => !prev)}
-      ref={containerRef}
-      className="absolute top-1 right-1 flex w-5 h-5
-             rounded-lg bg-primary3-1 text-white
-             items-center justify-center cursor-pointer
-             transition-transform duration-150 ease-in-out
-             hover:scale-105 active:scale-95 z-10
-             hover:shadow-md"
-    >
-      <span className="leading-none -mt-1 select-none">ⓘ</span>
+    <div ref={containerRef} className="relative inline-block h-full">
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(prev => !prev);
+        }}
+        className="absolute top-1 right-1 flex w-5 h-5
+                 rounded-lg bg-primary3-1 text-white
+                 items-center justify-center cursor-pointer
+                 transition-transform duration-150 ease-in-out
+                 hover:scale-105 active:scale-95
+                 hover:shadow-md focus:outline-none"
+        aria-label="Toggle info"
+      >
+        <span className="leading-none -mt-1 select-none">ⓘ</span>
+      </button>
 
       {isOpen && (
         <div
-          className={`absolute top-7 right-1 w-[300px] p-3
+          className={`absolute top-8 right-4 w-[300px] p-3
                   rounded-md bg-primary1-1 text-white text-sm shadow-lg
-                  transition-all duration-200 ease-in-out z-50
+                  transition-all duration-200 ease-in-out z-10
                   transform scale-100`}
+          onClick={(e) => e.stopPropagation()}
         >
-          {children}
+          <div className="relative">
+            <div className="absolute -top-2 right-2 w-0 h-0 
+                          border-l-[8px] border-r-[8px] border-b-[8px]
+                          border-l-transparent border-r-transparent 
+                          border-b-primary1-1"></div>
+            {children}
+          </div>
         </div>
       )}
     </div>

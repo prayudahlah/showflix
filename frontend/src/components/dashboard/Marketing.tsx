@@ -218,7 +218,7 @@ function Marketing() {
 
       <div className="backdrop-blur-2xl rounded-xl bg-linear-120 from-primary3-3/20 to-primary1-2/20
                       w-[1300px] h-[625px] shadow-[0_0px_40px_1px_rgba(255,255,255,0.1)] to-50% mt-15
-                      flex flex-col items-center px-10">
+                      flex flex-col items-center px-10 z-50">
         {content}
       </div>
 

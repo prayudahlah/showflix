@@ -1,8 +1,8 @@
 package title
 
 type GetResponseDTO struct {
-  TitleDTO
-  *FirstAirDateDTO    `json:",omitempty"`
+	TitleDTO
+	*FirstAirDateDTO    `json:",omitempty"`
 	Networks            *[]NetworkDTO           `json:"networks,omitempty"`
 	ProductionCompanies *[]ProductionCompanyDTO `json:"productionCompanies,omitempty"`
 	TitleAkas           *[]TitleAkaDTO          `json:"titleAkas,omitempty"`
