@@ -229,7 +229,7 @@ function Executive() {
 
         <div className="mb-3 flex items-center gap-2">
           <span className="text-xs font-semibold tracking-widest text-white/80 select-none">
-            OVERALL RECOMMENTDATON
+            OVERALL RECOMMENDATION
           </span>
           <div className="flex-1 h-px bg-white/10" />
         </div>
