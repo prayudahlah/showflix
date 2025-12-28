@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/prayudahlah/showflix/compare/v1.16.3...v1.17.0) (2025-12-28)
+
+
+### Features
+
+* **dashboard:** added dashboard insights and overall recommendation ([8520ed7](https://github.com/prayudahlah/showflix/commit/8520ed75bedf34cb139b7d571d03094bb9620566))
+
 ## [1.16.3](https://github.com/prayudahlah/showflix/compare/v1.16.2...v1.16.3) (2025-12-24)
 
 
