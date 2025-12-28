@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/prayudahlah/showflix/compare/v1.18.0...v1.18.1) (2025-12-28)
+
+
+### Bug Fixes
+
+* **dashboard:** expandable info is blocked by other elements ([7e00832](https://github.com/prayudahlah/showflix/commit/7e008326ad538635c3ed644f13985fb0c7790922))
+
 # [1.18.0](https://github.com/prayudahlah/showflix/compare/v1.17.0...v1.18.0) (2025-12-28)
 
 
