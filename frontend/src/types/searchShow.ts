@@ -7,6 +7,7 @@ export interface SearchShowRequest {
   runtimeMax?: number;
   isAdult?: boolean;
   year?: number;
+  companyId?: number;
   sortBy?: string;
   sortDirection?: string;
   cursorValue?: number;
